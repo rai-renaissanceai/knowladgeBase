@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matcher Educativo Neoma / RAI</title>
+<meta name="description" content="Base de conocimiento del agente de matching educativo de Neoma Bienestar: clasificación de casos, sistema de puntaje, flujo de trabajo y preguntas frecuentes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,420;9..144,500;9..144,600;9..144,680&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* Paleta Grupo Neoma: base editorial neutra + acentos del símbolo multicolor */
+    --paper:#F7F3EC;
+    --paper-deep:#EEE5D7;
+    --card:#FFFFFF;
+    --ink:#0B0B0B;
+    --ink-soft:#3E3E3A;
+    --ink-faint:#7A766E;
+    --line:rgba(11,11,11,.10);
+    --line-strong:rgba(11,11,11,.20);
+    --neoma-orange:#F28C00;
+    --neoma-yellow:#F5D20A;
+    --neoma-green:#078A16;
+    --neoma-cyan:#18A7D7;
+    --neoma-blue:#07158F;
+    --neoma-magenta:#E6007E;
+    --neoma-red:#D30000;
+    --teal:var(--neoma-green);
+    --teal-soft:#E4F3E5;
+    --wine:var(--neoma-magenta);
+    --wine-soft:#FCE3F0;
+    --gold:var(--neoma-orange);
+    --gold-soft:#FFF1CF;
+    --blue-soft:#E7ECFF;
+    --cyan-soft:#E4F7FC;
+    --shadow:0 1px 2px rgba(11,11,11,.05), 0 14px 34px -20px rgba(11,11,11,.28);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 8% 4%, rgba(242,140,0,.12), transparent 28%),
+      radial-gradient(circle at 92% 8%, rgba(230,0,126,.09), transparent 24%),
+      linear-gradient(180deg, var(--paper) 0%, #FBF8F2 100%);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--neoma-yellow); color:var(--ink);}
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    color:var(--ink);
+    line-height:1.15;
+    margin:0 0 .5em;
+  }
+  p{margin:0 0 1em; color:var(--ink-soft);}
+  a{color:var(--neoma-blue);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;
+    font-size:.72rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:.6em;
+    display:flex;align-items:center;gap:.5em;
+  }
+  .eyebrow::before{content:"";width:18px;height:1px;background:var(--line-strong);display:inline-block;}
+
+
+  .section-head{
+    position:relative;
+    padding-left:1rem;
+  }
+  .section-head::before{
+    content:""; position:absolute; left:0; top:.25rem; bottom:.25rem; width:4px; border-radius:999px;
+    background:linear-gradient(180deg,var(--neoma-orange),var(--neoma-yellow),var(--neoma-green),var(--neoma-cyan),var(--neoma-magenta));
+  }
+  .card:hover,.status-card:hover,.table-wrap:hover{
+    transform:translateY(-1px);
+    transition:transform .18s ease, box-shadow .18s ease;
+    box-shadow:0 3px 10px rgba(11,11,11,.06), 0 18px 42px -24px rgba(11,11,11,.32);
+  }
+  .pill{background:rgba(255,255,255,.65);}
+
+  /* ---------- topbar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(247,243,236,.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:.75rem 1.5rem;
+    gap:1rem;
+  }
+  .brand{
+    display:flex; align-items:baseline; gap:.5rem;
+    font-family:'Fraunces',serif; font-weight:600; font-size:1.05rem;
+    color:var(--ink); text-decoration:none; white-space:nowrap;
+  }
+  .brand span{
+    font-family:'IBM Plex Mono',monospace; font-weight:500; font-size:.66rem;
+    color:var(--ink-faint); letter-spacing:.08em; text-transform:uppercase;
+  }
+
+  .brand::before{
+    content:""; width:28px; height:28px; border-radius:50%; flex:0 0 auto;
+    background:conic-gradient(from 210deg, var(--neoma-orange), var(--neoma-yellow), var(--neoma-green), var(--neoma-cyan), var(--neoma-blue), var(--neoma-magenta), var(--neoma-red), var(--neoma-orange));
+    box-shadow:inset 0 0 0 8px rgba(255,255,255,.55);
+  }
+  .topbar::after{
+    content:""; position:absolute; left:0; right:0; bottom:-1px; height:3px;
+    background:linear-gradient(90deg,var(--neoma-orange),var(--neoma-yellow),var(--neoma-green),var(--neoma-cyan),var(--neoma-blue),var(--neoma-magenta),var(--neoma-red));
+  }
+  .search-wrap{position:relative; flex:1; max-width:360px;}
+  .search-wrap input{
+    width:100%; padding:.5rem .75rem .5rem 2rem;
+    border-radius:999px; border:1px solid var(--line-strong);
+    background:var(--card); font-family:'Inter',sans-serif; font-size:.85rem;
+    color:var(--ink); outline:none;
+  }
+  .search-wrap input:focus{border-color:var(--neoma-orange); box-shadow:0 0 0 3px rgba(242,140,0,.14);}
+  .search-wrap svg{position:absolute; left:.65rem; top:50%; transform:translateY(-50%); opacity:.45;}
+  .menu-toggle{
+    display:none; background:none; border:1px solid var(--line-strong); border-radius:8px;
+    width:36px; height:36px; align-items:center; justify-content:center; cursor:pointer; color:var(--ink);
+  }
+
+  /* ---------- layout ---------- */
+  .layout{display:grid; grid-template-columns:240px minmax(0,1fr); max-width:1280px; margin:0 auto;}
+  .sidebar{
+    position:sticky; top:53px; align-self:start;
+    height:calc(100vh - 53px); overflow-y:auto;
+    padding:2rem 1rem 2rem 1.5rem;
+    border-right:1px solid var(--line);
+  }
+  .sidebar h4{
+    font-family:'IBM Plex Mono',monospace; font-size:.68rem; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--ink-faint); font-weight:600;
+    margin:1.4rem 0 .5rem;
+  }
+  .sidebar h4:first-child{margin-top:0;}
+  .sidebar ul{list-style:none; margin:0 0 .2rem; padding:0;}
+  .sidebar a{
+    display:block; padding:.32rem .6rem; margin:.05rem 0; border-radius:8px;
+    color:var(--ink-soft); text-decoration:none; font-size:.86rem;
+    border-left:2px solid transparent;
+  }
+  .sidebar a:hover{background:var(--paper-deep); color:var(--ink);}
+  .sidebar a.active{
+    background:var(--card); color:var(--neoma-blue); border-left:2px solid var(--neoma-orange); font-weight:600;
+    box-shadow:var(--shadow);
+  }
+
+  main{padding:0 2.5rem 6rem; min-width:0;}
+  section{padding-top:3.4rem; scroll-margin-top:70px;}
+  section:first-of-type{padding-top:0;}
+  .section-head{max-width:680px; margin-bottom:2.2rem;}
+  .section-head p{font-size:1rem;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:3.6rem 0 3rem; display:grid; grid-template-columns:minmax(0, 760px); gap:2.5rem; align-items:center;
+  }
+  .hero h1{font-size:2.6rem; max-width:560px;}
+  .hero .lede{font-size:1.08rem; max-width:520px;}
+  .pathline{display:flex; gap:.6rem; margin-top:1.6rem; flex-wrap:wrap;}
+  .pill{
+    font-family:'IBM Plex Mono',monospace; font-size:.74rem; padding:.4rem .8rem;
+    border-radius:999px; border:1px solid var(--line-strong); color:var(--ink-soft);
+    display:flex; align-items:center; gap:.4rem;
+  }
+  .dot{width:7px;height:7px;border-radius:50%; display:inline-block;}
+  .stat-row{display:flex; gap:1.8rem; margin-top:2.2rem; flex-wrap:wrap;}
+  .stat-row .stat strong{display:block; font-family:'Fraunces',serif; font-size:1.5rem; color:var(--ink);}
+  .stat-row .stat span{font-size:.74rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.06em;}
+
+
+  /* ---------- cards / grids ---------- */
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:1.1rem;}
+  .grid-2{display:grid; grid-template-columns:repeat(2,1fr); gap:1.1rem;}
+  .card{
+    background:linear-gradient(180deg, #fff 0%, #FFFDF9 100%); border:1px solid var(--line); border-radius:var(--radius);
+    padding:1.4rem 1.5rem; box-shadow:var(--shadow);
+  }
+  .card h3{font-size:1.08rem; margin-bottom:.4rem;}
+  .card p{font-size:.92rem; margin-bottom:.7rem;}
+  .card ul{margin:0; padding-left:1.1rem; font-size:.88rem; color:var(--ink-soft);}
+  .card li{margin-bottom:.3rem;}
+
+  .path-card{border-top:3px solid var(--line-strong);}
+  .path-card.vocacional{border-top-color:var(--teal);}
+  .path-card.ejecutivo{border-top-color:var(--wine);}
+  .path-card.ambiguo{border-top-color:var(--gold);}
+  .tag{
+    display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:.66rem;
+    text-transform:uppercase; letter-spacing:.08em; padding:.2rem .55rem; border-radius:999px; margin-bottom:.7rem;
+  }
+  .tag.vocacional{background:var(--teal-soft); color:var(--teal);}
+  .tag.ejecutivo{background:var(--wine-soft); color:var(--wine);}
+  .tag.ambiguo{background:var(--gold-soft); color:var(--gold);}
+
+  /* ---------- weight bar ---------- */
+  .weights{display:flex; flex-direction:column; gap:.55rem; max-width:640px;}
+  .wrow{display:grid; grid-template-columns:200px 1fr 46px; align-items:center; gap:.8rem;}
+  .wrow .wlabel{font-size:.86rem; color:var(--ink);}
+  .wtrack{height:9px; background:var(--paper-deep); border-radius:6px; overflow:hidden;}
+  .wfill{height:100%; border-radius:6px;}
+  .wrow .wval{font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--ink-faint); text-align:right;}
+  .weights-note{margin-top:1rem; font-size:.85rem;}
+
+  /* ---------- rules ---------- */
+  .rule-list{list-style:none; margin:0; padding:0; max-width:740px;}
+  .rule-list li{
+    position:relative; padding:.55rem 0 .55rem 1.6rem; border-bottom:1px solid var(--line);
+    font-size:.93rem; color:var(--ink-soft);
+  }
+  .rule-list li:last-child{border-bottom:none;}
+  .rule-list li::before{
+    content:"→"; position:absolute; left:0; color:var(--wine); font-family:'IBM Plex Mono',monospace;
+  }
+
+  /* ---------- timeline ---------- */
+  .timeline{position:relative; max-width:760px; margin-left:.2rem; padding-left:2.1rem; border-left:1px solid var(--line-strong);}
+  .tstep{position:relative; padding-bottom:1.5rem;}
+  .tstep:last-child{padding-bottom:0;}
+  .tstep::before{
+    content:attr(data-n); position:absolute; left:-2.62rem; top:0;
+    width:26px; height:26px; border-radius:50%; background:var(--card); border:1px solid var(--line-strong);
+    display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:.7rem; color:var(--ink-soft);
+  }
+  .tstep h4{font-size:.96rem; margin-bottom:.2rem;}
+  .tstep p{font-size:.86rem; margin-bottom:0;}
+
+  /* ---------- table ---------- */
+  table{width:100%; border-collapse:collapse; font-size:.86rem;}
+  th{
+    text-align:left; font-family:'IBM Plex Mono',monospace; font-size:.7rem; text-transform:uppercase;
+    letter-spacing:.06em; color:var(--ink-faint); padding:.5rem .6rem; border-bottom:1px solid var(--line-strong);
+  }
+  td{padding:.55rem .6rem; border-bottom:1px solid var(--line); color:var(--ink-soft); vertical-align:top;}
+  .table-wrap{overflow-x:auto; background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);}
+
+  /* ---------- field chips ---------- */
+  .field-grid{display:flex; flex-wrap:wrap; gap:.5rem; max-width:760px;}
+  .field-chip{
+    font-family:'IBM Plex Mono',monospace; font-size:.76rem; background:var(--card);
+    border:1px solid var(--line-strong); padding:.32rem .65rem; border-radius:8px; color:var(--ink-soft);
+  }
+
+  /* ---------- slides ---------- */
+  .slide-strip{display:flex; gap:.6rem; overflow-x:auto; padding-bottom:.4rem;}
+  .slide{
+    min-width:130px; background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:.8rem .7rem; box-shadow:var(--shadow);
+  }
+  .slide .sn{font-family:'IBM Plex Mono',monospace; font-size:.68rem; color:var(--ink-faint);}
+  .slide .st{font-size:.82rem; font-weight:600; margin-top:.25rem;}
+
+  /* ---------- tabs (feedback actions) ---------- */
+  .tabs{display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.2rem;}
+  .tabbtn{
+    font-family:'IBM Plex Mono',monospace; font-size:.78rem; padding:.45rem .9rem; border-radius:999px;
+    border:1px solid var(--line-strong); background:var(--card); color:var(--ink-soft); cursor:pointer;
+  }
+  .tabbtn.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+  .tabpanel{display:none;}
+  .tabpanel.active{display:block;}
+
+  /* ---------- alert / status cards ---------- */
+  .status-card{
+    display:flex; gap:.9rem; background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:1.1rem 1.3rem; box-shadow:var(--shadow); align-items:flex-start;
+  }
+  .status-card .ic{font-family:'IBM Plex Mono',monospace; font-size:.95rem; color:var(--wine); margin-top:.1rem;}
+  .status-card h4{font-size:.95rem; margin-bottom:.25rem;}
+  .status-card p{font-size:.88rem; margin-bottom:0;}
+
+  /* ---------- FAQ ---------- */
+  .faq-item{
+    border-bottom:1px solid var(--line); padding:1rem 0;
+  }
+  .faq-item summary{
+    cursor:pointer; font-family:'Fraunces',serif; font-weight:600; font-size:1rem; color:var(--ink);
+    list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1rem;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{content:"+"; font-family:'IBM Plex Mono',monospace; color:var(--ink-faint); font-size:1.1rem;}
+  .faq-item[open] summary::after{content:"−";}
+  .faq-item p{margin-top:.7rem; font-size:.92rem;}
+  .faq-empty{display:none; color:var(--ink-faint); font-size:.9rem; padding:1rem 0;}
+
+  footer{
+    border-top:1px solid var(--line); padding:2.4rem 2.5rem; max-width:1280px; margin:0 auto;
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.82rem; color:var(--ink-faint);
+  }
+  footer a{color:var(--ink-soft); text-decoration:none;}
+
+  @media (max-width: 920px){
+    .layout{grid-template-columns:1fr;}
+    .sidebar{
+      position:fixed; top:53px; left:0; right:0; bottom:0; height:auto; z-index:40;
+      background:var(--paper); transform:translateX(-100%); transition:transform .2s ease;
+      border-right:none; padding:1.5rem;
+    }
+    .sidebar.open{transform:translateX(0);}
+    .menu-toggle{display:flex;}
+    main{padding:0 1.2rem 5rem;}
+    .hero{grid-template-columns:1fr; padding-top:2rem;}
+    .grid-3,.grid-2{grid-template-columns:1fr;}
+    .wrow{grid-template-columns:130px 1fr 38px;}
+    .search-wrap{max-width:none;}
+    .brand span{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="#inicio" class="brand">Neoma <span>· Agente Bienestar</span></a>
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="faqSearch" type="text" placeholder="Buscar una duda concreta…">
+  </div>
+  <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar">
+    <h4>Orientación</h4>
+    <ul>
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#que-hace">Qué hace el agente</a></li>
+      <li><a href="#clasificacion">Clasificación del caso</a></li>
+    </ul>
+    <h4>Motor de recomendación</h4>
+    <ul>
+      <li><a href="#puntaje">Sistema de puntaje</a></li>
+      <li><a href="#reglas">Reglas de decisión</a></li>
+      <li><a href="#flujo">Flujo de trabajo</a></li>
+    </ul>
+    <h4>Captura y registro</h4>
+    <ul>
+      <li><a href="#captura">Captura desde transcripción</a></li>
+      <li><a href="#alta">Alta de casos en Airtable</a></li>
+      <li><a href="#registro">Registro y fallas de conexión</a></li>
+    </ul>
+    <h4>Entregables</h4>
+    <ul>
+      <li><a href="#propuesta">Propuesta y Gamma</a></li>
+      <li><a href="#retro">Entrevista de retroalimentación</a></li>
+    </ul>
+    <h4>Referencia</h4>
+    <ul>
+      <li><a href="#estilo">Estilo y seguridad</a></li>
+      <li><a href="#faq">Preguntas frecuentes</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+    <section id="inicio">
+      <div class="hero">
+        <div>
+          <div class="eyebrow">Base de conocimiento · Neoma Bienestar</div>
+          <h1>Matcher Educativo Neoma / RAI</h1>
+          <p class="lede">Esta guía documenta cómo razona el agente de matching de Neoma: cómo clasifica un caso, cómo puntúa cada oferta del catálogo y qué reglas le impiden inventar un dato. Úsala para resolver dudas concretas durante una sesión, no como manual de instalación.</p>
+          <div class="pathline">
+            <span class="pill"><span class="dot" style="background:var(--neoma-green)"></span>Caso vocacional</span>
+            <span class="pill"><span class="dot" style="background:var(--neoma-magenta)"></span>Caso ejecutivo</span>
+            <span class="pill"><span class="dot" style="background:var(--neoma-orange)"></span>Caso ambiguo</span>
+          </div>
+          <div class="stat-row">
+            <div class="stat"><strong>5</strong><span>Ofertas por ranking</span></div>
+            <div class="stat"><strong>9</strong><span>Criterios de match</span></div>
+            <div class="stat"><strong>13</strong><span>Pasos del flujo</span></div>
+            <div class="stat"><strong>4</strong><span>Acciones evaluables</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="que-hace">
+      <div class="section-head">
+        <div class="eyebrow">01 · Orientación</div>
+        <h2>Qué hace el agente, en una frase</h2>
+        <p>Analiza un caso de cliente, lo clasifica, busca opciones en el catálogo correspondiente, calcula un puntaje de match por opción y entrega las 5 mejores, con justificación, riesgos y trazabilidad clara hasta Airtable. Cuando se le pide, también arma la propuesta ejecutiva y conduce la entrevista de retroalimentación.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Criterio consultivo</h3>
+          <p>No es un buscador: prioriza fit académico, modalidad, ubicación, duración, presupuesto, institución y objetivo del cliente, en ese orden de relevancia ponderada.</p>
+        </div>
+        <div class="card">
+          <h3>Trazabilidad</h3>
+          <p>Cada recomendación queda ligada a una fuente, un puntaje y una justificación. Si algo es un supuesto, el agente lo marca como tal — no lo presenta como hecho.</p>
+        </div>
+        <div class="card">
+          <h3>Prioridad de fuentes</h3>
+          <p>Caso (Airtable) → Catálogo (Airtable) → Instituciones (Airtable) → Restricciones del cliente → web oficial solo para completar vigencia, costo, modalidad o requisitos.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="clasificacion">
+      <div class="section-head">
+        <div class="eyebrow">02 · Orientación</div>
+        <h2>Clasificación del caso</h2>
+        <p>Todo caso entra primero por aquí. La clasificación determina qué catálogo se consulta y qué criterios pesan más en el puntaje.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card path-card vocacional">
+          <span class="tag vocacional">Vocacional</span>
+          <h3>Primera formación profesional</h3>
+          <p>El cliente busca carrera universitaria, licenciatura, ingeniería, medicina, arquitectura, diseño, negocios, derecho, salud, tecnología u otra carrera profesional inicial.</p>
+        </div>
+        <div class="card path-card ejecutivo">
+          <span class="tag ejecutivo">Ejecutivo</span>
+          <h3>Formación con experiencia previa</h3>
+          <p>El cliente busca MBA, maestría, diplomado, certificación, educación continua, upskilling, reskilling o formación para alguien que ya tiene experiencia laboral.</p>
+        </div>
+        <div class="card path-card ambiguo">
+          <span class="tag ambiguo">Ambiguo</span>
+          <h3>No es claro el objetivo</h3>
+          <p>El agente explica por qué es ambiguo, indica qué dato falta para resolverlo y entrega una recomendación preliminar con supuestos explícitos — nunca elige al azar.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="puntaje">
+      <div class="section-head">
+        <div class="eyebrow">03 · Motor de recomendación</div>
+        <h2>Sistema de puntaje (0–100)</h2>
+        <p>Cada opción del catálogo recibe un puntaje sobre 100, repartido en nueve criterios. El objetivo del cliente y el área de interés concentran el 40% del peso total; el resto distingue entre opciones que ya cumplen lo esencial.</p>
+      </div>
+      <div class="weights" id="weightsList">
+        <div class="wrow"><span class="wlabel">Objetivo del cliente</span><div class="wtrack"><div class="wfill" style="width:25%;background:var(--neoma-magenta)"></div></div><span class="wval">25</span></div>
+        <div class="wrow"><span class="wlabel">Área de interés / tema</span><div class="wtrack"><div class="wfill" style="width:15%;background:var(--neoma-green)"></div></div><span class="wval">15</span></div>
+        <div class="wrow"><span class="wlabel">Modalidad</span><div class="wtrack"><div class="wfill" style="width:10%;background:var(--neoma-orange)"></div></div><span class="wval">10</span></div>
+        <div class="wrow"><span class="wlabel">Ubicación</span><div class="wtrack"><div class="wfill" style="width:10%;background:var(--neoma-orange)"></div></div><span class="wval">10</span></div>
+        <div class="wrow"><span class="wlabel">Duración</span><div class="wtrack"><div class="wfill" style="width:10%;background:var(--neoma-orange)"></div></div><span class="wval">10</span></div>
+        <div class="wrow"><span class="wlabel">Presupuesto</span><div class="wtrack"><div class="wfill" style="width:10%;background:var(--neoma-orange)"></div></div><span class="wval">10</span></div>
+        <div class="wrow"><span class="wlabel">Institución preferida / obligatoria</span><div class="wtrack"><div class="wfill" style="width:10%;background:var(--neoma-orange)"></div></div><span class="wval">10</span></div>
+        <div class="wrow"><span class="wlabel">Requisitos / perfil</span><div class="wtrack"><div class="wfill" style="width:5%;background:var(--neoma-cyan)"></div></div><span class="wval">5</span></div>
+        <div class="wrow"><span class="wlabel">Vigencia / calidad de fuente</span><div class="wtrack"><div class="wfill" style="width:5%;background:var(--neoma-cyan)"></div></div><span class="wval">5</span></div>
+      </div>
+      <p class="weights-note"><strong>Si falta información para puntuar un criterio:</strong> el agente no inventa el dato, asigna un puntaje conservador en ese criterio y explica la incertidumbre directamente en la justificación de la opción.</p>
+    </section>
+
+    <section id="reglas">
+      <div class="section-head">
+        <div class="eyebrow">04 · Motor de recomendación</div>
+        <h2>Reglas de decisión</h2>
+        <p>Estas reglas se aplican después de calcular el puntaje, antes de armar el ranking final de 5 opciones.</p>
+      </div>
+      <ul class="rule-list">
+        <li>No se recomiendan opciones que contradigan restricciones obligatorias, salvo que queden marcadas claramente como alternativa.</li>
+        <li>Si hay institución obligatoria, sus opciones se priorizan siempre que el fit general sea razonable.</li>
+        <li>Si el presupuesto es estricto, se descartan las opciones claramente fuera de presupuesto.</li>
+        <li>Si la modalidad es obligatoria, se descartan las opciones que no la cumplan.</li>
+        <li>Si la ubicación es obligatoria, se descartan las opciones fuera de esa ubicación.</li>
+        <li>Si no hay suficientes opciones de alto fit, se entregan las mejores disponibles y se explica la limitación — nunca se rellena el ranking con opciones débiles sin avisar.</li>
+        <li>El prestigio de una institución nunca sustituye al fit: la prioridad siempre es la alineación real con el caso.</li>
+      </ul>
+    </section>
+
+    <section id="flujo">
+      <div class="section-head">
+        <div class="eyebrow">05 · Motor de recomendación</div>
+        <h2>Flujo de trabajo por caso</h2>
+        <p>Trece pasos, en orden, desde el insumo crudo (transcripción o caso ya cargado) hasta el registro de la preselección.</p>
+      </div>
+      <div class="timeline">
+        <div class="tstep" data-n="1"><h4>Extraer de transcripción o minuta</h4><p>Si el insumo es una grabación o minuta, se convierte primero en un borrador estructurado.</p></div>
+        <div class="tstep" data-n="2"><h4>Leer Google Drive si aplica</h4><p>Si el archivo no es legible o no alcanza para extraer datos confiables, el agente lo dice explícitamente y pide el insumo mínimo necesario.</p></div>
+        <div class="tstep" data-n="3"><h4>Resumir la necesidad</h4><p>Arma un formulario de caso prellenado, listo para que el consultor lo confirme.</p></div>
+        <div class="tstep" data-n="4"><h4>Identificar tipo de caso</h4><p>Vocacional, ejecutivo o ambiguo.</p></div>
+        <div class="tstep" data-n="5"><h4>Separar lo suficiente de lo faltante</h4><p>Qué información alcanza, qué falta y qué restricciones son obligatorias.</p></div>
+        <div class="tstep" data-n="6"><h4>Alta en Airtable si no existe</h4><p>Si el caso aún no está registrado y el usuario quiere darlo de alta, se crea primero en la tabla Casos.</p></div>
+        <div class="tstep" data-n="7"><h4>Determinar catálogo</h4><p>Según el tipo de caso, se define qué catálogo aplica.</p></div>
+        <div class="tstep" data-n="8"><h4>Filtrar por restricciones obligatorias</h4><p>Se descartan las opciones inviables antes de puntuar.</p></div>
+        <div class="tstep" data-n="9"><h4>Puntuar opciones viables</h4><p>Se aplica la matriz de puntaje a cada opción restante.</p></div>
+        <div class="tstep" data-n="10"><h4>Ordenar por fit total</h4><p>Ranking de mayor a menor puntaje.</p></div>
+        <div class="tstep" data-n="11"><h4>Seleccionar las 5 mejores</h4><p>O menos, si no hay suficientes opciones adecuadas — nunca se completa el cupo artificialmente.</p></div>
+        <div class="tstep" data-n="12"><h4>Justificar, señalar riesgos</h4><p>Cada opción seleccionada lleva su razón de match y sus puntos pendientes de validar.</p></div>
+        <div class="tstep" data-n="13"><h4>Registrar en Preselección</h4><p>Una fila por opción en Airtable, cuando la conexión está disponible.</p></div>
+      </div>
+    </section>
+
+    <section id="captura">
+      <div class="section-head">
+        <div class="eyebrow">06 · Captura y registro</div>
+        <h2>Captura inicial desde transcripción, minuta o grabación</h2>
+        <p>Cuando el insumo es una sesión con cliente, el agente extrae estos campos cuando hay evidencia suficiente — y nunca inventa los que no aparecen.</p>
+      </div>
+      <div class="field-grid">
+        <span class="field-chip">Objetivo principal</span>
+        <span class="field-chip">Necesidad / brecha</span>
+        <span class="field-chip">Tipo de caso</span>
+        <span class="field-chip">Área de interés</span>
+        <span class="field-chip">Carrera o programa</span>
+        <span class="field-chip">Tema o competencia</span>
+        <span class="field-chip">Presupuesto</span>
+        <span class="field-chip">Modalidad</span>
+        <span class="field-chip">Duración</span>
+        <span class="field-chip">Ubicación</span>
+        <span class="field-chip">Institución obligatoria</span>
+        <span class="field-chip">Instituciones preferidas</span>
+        <span class="field-chip">Perfil del cliente</span>
+        <span class="field-chip">Notas internas</span>
+      </div>
+      <p style="margin-top:1rem; max-width:680px;">Cuando un dato no tiene sustento suficiente, el agente lo marca como <em>pendiente de confirmar</em>, separa hechos explícitos de inferencias razonables, e indica qué dato faltante cambiaría de forma material la búsqueda posterior.</p>
+    </section>
+
+    <section id="alta">
+      <div class="section-head">
+        <div class="eyebrow">07 · Captura y registro</div>
+        <h2>Alta de nuevos casos en Airtable</h2>
+        <p>Antes de crear el registro en la tabla Casos, el agente siempre muestra el formulario prellenado y deja explícito qué campos están confirmados, cuáles son inferidos y cuáles siguen pendientes.</p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Reglas de alta</h3>
+          <ul>
+            <li>No se inventan valores para selects, fechas, montos o relaciones.</li>
+            <li>Si falta un dato importante, se pide confirmación puntual antes de escribir.</li>
+            <li>Solo se crea el registro cuando el usuario confirma.</li>
+            <li>No se afirma que el caso quedó creado si la escritura en Airtable falló.</li>
+            <li>Si Airtable no está disponible, el formulario queda listo para carga manual o reintento posterior.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Campos priorizados en Casos</h3>
+          <ul>
+            <li>Siglas cliente, tipo de caso, objetivo principal, necesidad/brecha</li>
+            <li>Tipo de oferta, área de interés, carrera/programa, tema/competencia</li>
+            <li>Institución obligatoria, preferidas (ordenadas), flexibilidad, institución actual</li>
+            <li>Ubicación, modalidad, duración, fecha deseada</li>
+            <li>Presupuesto y su flexibilidad, restricciones, notas internas</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="propuesta">
+      <div class="section-head">
+        <div class="eyebrow">08 · Entregables</div>
+        <h2>Generación de propuesta y prompt para Gamma</h2>
+        <p>Cuando se pide una propuesta ejecutiva, el agente entrega contenido completo y listo para integrar — nunca instrucciones meta sobre cómo redactarlo. Si existe una preselección ya calculada, la usa como fuente principal.</p>
+      </div>
+      <div class="slide-strip">
+        <div class="slide"><div class="sn">01</div><div class="st">Portada</div></div>
+        <div class="slide"><div class="sn">02</div><div class="st">Resumen del caso</div></div>
+        <div class="slide"><div class="sn">03</div><div class="st">Criterios de evaluación</div></div>
+        <div class="slide"><div class="sn">04</div><div class="st">Comparativo de opciones</div></div>
+        <div class="slide"><div class="sn">05–09</div><div class="st">Ficha por cada opción (1–5)</div></div>
+        <div class="slide"><div class="sn">10</div><div class="st">Restricciones y consideraciones</div></div>
+        <div class="slide"><div class="sn">11</div><div class="st">Recomendación y próximos pasos</div></div>
+      </div>
+      <p style="margin-top:1.4rem; max-width:680px;">El <strong>Prompt para Gamma</strong> se agrega solo cuando se pide una presentación, va en español, listo para copiar y pegar, e incluye explícitamente la instrucción de no inventar datos y marcar como pendiente cualquier campo no validado.</p>
+    </section>
+
+    <section id="retro">
+      <div class="section-head">
+        <div class="eyebrow">09 · Entregables</div>
+        <h2>Entrevista de retroalimentación</h2>
+        <p>El agente conduce una entrevista breve, una pregunta a la vez, para documentar cómo salió una acción concreta. Nunca inventa una calificación: si no queda clara, pide confirmación explícita.</p>
+      </div>
+      <div class="tabs" id="feedbackTabs">
+        <button class="tabbtn active" data-tab="t1">Sesión de Reconocimiento</button>
+        <button class="tabbtn" data-tab="t2">Análisis del Caso</button>
+        <button class="tabbtn" data-tab="t3">Generación de Propuesta</button>
+        <button class="tabbtn" data-tab="t4">Integración de Ofertas</button>
+      </div>
+      <div class="tabpanel active card" id="t1">
+        <ul><li>Claridad en la escucha de necesidades</li><li>Comodidad durante la sesión</li><li>Claridad de los siguientes pasos</li><li>Satisfacción general</li></ul>
+      </div>
+      <div class="tabpanel card" id="t2">
+        <ul><li>Qué tan bien se comprendió el perfil</li><li>Relevancia de los criterios identificados</li><li>Precisión en el análisis de necesidades</li><li>Satisfacción general</li></ul>
+      </div>
+      <div class="tabpanel card" id="t3">
+        <ul><li>Relevancia de las opciones presentadas</li><li>Claridad de la presentación</li><li>Utilidad de la comparativa</li><li>Satisfacción general</li></ul>
+      </div>
+      <div class="tabpanel card" id="t4">
+        <ul><li>Actualidad de la información presentada</li><li>Variedad de instituciones y programas</li><li>Correspondencia con el perfil buscado</li><li>Satisfacción general</li></ul>
+      </div>
+      <p style="margin-top:1.2rem;">Salida esperada: acción evaluada, datos base del registro, calificaciones y comentarios por criterio, comentario general, oportunidades de mejora, y un estado de <span class="mono">listo para registrar</span> o <span class="mono">pendiente de confirmar</span>.</p>
+    </section>
+
+    <section id="registro">
+      <div class="section-head">
+        <div class="eyebrow">10 · Captura y registro</div>
+        <h2>Registro en Airtable y manejo de fallas</h2>
+        <p>El flujo no se da por completo solo porque la recomendación quedó lista: si exige registrar la preselección y Airtable no responde, el agente lo dice de forma explícita.</p>
+      </div>
+      <div class="status-card">
+        <span class="ic">⚠</span>
+        <div>
+          <h4>Si la conexión no existe, está caída o no permite leer/escribir</h4>
+          <p>El agente nunca afirma que la preselección quedó registrada. Indica exactamente qué parte quedó bloqueada, deja la salida preparada para registrar después, y espera la configuración de la conexión antes de dar el flujo como operativo.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="estilo">
+      <div class="section-head">
+        <div class="eyebrow">11 · Referencia</div>
+        <h2>Estilo de respuesta y seguridad</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Tono</h3>
+          <p>Español, profesional, claro y consultivo. Concreto, justifica cada recomendación, usa bullets y tablas cuando aportan claridad. No usa lenguaje absoluto sobre información estimada.</p>
+        </div>
+        <div class="card">
+          <h3>Líneas que no cruza</h3>
+          <ul>
+            <li>No inventa costos, fechas, requisitos ni links.</li>
+            <li>No inventa vigencia de una oferta sin validarla.</li>
+            <li>No inventa que una preselección quedó registrada sin haberlo logrado.</li>
+            <li>Si faltan datos del caso, hace supuestos explícitos y limita la certeza.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="section-head">
+        <div class="eyebrow">12 · Referencia</div>
+        <h2>Preguntas frecuentes</h2>
+        <p>Las dudas más comunes durante una sesión con cliente. Usa el buscador de arriba para filtrar.</p>
+      </div>
+
+      <div id="faqList">
+        <details class="faq-item">
+          <summary>¿Qué pasa si no es claro si el caso es vocacional o ejecutivo?</summary>
+          <p>El agente lo marca como caso ambiguo, explica por qué no puede clasificarlo todavía, indica exactamente qué dato resolvería la duda, y entrega una recomendación preliminar dejando explícitos los supuestos que está haciendo.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa si falta información para puntuar un criterio del match?</summary>
+          <p>No se inventa el dato. El agente asigna un puntaje conservador en ese criterio específico y deja escrita la incertidumbre dentro de la justificación de esa opción, para que el consultor sepa qué validar antes de presentarla.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿El agente puede afirmar que una oferta sigue vigente sin confirmarlo?</summary>
+          <p>No. La vigencia, el costo, la modalidad, la duración, los requisitos y la página oficial solo se completan con fuentes oficiales de la institución; si no se valida, el dato queda marcado como pendiente, nunca como hecho.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa si Airtable no está disponible al momento de registrar la preselección?</summary>
+          <p>El agente lo dice explícitamente, indica qué parte del flujo quedó bloqueada y deja la salida lista para registrarse después. En ningún caso afirma que el registro ya se hizo si la escritura falló.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cuándo sé que una recomendación está realmente completa?</summary>
+          <p>Cuando incluye resumen del caso, ranking justificado, comparativo rápido, recomendación final, información faltante a validar y siguiente acción sugerida — y, si el flujo lo exige, cuando la preselección ya quedó registrada en Airtable.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Puedo pedir directamente una presentación en Gamma?</summary>
+          <p>Sí. El agente agrega una sección final "Prompt para Gamma", en español y lista para copiar y pegar, que pide una narrativa ejecutiva con portada, contexto, criterios, ranking de las 5 propuestas, comparativo, recomendación y siguientes pasos — marcando los datos no validados como pendientes.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Cómo se evalúa el desempeño del agente o de una sesión con el consultor?</summary>
+          <p>A través de una entrevista breve, una pregunta a la vez, sobre una de cuatro acciones: Sesión de Reconocimiento, Análisis del Caso, Generación de Propuesta o Integración de Ofertas. El resultado se estructura y queda listo para confirmación antes de guardarse en Airtable.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa si no hay suficientes opciones de alto fit en el catálogo?</summary>
+          <p>El agente entrega las mejores disponibles, aunque sean menos de cinco, y explica la limitación abiertamente en vez de completar el ranking con opciones que no cumplen un fit razonable.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa si la transcripción o grabación de la sesión no es legible?</summary>
+          <p>El agente lo dice de forma explícita y pide transcripción, resumen o acceso suficiente antes de continuar — no arma un caso con información que no puede sustentar.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿El agente prioriza instituciones más prestigiosas?</summary>
+          <p>No. El prestigio no sustituye al fit: la prioridad siempre es la alineación real con el objetivo, las restricciones y el perfil del caso, aunque eso signifique recomendar una institución menos conocida.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Qué pasa si hay una institución obligatoria pero su fit general es bajo?</summary>
+          <p>Se prioriza esa institución solo si el fit general es razonable. Si las restricciones obligatorias (modalidad, ubicación o presupuesto) se incumplen claramente, esas opciones se descartan o se marcan explícitamente como alternativa.</p>
+        </details>
+        <details class="faq-item">
+          <summary>¿Puedo pedirle al agente algo fuera del flujo de matching educativo?</summary>
+          <p>El agente explica la limitación y ofrece la alternativa más útil dentro del alcance del flujo de matching educativo, en lugar de improvisar una respuesta fuera de su rol.</p>
+        </details>
+      </div>
+      <p class="faq-empty" id="faqEmpty">No se encontraron preguntas que coincidan con tu búsqueda.</p>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span>Documentación interna · Neoma Impulsa / RAI Renaissance IA</span>
+  <span>Generado a partir del prompt operativo del agente · Actualiza este HTML cuando el prompt cambie</span>
+</footer>
+
+<script>
+  // mobile nav
+  const sidebar = document.getElementById('sidebar');
+  const menuToggle = document.getElementById('menuToggle');
+  menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+  sidebar.querySelectorAll('a').forEach(a => a.addEventListener('click', () => sidebar.classList.remove('open')));
+
+  // active link on scroll
+  const links = Array.from(document.querySelectorAll('.sidebar a'));
+  const sections = links.map(l => document.querySelector(l.getAttribute('href')));
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px', threshold: 0 });
+  sections.forEach(s => s && observer.observe(s));
+
+  // feedback tabs
+  document.querySelectorAll('#feedbackTabs .tabbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#feedbackTabs .tabbtn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tabpanel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // FAQ search
+  const faqSearch = document.getElementById('faqSearch');
+  const faqItems = Array.from(document.querySelectorAll('.faq-item'));
+  const faqEmpty = document.getElementById('faqEmpty');
+  faqSearch.addEventListener('input', () => {
+    const q = faqSearch.value.trim().toLowerCase();
+    let visible = 0;
+    faqItems.forEach(item => {
+      const match = item.textContent.toLowerCase().includes(q);
+      item.style.display = match ? '' : 'none';
+      if(match){ visible++; if(q) item.open = true; }
+    });
+    faqEmpty.style.display = visible === 0 ? 'block' : 'none';
+    if(q && visible > 0){
+      document.getElementById('faq').scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  });
+</script>
+
+</body>
+</html>

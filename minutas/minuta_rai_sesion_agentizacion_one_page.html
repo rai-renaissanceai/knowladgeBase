@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sesión RAI | Estamos agentizando RAI</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1b2e;
+      --panel-2: #101f35;
+      --text: #eaf2ff;
+      --muted: #a8b7cc;
+      --accent: #36d1ff;
+      --accent-2: #7ee7ff;
+      --line: rgba(126, 231, 255, 0.18);
+      --white-soft: rgba(255,255,255,0.06);
+      --warning: #f5c542;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(54, 209, 255, 0.14), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(68, 91, 255, 0.12), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .page {
+      width: min(1040px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 56px 0 72px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 44px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), #3757ff);
+      display: grid;
+      place-items: center;
+      color: #06111f;
+      font-weight: 900;
+      letter-spacing: -0.03em;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-bottom: 28px;
+    }
+
+    .hero-main,
+    .side-card,
+    .section {
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025));
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.25);
+    }
+
+    .hero-main {
+      padding: 44px;
+    }
+
+    .eyebrow {
+      color: var(--accent-2);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: clamp(40px, 6vw, 68px);
+      line-height: 0.95;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.45;
+    }
+
+    .side-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 22px;
+      background: linear-gradient(180deg, rgba(54,209,255,0.10), rgba(255,255,255,0.025));
+    }
+
+    .session-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-2);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .session-value {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .note {
+      border-left: 3px solid var(--accent);
+      padding-left: 16px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .section {
+      padding: 30px;
+    }
+
+    .section.full {
+      grid-column: 1 / -1;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 25px;
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 17px;
+      color: var(--accent-2);
+    }
+
+    p {
+      color: var(--muted);
+      margin: 0 0 14px;
+    }
+
+    ul, ol {
+      margin: 12px 0 0;
+      padding-left: 22px;
+      color: var(--muted);
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    strong {
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .agenda {
+      counter-reset: agenda;
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .agenda-item {
+      counter-increment: agenda;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px;
+      border-radius: 18px;
+      background: var(--white-soft);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .agenda-item::before {
+      content: counter(agenda);
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(54,209,255,0.12);
+      color: var(--accent-2);
+      font-weight: 800;
+      border: 1px solid rgba(54,209,255,0.24);
+    }
+
+    .agenda-title {
+      color: var(--text);
+      font-weight: 750;
+      margin-bottom: 4px;
+    }
+
+    .agenda-text {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(54,209,255,0.10);
+      border: 1px solid rgba(54,209,255,0.22);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .callout {
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(54,209,255,0.09);
+      border: 1px solid rgba(54,209,255,0.24);
+    }
+
+    .callout p {
+      color: var(--text);
+      font-size: 18px;
+      line-height: 1.42;
+      margin: 0;
+      font-weight: 650;
+    }
+
+    .prep-list {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .prep-item {
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .prep-item .num {
+      color: var(--accent-2);
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .footer {
+      margin-top: 34px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 860px) {
+      .hero,
+      .grid,
+      .prep-list {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main {
+        padding: 30px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        color: #111827;
+      }
+      .page {
+        width: 100%;
+        padding: 20px;
+      }
+      .hero-main,
+      .side-card,
+      .section {
+        box-shadow: none;
+        background: #ffffff;
+        border: 1px solid #d7dce5;
+      }
+      .subtitle, p, ul, ol, li, .agenda-text, .note, .footer {
+        color: #374151;
+      }
+      h1, h2, h3, strong, .agenda-title, .session-value {
+        color: #111827;
+      }
+      .eyebrow, .session-label, .prep-item .num {
+        color: #0369a1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand"><div class="mark">RAI</div><span>Sesión interna</span></div>
+      <div>Socios · Dirección · Operación</div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">Capacitación interna</div>
+        <h1>Estamos agentizando RAI</h1>
+        <p class="subtitle">Una sesión para alinear cómo RAI diseña, evalúa, mejora y delega agentes con estándar, criterio operativo y control.</p>
+      </div>
+
+      <aside class="side-card">
+        <div>
+          <div class="session-label">Sesión</div>
+          <div class="session-value">Mañana · 4:00 p.m.</div>
+        </div>
+        <div>
+          <div class="session-label">Duración estimada</div>
+          <div class="session-value">60 minutos</div>
+        </div>
+        <div class="note">No es una sesión para revisar agentes aislados. Es una sesión para entender el sistema que nos permitirá crear, mejorar y delegar agentes con mayor calidad.</div>
+      </aside>
+    </section>
+
+    <section class="section full">
+      <h2>Por qué esta sesión importa</h2>
+      <p>RAI ya empezó a agentizarse formalmente. Ya existen agentes, un tracker, criterios de madurez, backlog, versionamiento y un estándar inicial para diseñar y evaluar agentes internos.</p>
+      <p>El siguiente paso no es crear más agentes por cantidad. El siguiente paso es alinear el molde: cómo se define un agente, cómo se valida, qué debe cuidar, cómo se mejora y cómo se delega sin perder control.</p>
+      <div class="callout">
+        <p>Esta sesión marca el inicio de una forma más formal, ordenada y escalable de construir capacidades AI-native dentro de RAI.</p>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="section">
+        <h2>Qué vamos a ver</h2>
+        <div class="agenda">
+          <div class="agenda-item">
+            <div>
+              <div class="agenda-title">Qué significa agentizar RAI</div>
+              <div class="agenda-text">Qué sí es, qué no es y por qué no se trata de crear GPTs sueltos.</div>
+            </div>
+          </div>
+          <div class="agenda-item">
+            <div>
+              <div class="agenda-title">Qué ya existe</div>
+              <div class="agenda-text">Portafolio actual de agentes, agentes prioritarios y sistema de control.</div>
+            </div>
+          </div>
+          <div class="agenda-item">
+            <div>
+              <div class="agenda-title">El estándar RAI</div>
+              <div class="agenda-text">Qué debe tener siempre un agente: objetivo, proceso, input, output, riesgos, permisos, límites, calidad y cierre.</div>
+            </div>
+          </div>
+          <div class="agenda-item">
+            <div>
+              <div class="agenda-title">El Blueprint como centro</div>
+              <div class="agenda-text">Por qué el RAI Agent Blueprint Builder es la herramienta clave para diseñar, revisar y mejorar agentes.</div>
+            </div>
+          </div>
+          <div class="agenda-item">
+            <div>
+              <div class="agenda-title">Cómo evaluar y delegar</div>
+              <div class="agenda-text">Cómo saber si un agente funciona, qué cuidar y qué debe mandarse a backlog.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Qué es importante que sepan</h2>
+        <ul>
+          <li><strong>RAI no está haciendo GPTs sueltos.</strong> Está construyendo un sistema de agentización.</li>
+          <li><strong>El molde importa más que cada agente individual.</strong> Si el estándar funciona, podremos escalar.</li>
+          <li><strong>Blueprint listo no significa operación.</strong> Diseñar bien no autoriza automatizar ni conectar sistemas.</li>
+          <li><strong>Backlog no es rechazo.</strong> Es control de fase para no adelantar permisos, conectores o automatización.</li>
+          <li><strong>Delegar agentes no es delegar prompts.</strong> Es delegar arquitectura operativa con criterio.</li>
+        </ul>
+
+        <h3>Idea central</h3>
+        <p>Primero ordenamos. Después documentamos. Después automatizamos. Los agentes van al final, cuando el proceso, los roles, los permisos y los criterios ya están claros.</p>
+      </section>
+    </div>
+
+    <section class="section full">
+      <h2>Qué buscamos lograr</h2>
+      <p>Queremos que socios, dirección y operación salgan con un entendimiento común de cómo RAI está agentizando, qué herramientas ya existen, qué estándar vamos a cuidar y cómo empezar a delegar mejor.</p>
+      <div class="pill-row">
+        <div class="pill">Más claridad operativa</div>
+        <div class="pill">Mejor delegación</div>
+        <div class="pill">Menos retrabajo</div>
+        <div class="pill">Mayor control</div>
+        <div class="pill">Ahorro potencial</div>
+        <div class="pill">Escala AI-native</div>
+        <div class="pill">Mejores agentes</div>
+      </div>
+      <div class="callout">
+        <p>El potencial es alto: ahorro de tiempo, mejor calidad, más velocidad, más consistencia y más capacidad para anticiparnos. Pero solo va a funcionar si todos usamos el mismo estándar.</p>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="section">
+        <h2>Cómo llegar preparados</h2>
+        <p>No se requiere preparación técnica. Sí se requiere disposición para pensar con criterio operativo.</p>
+        <div class="prep-list">
+          <div class="prep-item">
+            <div class="num">01</div>
+            <p>Piensa en un proceso, tarea o entrega que hoy consume tiempo o se repite.</p>
+          </div>
+          <div class="prep-item">
+            <div class="num">02</div>
+            <p>Identifica dónde hay ambigüedad, retrabajo o falta de criterio común.</p>
+          </div>
+          <div class="prep-item">
+            <div class="num">03</div>
+            <p>Llega con apertura para revisar el molde, no para defender agentes individuales.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Lectura previa opcional</h2>
+        <p>Si tienen unos minutos antes de la sesión, conviene revisar mentalmente estas preguntas:</p>
+        <ul>
+          <li>¿Qué trabajo de RAI se repite y podría ordenarse mejor?</li>
+          <li>¿Qué conocimiento interno se está quedando en conversaciones?</li>
+          <li>¿Qué criterios usamos varias veces y todavía no están sistematizados?</li>
+          <li>¿Qué tareas no deberíamos automatizar todavía porque el proceso no está claro?</li>
+          <li>¿Qué tendría que pasar para delegar mejor sin perder calidad?</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="section full">
+      <h2>Mensaje para el equipo</h2>
+      <p>Esta sesión es importante porque estamos entrando a una etapa donde RAI puede empezar a convertir su forma de trabajar, su criterio y sus procesos en capacidades inteligentes reutilizables.</p>
+      <p>El objetivo no es automatizar por automatizar. El objetivo es construir una empresa más rápida, más clara, más ordenada y más capaz de delegar con calidad. Para eso necesitamos un estándar común.</p>
+      <p>La agentización tiene potencial real de ahorro, crecimiento y anticipación. Pero ese potencial depende de que todos entendamos el mismo lenguaje: qué es un agente RAI, qué debe tener, cómo se evalúa, qué riesgos tiene, cuándo avanza y cuándo algo debe quedarse en backlog.</p>
+      <div class="callout">
+        <p>Mañana no solo vamos a ver agentes. Vamos a ver el sistema que puede convertir agentes en activos operativos de RAI.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>RAI · Agents & Automation Lab</div>
+      <div>Sesión interna · Estándar de agentización</div>
+    </footer>
+  </main>
+</body>
+</html>

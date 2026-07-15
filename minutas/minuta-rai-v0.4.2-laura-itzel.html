@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minuta Ejecutiva RAI v0.4.2 - Laura Itzel</title>
+  <style>
+    :root {
+      --ink: #101418;
+      --muted: #5e6874;
+      --line: #d9dee5;
+      --paper: #f7f6f2;
+      --surface: #ffffff;
+      --accent: #b8ff3d;
+      --accent-dark: #6ea800;
+      --charcoal: #15181d;
+      --soft: #edf0f4;
+      --warn: #ffe8ba;
+      --risk: #fff4de;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .hero {
+      min-height: 58vh;
+      display: grid;
+      align-items: end;
+      padding: 40px clamp(20px, 4vw, 64px);
+      background:
+        radial-gradient(circle at 82% 18%, rgba(184, 255, 61, 0.24), transparent 30%),
+        linear-gradient(135deg, #11151b 0%, #1b2028 54%, #101418 100%);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -8% -42% 38%;
+      height: 62%;
+      background:
+        linear-gradient(90deg, transparent, rgba(184, 255, 61, 0.22), transparent),
+        repeating-linear-gradient(90deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 46px);
+      transform: rotate(-8deg);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px clamp(20px, 4vw, 64px);
+      z-index: 2;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .logo-mark {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,0.32);
+      background: rgba(255,255,255,0.08);
+      color: var(--accent);
+      font-size: 17px;
+      border-radius: 8px;
+    }
+
+    .version {
+      color: rgba(255,255,255,0.72);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      width: min(900px, 100%);
+      padding-top: 116px;
+      animation: rise 640ms ease-out both;
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      color: var(--accent);
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 8vw, 94px);
+      line-height: 0.94;
+      letter-spacing: 0;
+      max-width: 820px;
+    }
+
+    .hero-subtitle {
+      margin: 24px 0 0;
+      max-width: 700px;
+      color: rgba(255,255,255,0.78);
+      font-size: clamp(17px, 2vw, 22px);
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .meta-pill {
+      border: 1px solid rgba(255,255,255,0.22);
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: rgba(255,255,255,0.82);
+      font-size: 13px;
+    }
+
+    main {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 52px 0 72px;
+    }
+
+    .share-note {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      padding: 22px 0 34px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .share-note strong {
+      color: var(--ink);
+    }
+
+    .status {
+      justify-self: end;
+      padding: 9px 13px;
+      background: var(--charcoal);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .section {
+      display: grid;
+      grid-template-columns: minmax(160px, 260px) 1fr;
+      gap: clamp(24px, 5vw, 72px);
+      padding: 48px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .section-label {
+      position: sticky;
+      top: 16px;
+      align-self: start;
+    }
+
+    .section-kicker {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: 1.06;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 0 0 14px;
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .content {
+      max-width: 820px;
+    }
+
+    .lead-list,
+    .compact-list,
+    .action-list,
+    .risk-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .lead-list li,
+    .compact-list li,
+    .risk-list li {
+      padding: 12px 0 12px 22px;
+      border-top: 1px solid var(--line);
+      position: relative;
+    }
+
+    .lead-list li:first-child,
+    .compact-list li:first-child,
+    .risk-list li:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .lead-list li::before,
+    .compact-list li::before,
+    .risk-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 1.2em;
+      width: 8px;
+      height: 8px;
+      background: var(--accent-dark);
+      border-radius: 50%;
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 34px;
+    }
+
+    .block + .block {
+      margin-top: 34px;
+    }
+
+    .action-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .action {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 14px 32px rgba(16, 20, 24, 0.06);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .action:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px rgba(16, 20, 24, 0.09);
+    }
+
+    .action-title {
+      margin: 0 0 14px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .action-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 0;
+    }
+
+    .action-meta div {
+      padding: 10px;
+      background: var(--soft);
+      border-radius: 6px;
+      min-width: 0;
+    }
+
+    .action-meta dt {
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+
+    .action-meta dd {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ink);
+      overflow-wrap: anywhere;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 8px;
+      background: #e9f7cf;
+      color: #385b00;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .risk-panel {
+      background: var(--risk);
+      border: 1px solid #f0d5a4;
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .backlog-panel {
+      margin-top: 22px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .workflow {
+      margin: 12px 0 0;
+      padding: 14px 16px;
+      background: #f1f7e7;
+      border-left: 4px solid var(--accent-dark);
+      border-radius: 6px;
+      font-weight: 650;
+    }
+
+    .email {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: clamp(22px, 4vw, 34px);
+      box-shadow: 0 16px 42px rgba(16, 20, 24, 0.08);
+      font-size: 16px;
+    }
+
+    .email p {
+      margin: 0 0 16px;
+    }
+
+    .email p:last-child {
+      margin-bottom: 0;
+    }
+
+    footer {
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 0 0 44px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .hero {
+        min-height: 64vh;
+      }
+
+      .version {
+        display: none;
+      }
+
+      .share-note,
+      .section,
+      .two-column {
+        grid-template-columns: 1fr;
+      }
+
+      .section-label {
+        position: static;
+      }
+
+      .status {
+        justify-self: start;
+      }
+
+      .action-meta {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 36px;
+        color: #111;
+        background: #fff;
+        border-bottom: 2px solid #111;
+      }
+
+      .hero::after,
+      .version {
+        display: none;
+      }
+
+      .logo-mark,
+      .status {
+        color: #111;
+        background: #fff;
+        border: 1px solid #111;
+      }
+
+      .hero-subtitle,
+      .meta-pill,
+      .eyebrow {
+        color: #111;
+      }
+
+      main,
+      footer {
+        width: auto;
+        margin: 0;
+        padding-left: 28px;
+        padding-right: 28px;
+      }
+
+      .section {
+        break-inside: avoid;
+      }
+
+      .action {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="nav">
+      <div class="logo" aria-label="RAI">
+        <span class="logo-mark">RAI</span>
+        <span>Meeting Ops</span>
+      </div>
+      <div class="version">v0.4.2 - Calidad Operativa Diaria</div>
+    </div>
+
+    <div class="hero-content">
+      <p class="eyebrow">Minuta ejecutiva para Laura Itzel</p>
+      <h1>Seguimiento operativo RAI</h1>
+      <p class="hero-subtitle">Reunión interna sobre comunidad RAI, talentos, delegación, oferta educativa y RAI Diagnostic 360.</p>
+      <div class="meta-row" aria-label="Metadatos de la minuta">
+        <span class="meta-pill">Fecha: 6 jul 2026</span>
+        <span class="meta-pill">Origen: transcripción Gemini</span>
+        <span class="meta-pill">Estado: listo para compartir</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="share-note" aria-label="Nota para compartir">
+      <p><strong>Lectura rápida:</strong> el documento separa acuerdos, criterios, acciones y backlog para que Laura pueda dar seguimiento sin volver a revisar la transcripción.</p>
+      <span class="status">Sin acciones ejecutadas</span>
+    </section>
+
+    <section class="section" id="resumen">
+      <div class="section-label">
+        <span class="section-kicker">01</span>
+        <h2>Resumen</h2>
+      </div>
+      <div class="content">
+        <ul class="lead-list">
+          <li>Se revisaron cinco frentes: comunidad RAI, oferta educativa, riesgos de LLMs/hype, entrada de talentos y RAI Diagnostic 360.</li>
+          <li>Se acordó avanzar con una primera versión de comunidad conectada a un agente/newsletter y una sesión inicial, cuidando que no sea solo networking abstracto.</li>
+          <li>También se definió que el rol de Laura debe protegerse de operación excesiva mediante delegación, cuadro titular y talentos interinos por fases.</li>
+          <li>Quedó pendiente validar temas legales con Héctor, preparar sesiones con posibles talentos y resolver el riesgo de privacidad/experiencia en sesiones grabadas.</li>
+          <li>RAI Diagnostic 360 quedó marcado como prioridad estratégica y carta de presentación.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" id="decisiones">
+      <div class="section-label">
+        <span class="section-kicker">02</span>
+        <h2>Decisiones y criterios</h2>
+      </div>
+      <div class="content two-column">
+        <div class="block">
+          <h3>Decisiones tomadas</h3>
+          <ul class="compact-list">
+            <li>Avanzar inicialmente con una propuesta de comunidad RAI conectada a agente/newsletter y sesión de aprendizaje/reflexión.</li>
+            <li>Enviar link o convocatoria para la sesión el jueves, fecha exacta por confirmar, con sesión tentativa el viernes, fecha exacta por confirmar.</li>
+            <li>Mantener por ahora el enfoque en agente/newsletter antes de ampliar hacia un agente de comunidad más completo.</li>
+            <li>Esperar a que Héctor dé una fase tentativa/legal antes de iniciar formalmente actividades concretas con talentos.</li>
+            <li>Realizar una sesión específica Mauricio-Laura para benchmark sobre privacidad, recopilación de datos y experiencia de diagnóstico.</li>
+            <li>Considerar viable iniciar esta semana sesiones con los posibles talentos para explicarles tareas, después de que Laura organice pendientes de lunes a miércoles.</li>
+            <li>Presentar proyectos a los talentos para que puedan elegir el proyecto que más les interese.</li>
+            <li>Tratar RAI Diagnostic 360 como prioridad estratégica y carta de presentación para generar confianza, flujo y posicionamiento.</li>
+          </ul>
+        </div>
+
+        <div class="block">
+          <h3>Criterios definidos</h3>
+          <ul class="compact-list">
+            <li>La comunidad RAI debe tener guía, itinerario, tema de discusión, diálogo, propuestas y posibles colaboraciones.</li>
+            <li>La comunidad debe sentirse RAI: fuentes curadas, skills actuales, herramientas útiles, reflexión aterrizada y filtro de veracidad frente al hype.</li>
+            <li>El rol de Laura debe enfocarse más en estrategia, identificación de soluciones, talento necesario y delegación, no en operación directa.</li>
+            <li>Se necesita un cuadro titular que permita a Mauricio, Toño, Frank y Laura delegar sin operar.</li>
+            <li>Los talentos deben pasar por fases: prueba controlada, evaluación junior y posible colaboración recurrente formal.</li>
+            <li>La solución para sesiones sensibles debe considerar legal, consentimiento, certificados, encriptado, protección, anonimización, candados operativos y estándares de seguridad.</li>
+            <li>Las propuestas actuales deben pensarse como base futura de una web app para evitar retrabajo.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="próximos-pasos">
+      <div class="section-label">
+        <span class="section-kicker">03</span>
+        <h2>Próximos pasos</h2>
+      </div>
+      <div class="content">
+        <ol class="action-list">
+          <li class="action">
+            <p class="action-title">Enviar mensaje a la comunidad con intención y objetivo de la primera sesión.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Mauricio Pascal</dd></div>
+              <div><dt>Fecha</dt><dd>Por definir</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Preparar agente/newsletter o base de contenido para la primera sesión de comunidad RAI.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>viernes, fecha exacta por confirmar</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Enviar link o convocatoria para la sesión de comunidad.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>jueves, fecha exacta por confirmar</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Revisar si el agente de comunidad puede también funcionar como piloto del copiloto de innovación.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>Por definir</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Preparar sesión directiva breve para revisar qué está haciendo cada responsable, qué no debería hacer y cómo delegarlo.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Mauricio Pascal</dd></div>
+              <div><dt>Fecha</dt><dd>Por definir</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Pasar a Laura dos presentaciones sobre buen desempeño, principios de trabajo y onboarding de talentos.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Mauricio Pascal</dd></div>
+              <div><dt>Fecha</dt><dd>Por definir</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Avanzar con Héctor la formalización legal para talentos, incluyendo acuerdos y protecciones bilaterales.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Mauricio Pascal</dd></div>
+              <div><dt>Fecha</dt><dd>Por definir</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">En seguimiento</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Organizar pendientes actuales para identificar qué debe delegarse y qué sesiones preparar con talentos.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>lunes, martes y miércoles, fecha exacta por confirmar</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Preparar sesiones con posibles talentos para explicar proyectos y posibles tareas.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>jueves, fecha exacta por confirmar</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Trabajar el componente tecnológico de RAI Diagnostic 360 y compartir manual maestro de tecnología/información.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Mauricio Pascal</dd></div>
+              <div><dt>Fecha</dt><dd>Por definir</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Extraer el cuestionario usado en la sesión de oferta educativa/diagnóstico y proponer qué puede sistematizarse.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>Por definir</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Investigar benchmarks o casos de recopilación de información sensible con buena experiencia de usuario y privacidad.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Mauricio Pascal y Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>mañana, fecha exacta por confirmar</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Hacer recap Mauricio-Laura sobre alternativas para privacidad, experiencia y estructura futura de diagnóstico.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Mauricio Pascal y Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>mañana, fecha exacta por confirmar</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+          <li class="action">
+            <p class="action-title">Preparar borrador de comunicación para Laura/Ana Laura sobre riesgo detectado y alternativas de solución.</p>
+            <dl class="action-meta">
+              <div><dt>Responsable</dt><dd>Laura Itzel</dd></div>
+              <div><dt>Fecha</dt><dd>más tarde, fecha exacta por confirmar</dd></div>
+              <div><dt>Estado</dt><dd><span class="badge">Pendiente</span></dd></div>
+            </dl>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="riesgos">
+      <div class="section-label">
+        <span class="section-kicker">04</span>
+        <h2>Riesgos y backlog</h2>
+      </div>
+      <div class="content">
+        <div class="risk-panel">
+          <h3>Riesgos / bloqueos</h3>
+          <ul class="risk-list">
+            <li>Laura está saturada con oferta educativa, RAI Diagnostic 360 y agente/comunidad; se requiere delegación para proteger su foco estratégico.</li>
+            <li>Aún falta definición de Héctor para formalizar acuerdos con talentos y proteger a ambas partes.</li>
+            <li>Iniciar sesiones o actividades antes de cerrar protecciones legales implica riesgo asumido.</li>
+            <li>Las sesiones de diagnóstico pueden incluir datos personales sensibles como nombres, fechas, lugares y contexto familiar.</li>
+            <li>Grabar sesiones sensibles puede reducir confianza o incomodar a clientes.</li>
+            <li>Depender de captura manual en iPad o cuestionarios puede generar pérdida de información.</li>
+            <li>RAI Diagnostic 360 requiere alta calidad porque funcionará como carta de presentación.</li>
+            <li>No quedó definido el alcance final del agente de comunidad ni si incluirá uso directo por participantes.</li>
+            <li>No quedó definido si Jesús de ciberseguridad participará ni bajo qué alcance.</li>
+          </ul>
+        </div>
+
+        <div class="backlog-panel">
+          <h3>Backlog</h3>
+          <ul class="compact-list">
+            <li>Evaluar un agente de comunidad más amplio con skills de newsletter, contenido, dudas y recopilación de insights.</li>
+            <li>Diseñar base de datos o registro de perfiles de comunidad para identificar quién hace qué y posibles colaboraciones.</li>
+            <li>Explorar si las conversaciones con el agente pueden alimentar sesiones futuras con consentimiento explícito.</li>
+            <li>Diseñar sistema o web app futura para diagnóstico, captura de información y experiencia conversacional.</li>
+            <li>Revisar mejores prácticas globales para experiencias de diagnóstico con privacidad, anonimización y bajo esfuerzo para el usuario.</li>
+          </ul>
+          <p class="workflow">Workflow futuro detectado: comunidad RAI con agente/newsletter, generación de contenido, presentación, sesión, registro de insights y seguimiento de perfiles. Esto no va todavía. Lo dejamos en backlog.</p>
+          <p class="workflow">Workflow futuro detectado: diagnóstico con cuestionario, captura estructurada, consentimiento, transcripción controlada, sistematización y futura web app. Esto no va todavía. Lo dejamos en backlog.</p>
+          <p class="workflow">Workflow futuro detectado: revisión periódica directiva de carga operativa, matriz de responsabilidades, delegación y seguimiento de soluciones. Esto no va todavía. Lo dejamos en backlog.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="follow-up">
+      <div class="section-label">
+        <span class="section-kicker">05</span>
+        <h2>Follow-up sugerido</h2>
+      </div>
+      <div class="content">
+        <article class="email" aria-label="Mensaje sugerido">
+          <p>Hola, Lau.</p>
+          <p>Gracias por la sesión. Dejo el seguimiento ejecutivo de los puntos principales:</p>
+          <p>Acordamos avanzar con una primera versión de comunidad RAI conectada a agente/newsletter, cuidando que la dinámica tenga tema, reflexión, diálogo y posibles colaboraciones, no solo networking. También queda como pendiente preparar la primera sesión tentativa para viernes, con link o convocatoria el jueves.</p>
+          <p>Sobre roles y talentos, la prioridad es proteger tu foco estratégico y reducir carga operativa. Mauricio avanzará con Héctor la parte legal y compartirá materiales de desempeño/onboarding. En paralelo, puedes organizar pendientes para identificar qué se puede delegar y preparar sesiones con los posibles talentos esta semana.</p>
+          <p>En oferta educativa/diagnóstico, el riesgo principal detectado es privacidad + experiencia de usuario en sesiones grabadas con información sensible. El siguiente paso es hacer benchmark y revisar alternativas mañana, pensando en una solución interina que también siente bases para una futura web app.</p>
+          <p>RAI Diagnostic 360 queda como prioridad estratégica y carta de presentación, por lo que se trabajará el componente tecnológico y el manual maestro para evaluar capacidad, talento requerido y próximos pasos.</p>
+          <p>Saludos.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    RAI Meeting Ops Agent v0.4.2 - Calidad Operativa Diaria. Documento preparado para revisión y compartición interna. No se ejecutaron acciones en Calendar, Gmail, Zoho ni CRM.
+  </footer>
+</body>
+</html>

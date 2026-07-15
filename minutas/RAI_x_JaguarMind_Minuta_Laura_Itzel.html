@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RAI x JaguarMind — Minuta para Laura Itzel</title>
+  <style>
+    :root{
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --ink:#111827;
+      --muted:#5b6472;
+      --line:#d9dee5;
+      --accent:#111111;
+      --soft:#eef1f4;
+      --warning:#fff7e6;
+      --warning-line:#e8b44f;
+      --ok:#eef8f1;
+      --ok-line:#5ca56f;
+      --danger:#fff0f0;
+      --danger-line:#cf5a5a;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font-family:Inter, Arial, Helvetica, sans-serif;
+      line-height:1.55;
+    }
+
+    .page{
+      max-width:1120px;
+      margin:0 auto;
+      padding:40px 24px 64px;
+    }
+
+    .header{
+      background:linear-gradient(135deg,#111 0%,#242424 100%);
+      color:#fff;
+      border-radius:18px;
+      padding:40px;
+      margin-bottom:24px;
+      box-shadow:0 18px 50px rgba(0,0,0,.12);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:24px;
+    }
+
+    .logo{
+      width:48px;
+      height:48px;
+      border:1px solid rgba(255,255,255,.3);
+      border-radius:12px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      letter-spacing:.08em;
+    }
+
+    .brand-text{
+      font-size:14px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      opacity:.8;
+    }
+
+    h1{
+      margin:0 0 12px;
+      font-size:38px;
+      line-height:1.08;
+      letter-spacing:-.03em;
+    }
+
+    .subtitle{
+      max-width:820px;
+      margin:0;
+      font-size:18px;
+      color:rgba(255,255,255,.82);
+    }
+
+    .meta{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+      margin-top:28px;
+    }
+
+    .meta-item{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:12px;
+      padding:14px 16px;
+    }
+
+    .meta-label{
+      display:block;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.1em;
+      opacity:.65;
+      margin-bottom:4px;
+    }
+
+    .meta-value{
+      font-size:15px;
+      font-weight:600;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.3fr .7fr;
+      gap:24px;
+      align-items:start;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:28px;
+      margin-bottom:24px;
+      box-shadow:0 8px 22px rgba(15,23,42,.04);
+    }
+
+    h2{
+      font-size:23px;
+      margin:0 0 16px;
+      letter-spacing:-.02em;
+    }
+
+    h3{
+      font-size:17px;
+      margin:22px 0 10px;
+    }
+
+    p{margin:0 0 14px}
+
+    ul,ol{
+      margin:10px 0 0;
+      padding-left:22px;
+    }
+
+    li{margin:7px 0}
+
+    .callout{
+      border-left:5px solid var(--accent);
+      background:var(--soft);
+      border-radius:12px;
+      padding:18px 20px;
+      margin:18px 0 0;
+    }
+
+    .callout.warning{
+      background:var(--warning);
+      border-left-color:var(--warning-line);
+    }
+
+    .callout.ok{
+      background:var(--ok);
+      border-left-color:var(--ok-line);
+    }
+
+    .callout.danger{
+      background:var(--danger);
+      border-left-color:var(--danger-line);
+    }
+
+    .tag{
+      display:inline-block;
+      background:#111;
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+      padding:6px 9px;
+      border-radius:999px;
+      margin:4px 6px 0 0;
+    }
+
+    .section-number{
+      width:34px;
+      height:34px;
+      border-radius:10px;
+      background:#111;
+      color:#fff;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      margin-right:10px;
+      font-weight:700;
+      font-size:14px;
+      vertical-align:middle;
+    }
+
+    .agenda-item{
+      border-top:1px solid var(--line);
+      padding:16px 0;
+    }
+
+    .agenda-item:first-child{
+      border-top:none;
+      padding-top:0;
+    }
+
+    .agenda-time{
+      font-size:13px;
+      color:var(--muted);
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+
+    .agenda-title{
+      font-size:17px;
+      font-weight:700;
+      margin:4px 0 6px;
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      padding-top:10px;
+    }
+
+    .checklist{
+      list-style:none;
+      padding-left:0;
+    }
+
+    .checklist li{
+      position:relative;
+      padding-left:28px;
+    }
+
+    .checklist li:before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:.45em;
+      width:14px;
+      height:14px;
+      border:2px solid #111;
+      border-radius:4px;
+    }
+
+    @media (max-width:850px){
+      .grid{grid-template-columns:1fr}
+      .meta{grid-template-columns:1fr}
+      h1{font-size:31px}
+      .header{padding:30px 24px}
+      .card{padding:22px}
+    }
+
+    @media print{
+      body{background:#fff}
+      .page{max-width:none;padding:0}
+      .header,.card{box-shadow:none}
+      .card{break-inside:avoid}
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+
+    <section class="header">
+      <div class="brand">
+        <div class="logo">RAI</div>
+        <div class="brand-text">Minuta ejecutiva para Laura Itzel</div>
+      </div>
+
+      <h1>RAI x JaguarMind</h1>
+      <p class="subtitle">
+        Contexto, acuerdos preliminares y preparación para la sesión de definición estratégica, técnica y legal del producto asociado a RAI Decision.
+      </p>
+
+      <div class="meta">
+        <div class="meta-item">
+          <span class="meta-label">Conversación base</span>
+          <span class="meta-value">10 de julio de 2026</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Sesión de seguimiento</span>
+          <span class="meta-value">Lunes 13 de julio de 2026</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Destinataria</span>
+          <span class="meta-value">Laura Itzel — CTO de RAI</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div>
+
+        <section class="card">
+          <h2><span class="section-number">1</span>Contexto ejecutivo</h2>
+          <p>
+            En la conversación del 10 de julio, Mauricio explicó al equipo de JaguarMind que, por el momento,
+            no se contempla su integración en roles internos dentro de RAI.
+          </p>
+          <p>
+            La alternativa viable es una colaboración específica alrededor del producto actualmente asociado a
+            <strong>RAI Decision</strong>, posiblemente vinculada a regalías o participación económica sobre el desempeño del producto.
+          </p>
+
+          <div class="callout warning">
+            <strong>Importante:</strong> esta posibilidad todavía no constituye un acuerdo formal, no implica equity de RAI
+            y no existe un porcentaje aprobado.
+          </div>
+
+          <h3>La continuidad depende de cerrar:</h3>
+          <ul>
+            <li>Definición estratégica del producto.</li>
+            <li>Viabilidad técnica y comercial.</li>
+            <li>Roles, responsabilidades y entregables.</li>
+            <li>Protección de propiedad intelectual, código, datos y credenciales.</li>
+            <li>Modelo legal y económico.</li>
+            <li>Criterios de cumplimiento y terminación.</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2><span class="section-number">2</span>Entendimiento preliminar</h2>
+          <p>
+            JaguarMind podría colaborar con autonomía de horarios y modalidad remota, siempre que la relación se gestione
+            por resultados, entregables, fechas y evidencia.
+          </p>
+
+          <h3>Distribución preliminar a revisar</h3>
+          <ul>
+            <li><strong>JaguarMind:</strong> infraestructura, tecnología, desarrollo y ejecución técnica.</li>
+            <li><strong>RAI:</strong> estrategia, producto, posicionamiento, comercialización y ventas.</li>
+          </ul>
+
+          <div class="callout">
+            Esta distribución todavía debe validarse. La sesión del lunes debe confirmar qué corresponde a cada parte,
+            quién es owner y qué dependencia existe entre producto, tecnología, ventas y legal.
+          </div>
+        </section>
+
+        <section class="card">
+          <h2><span class="section-number">3</span>Acuerdos preliminares</h2>
+          <ol>
+            <li>Realizar una sesión de alineación el lunes 13 de julio de 2026.</li>
+            <li>Incluir a Laura Itzel para revisar arquitectura, seguridad, viabilidad y alcance tecnológico.</li>
+            <li>Revisar el producto desde una perspectiva integral, no solo técnica.</li>
+            <li>Cuestionar si debe seguir como software, evolucionar a agente o convertirse en una solución híbrida.</li>
+            <li>Analizar qué funcionó, qué no funcionó y qué debe redefinirse.</li>
+            <li>Establecer fases, responsables, entregables, fechas y cadencia antes de reiniciar desarrollo.</li>
+            <li>Evitar juntas innecesarias y operar con evidencia y entregables.</li>
+            <li>Continuar la revisión legal en paralelo.</li>
+            <li>Tomar como referencia aproximada un mes para estructurar el acuerdo formal, sujeto a legal.</li>
+          </ol>
+        </section>
+
+        <section class="card">
+          <h2><span class="section-number">4</span>Aspectos todavía no acordados</h2>
+          <div>
+            <span class="tag">Porcentaje</span>
+            <span class="tag">Regalías</span>
+            <span class="tag">Propiedad intelectual</span>
+            <span class="tag">Código</span>
+            <span class="tag">Datos</span>
+            <span class="tag">Infraestructura</span>
+            <span class="tag">Mantenimiento</span>
+            <span class="tag">Exclusividad</span>
+            <span class="tag">Alcance</span>
+            <span class="tag">Fecha de mercado</span>
+          </div>
+
+          <ul>
+            <li>Fórmula de cálculo y base económica de las regalías.</li>
+            <li>Derechos económicos de cada integrante.</li>
+            <li>Duración y condiciones de permanencia.</li>
+            <li>Titularidad del código, modelos, documentación y activos.</li>
+            <li>Responsabilidad por soporte, errores e infraestructura.</li>
+            <li>Nombre y posicionamiento final del producto.</li>
+            <li>Modelo contractual aplicable.</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2><span class="section-number">5</span>Objetivo de la sesión del lunes</h2>
+          <p>
+            Evaluar si existe una oportunidad real, estratégica, técnica y comercial para continuar desarrollando el producto
+            con JaguarMind y definir una ruta ordenada antes de asumir nuevos compromisos.
+          </p>
+
+          <h3>Preguntas que deben resolverse</h3>
+          <ol>
+            <li>¿Qué problema fundamental resuelve?</li>
+            <li>¿Quién tiene ese problema y qué tan urgente es?</li>
+            <li>¿Qué parte actual genera valor real?</li>
+            <li>¿Qué debe mantenerse, modificarse o eliminarse?</li>
+            <li>¿Conviene software, agente, servicio asistido o solución híbrida?</li>
+            <li>¿Cómo se conecta cuentas por pagar con un flujo empresarial más amplio?</li>
+            <li>¿Cuál es la versión mínima validable comercialmente?</li>
+            <li>¿Qué debe suceder antes de volver a desarrollar?</li>
+            <li>¿Qué responsabilidades corresponden a RAI y cuáles a JaguarMind?</li>
+            <li>¿Qué evidencia justificaría invertir más tiempo y recursos?</li>
+          </ol>
+        </section>
+
+        <section class="card">
+          <h2><span class="section-number">6</span>Preparación específica para Laura Itzel</h2>
+
+          <p>La revisión de Laura debe concentrarse en los siguientes puntos:</p>
+
+          <ul class="checklist">
+            <li>Estado real de la arquitectura técnica.</li>
+            <li>Control de código, repositorios, accesos y credenciales.</li>
+            <li>Dependencias tecnológicas críticas.</li>
+            <li>Protección de datos y seguridad.</li>
+            <li>Funcionamiento y validación de modelos o red neuronal.</li>
+            <li>Pruebas, monitoreo, filtros y validación humana.</li>
+            <li>Deuda técnica y riesgos de escalabilidad.</li>
+            <li>Conveniencia de software, agente o solución híbrida.</li>
+            <li>Condiciones mínimas para autorizar una siguiente fase.</li>
+          </ul>
+
+          <div class="callout ok">
+            <strong>Salida esperada de Laura:</strong> una postura técnica inicial sobre qué es recuperable,
+            qué requiere corrección, qué representa riesgo y qué no debería avanzar todavía.
+          </div>
+        </section>
+
+        <section class="card">
+          <h2><span class="section-number">7</span>Resultados mínimos de la sesión</h2>
+          <ul>
+            <li>Definición preliminar del problema y del producto.</li>
+            <li>Decisión sobre qué conservar, modificar o eliminar.</li>
+            <li>Hipótesis de solución: software, agente, servicio o modelo híbrido.</li>
+            <li>Alcance preliminar de la siguiente fase.</li>
+            <li>División inicial de responsabilidades.</li>
+            <li>Lista de riesgos y dependencias.</li>
+            <li>Inventario de información técnica y legal faltante.</li>
+            <li>Siguiente entregable con owner y fecha.</li>
+            <li>Decisión explícita: avanzar, redefinir, pausar o descartar.</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2><span class="section-number">8</span>Regla de avance</h2>
+          <p>No debe iniciarse una nueva fase de desarrollo hasta contar con:</p>
+          <ul class="checklist">
+            <li>Problema definido.</li>
+            <li>Alcance definido.</li>
+            <li>Owner de producto.</li>
+            <li>Owner técnico.</li>
+            <li>Responsabilidades delimitadas.</li>
+            <li>Entregables y fechas.</li>
+            <li>Inventario técnico.</li>
+            <li>Riesgos documentados.</li>
+            <li>Acuerdo transitorio o recomendación legal.</li>
+            <li>Criterio de validación comercial.</li>
+          </ul>
+
+          <div class="callout danger">
+            La automatización avanzada, la arquitectura definitiva y cualquier agente en producción
+            no van todavía. Se dejan en backlog hasta cerrar la definición estratégica, operativa, técnica y legal.
+          </div>
+        </section>
+
+      </div>
+
+      <aside>
+
+        <section class="card">
+          <h2>Participantes esperados</h2>
+          <ul>
+            <li>Mauricio Pascal — CEO de RAI</li>
+            <li>Laura Itzel — CTO de RAI</li>
+            <li>Miguel Ángel Gutiérrez Gómez — JaguarMind</li>
+            <li>Jesús — JaguarMind</li>
+            <li>Miguel Molina — por confirmar</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2>Agenda sugerida</h2>
+
+          <div class="agenda-item">
+            <div class="agenda-time">5 min</div>
+            <div class="agenda-title">Apertura y reglas</div>
+            <div class="small">Aclarar que la sesión es de evaluación, no de negociación final.</div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="agenda-time">15 min</div>
+            <div class="agenda-title">Retrospectiva</div>
+            <div class="small">Qué funcionó, qué no y qué aprendizajes deben conservarse.</div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="agenda-time">15 min</div>
+            <div class="agenda-title">Problema y valor</div>
+            <div class="small">Cliente, urgencia, flujo y diferenciación.</div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="agenda-time">20 min</div>
+            <div class="agenda-title">Producto y arquitectura</div>
+            <div class="small">Código, datos, modelos, seguridad, pruebas y alcance.</div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="agenda-time">15 min</div>
+            <div class="agenda-title">Roles y responsabilidades</div>
+            <div class="small">Owners, entregables, fechas y cadencia.</div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="agenda-time">10 min</div>
+            <div class="agenda-title">Ruta de decisión</div>
+            <div class="small">Avanzar, redefinir, pausar o descartar.</div>
+          </div>
+
+          <div class="callout">
+            <strong>Duración sugerida:</strong><br />
+            75–90 minutos.
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Riesgos prioritarios</h2>
+          <ul>
+            <li>Desarrollar sin validar el problema.</li>
+            <li>Diseñar desde la tecnología.</li>
+            <li>No controlar código o credenciales.</li>
+            <li>Falta de pruebas y trazabilidad.</li>
+            <li>Responsabilidades ambiguas.</li>
+            <li>Hablar de porcentajes antes de legal.</li>
+            <li>No separar IP previa de IP futura.</li>
+          </ul>
+        </section>
+
+        <section class="card">
+          <h2>Qué debe quedar claro para Laura</h2>
+          <ul>
+            <li>No está autorizada una nueva fase técnica.</li>
+            <li>No existe porcentaje aprobado.</li>
+            <li>No hay equity de RAI sobre la mesa.</li>
+            <li>La arquitectura todavía debe cuestionarse.</li>
+            <li>La revisión técnica debe preceder cualquier compromiso.</li>
+            <li>Legal debe recibir insumos concretos después de la sesión.</li>
+          </ul>
+        </section>
+
+      </aside>
+    </div>
+
+    <div class="footer">
+      Documento de trabajo interno — RAI — Julio 2026
+    </div>
+
+  </main>
+</body>
+</html>

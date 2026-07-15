@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Capacitación · Agente Neoma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#010203;--bg2:#0B1219;--bg3:#111E2A;
+  --ac:#5F7F9C;--ac2:#7AA4C7;--acg:linear-gradient(135deg,#5F7F9C 0%,#162433 100%);
+  --tx:#FFF;--ts:#DEE4EA;--tm:#7A8FA0;
+  --ru:rgba(95,127,156,.18);--rus:rgba(95,127,156,.35);
+  --gr:#22c55e;--grb:rgba(34,197,94,.10);
+  --am:#f59e0b;--amb:rgba(245,158,11,.10);
+  --pu:#a78bfa;--pub:rgba(167,139,250,.10);
+  --re:#f87171;--reb:rgba(248,113,113,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#010203;color:var(--tx);font-family:"Inter",sans-serif;line-height:1.55}
+@page{size:13.333in 7.5in;margin:0}
+.slide{width:100vw;height:100vh;background:var(--bg);position:relative;overflow:hidden;page-break-after:always;break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.slide:last-child{page-break-after:auto;break-after:auto}
+@media screen{body{overflow-y:auto}.slide{box-shadow:0 4px 60px rgba(0,0,0,.8)}}
+@media print{
+  html,body{background:#000}
+  .slide{width:13.333in;height:7.5in;display:block!important;opacity:1!important;page-break-after:always;break-after:page}
+  .slide *{opacity:1!important;transition:none!important}
+}
+
+/* LAYOUT */
+.s{padding:5vh 6vw;height:100%;display:flex;flex-direction:column;position:relative;z-index:2}
+.brand{position:absolute;top:3vh;right:6vw;font-family:"JetBrains Mono",monospace;font-size:1.05vh;color:var(--tm);letter-spacing:.22em;text-transform:uppercase;z-index:5}
+.snum{position:absolute;bottom:2.5vh;right:6vw;font-family:"JetBrains Mono",monospace;font-size:1.05vh;color:var(--tm);letter-spacing:.2em;z-index:5}
+.mc{font-family:"JetBrains Mono",monospace;font-size:1vh;color:var(--tm);letter-spacing:.18em;text-transform:uppercase}
+
+/* TYPOGRAPHY */
+.ey{font-family:"JetBrains Mono",monospace;font-size:1.2vh;text-transform:uppercase;letter-spacing:.22em;color:var(--ac2);display:flex;align-items:center;gap:1.2vh;margin-bottom:1.8vh}
+.ey::before{content:"";width:2.6vh;height:1px;background:var(--ac2)}
+.ey.am{color:var(--am)}.ey.am::before{background:var(--am)}
+.ey.gr{color:var(--gr)}.ey.gr::before{background:var(--gr)}
+.ey.pu{color:var(--pu)}.ey.pu::before{background:var(--pu)}
+.ey.re{color:var(--re)}.ey.re::before{background:var(--re)}
+.h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:4.6vh;line-height:1.06;letter-spacing:-.025em;color:var(--tx)}
+.h1xl{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:7.8vh;line-height:1.01;letter-spacing:-.03em;background:linear-gradient(170deg,#FFF 0%,#DEE4EA 55%,#7A8FA0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lead{font-size:1.65vh;color:var(--tm);line-height:1.7;margin-top:1.6vh}
+
+/* PILL */
+.pill{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.9vh;text-transform:uppercase;letter-spacing:.14em;padding:.45vh 1vh;font-weight:600;border-radius:0}
+.pill.cy{background:rgba(95,127,156,.15);color:var(--ac2)}
+.pill.am{background:var(--amb);color:var(--am)}
+.pill.gr{background:var(--grb);color:var(--gr)}
+.pill.pu{background:var(--pub);color:var(--pu)}
+.pill.re{background:var(--reb);color:var(--re)}
+
+/* CALLOUT */
+.co{padding:1.4vh 1.8vh;border-left:3px solid var(--ac2);background:var(--bg3);font-size:1.55vh;color:var(--ts);line-height:1.65}
+.co strong{color:var(--tx)}.co.am{border-left-color:var(--am)}.co.gr{border-left-color:var(--gr)}.co.re{border-left-color:var(--re)}
+
+/* RING */
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(122,164,199,.08)}
+
+/* AGENDA */
+.ag-row{display:flex;align-items:baseline;padding:1.9vh 0;border-bottom:1px solid var(--ru);width:100%}
+.ag-row:first-child{border-top:1px solid var(--ru)}
+.ag-n{font-family:"JetBrains Mono",monospace;font-size:1.55vh;color:var(--ac2);letter-spacing:.18em;min-width:5ch;font-weight:600}
+.ag-t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:3.1vh;color:var(--tx);letter-spacing:-.015em;line-height:1.1;flex:1}
+.ag-sub{font-size:1.4vh;color:var(--tm);margin-left:auto;padding-left:2vw;flex-shrink:0;align-self:center}
+
+/* BEFORE / AFTER comparison */
+.ba-col{flex:1;display:flex;flex-direction:column;gap:1.2vh}
+.ba-head{font-family:"JetBrains Mono",monospace;font-size:1.1vh;text-transform:uppercase;letter-spacing:.22em;padding-bottom:1.2vh;border-bottom:1px solid var(--ru);margin-bottom:.4vh}
+.ba-item{padding:1.6vh 1.8vh;display:flex;gap:1.2vh;align-items:flex-start;font-size:1.55vh;line-height:1.6}
+.ba-item.bad{background:rgba(248,113,113,.06);border-left:2px solid rgba(248,113,113,.4);color:var(--ts)}
+.ba-item.good{background:rgba(34,197,94,.06);border-left:2px solid rgba(34,197,94,.5);color:var(--ts)}
+.ba-icon{flex-shrink:0;font-size:1.5vh;margin-top:.1vh}
+
+/* FLOW STEPS */
+.step-row{display:flex;align-items:stretch;gap:0;flex:1}
+.step-box{flex:1;display:flex;flex-direction:column;padding:2.4vh 1.8vw;border:1px solid var(--ru);background:var(--bg2);position:relative}
+.step-box.active{background:rgba(122,164,199,.05);border-color:rgba(122,164,199,.3)}
+.step-box.done{border-color:rgba(34,197,94,.25);background:rgba(34,197,94,.04)}
+.step-sep{width:0;display:flex;align-items:center;justify-content:center;color:var(--tm);font-size:1.5vh;flex-shrink:0;padding:0 .6vw;z-index:2}
+.step-n{font-family:"JetBrains Mono",monospace;font-size:.95vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8vh}
+.step-title{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.9vh;color:var(--tx);margin-bottom:1vh;line-height:1.2}
+.step-body{font-size:1.45vh;color:var(--tm);line-height:1.65;flex:1}
+.step-out{margin-top:1.4vh;padding-top:1.2vh;border-top:1px solid var(--ru);font-family:"JetBrains Mono",monospace;font-size:.9vh;color:var(--gr);text-transform:uppercase;letter-spacing:.14em}
+.step-badge{position:absolute;top:1.4vh;right:1.4vh;font-family:"JetBrains Mono",monospace;font-size:.85vh;padding:.4vh .9vh;text-transform:uppercase;letter-spacing:.14em}
+.step-badge.human{background:rgba(167,139,250,.12);color:var(--pu);border:1px solid rgba(167,139,250,.3)}
+.step-badge.auto{background:rgba(122,164,199,.12);color:var(--ac2);border:1px solid rgba(122,164,199,.3)}
+
+/* LOCK / CANDADOS */
+.lock-row{display:flex;gap:1.8vh;align-items:flex-start;padding:1.8vh 0;border-bottom:1px solid var(--ru)}
+.lock-row:last-child{border-bottom:none}
+.lock-icon{width:3.8vh;height:3.8vh;border:1px solid var(--ru);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.6vh;background:var(--bg2)}
+.lock-body{flex:1}
+.lock-title{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.75vh;color:var(--tx);margin-bottom:.5vh}
+.lock-desc{font-size:1.4vh;color:var(--tm);line-height:1.6}
+
+/* FLUJOS grid */
+.fl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vh;flex:1}
+.fl{padding:2vh 1.8vw;border:1px solid var(--ru);background:var(--bg2);display:flex;flex-direction:column}
+.fl-num{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:3.5vh;line-height:1;color:var(--ac2);letter-spacing:-.03em;margin-bottom:.6vh}
+.fl-title{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.75vh;color:var(--tx);margin-bottom:.6vh;line-height:1.25}
+.fl-body{font-size:1.4vh;color:var(--tm);line-height:1.6;flex:1}
+.fl-tag{margin-top:1.2vh;font-family:"JetBrains Mono",monospace;font-size:.85vh;text-transform:uppercase;letter-spacing:.16em}
+
+/* CASE DETAIL */
+.case-field{display:flex;padding:1.3vh 0;border-bottom:1px solid rgba(95,127,156,.1);gap:1.5vw;align-items:baseline}
+.case-field:last-child{border-bottom:none}
+.case-lbl{font-family:"JetBrains Mono",monospace;font-size:.95vh;text-transform:uppercase;letter-spacing:.14em;color:var(--tm);min-width:18ch;flex-shrink:0}
+.case-val{font-size:1.5vh;color:var(--ts);line-height:1.5}
+.case-val strong{color:var(--tx)}
+.case-val .hi{color:var(--ac2)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     01 PORTADA
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div style="position:absolute;right:-8vw;top:-12vh;width:58vh;height:58vh;pointer-events:none">
+    <div class="ring" style="width:58vh;height:58vh"></div>
+    <div class="ring" style="width:44vh;height:44vh;top:7vh;left:7vh;border-color:rgba(122,164,199,.10)"></div>
+    <div class="ring" style="width:29vh;height:29vh;top:14.5vh;left:14.5vh;border-color:rgba(122,164,199,.14)"></div>
+    <div class="ring" style="width:14vh;height:14vh;top:22vh;left:22vh;border-color:rgba(122,164,199,.20)"></div>
+  </div>
+  <div style="position:absolute;top:3vh;right:6vw;text-align:right;z-index:5">
+    <div class="mc" style="margin-bottom:.8vh">Presentado por</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2vh;color:var(--ts)">RAI Consultoría</div>
+    <div class="mc" style="margin-top:.6vh">Junio de 2026</div>
+  </div>
+  <div class="s" style="justify-content:center;padding-top:7vh">
+    <div class="mc" style="margin-bottom:3vh">Neoma Bienestar × RAI Consultoría</div>
+    <div class="ey" style="margin-bottom:2.2vh">Capacitación · Agente de Matching Educativo</div>
+    <h1 class="h1xl" style="max-width:14ch;margin-bottom:2vh">Cómo usar<br>el agente</h1>
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:2.2vh;color:var(--ac2);letter-spacing:-.01em;margin-bottom:2.8vh">Guía para consultores</div>
+    <p style="font-size:1.7vh;color:var(--tm);line-height:1.7;max-width:60ch">Todo lo que el agente puede hacer por ti: desde la primera sesión con el cliente hasta la presentación final — y cómo mejora con cada caso.</p>
+  </div>
+  <div class="mc" style="position:absolute;bottom:2.5vh;right:6vw;text-align:right">Confidencial · Uso interno</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     02 AGENDA
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Capacitación</div>
+  <div class="snum">02 / 09</div>
+  <div class="s">
+    <div style="margin-bottom:3.5vh">
+      <h1 class="h1">Agenda</h1>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column">
+      <div class="ag-row"><div class="ag-n">01</div><div class="ag-t">El problema que resuelve</div><div class="ag-sub">Pitch · antes y después</div></div>
+      <div class="ag-row"><div class="ag-n">02</div><div class="ag-t">Caso real: MGL de inicio a fin</div><div class="ag-sub">Demo lineal del flujo completo</div></div>
+      <div class="ag-row"><div class="ag-n">03</div><div class="ag-t">Los 6 flujos del agente</div><div class="ag-sub">Qué puede hacer y cómo activarlo</div></div>
+      <div class="ag-row"><div class="ag-n">04</div><div class="ag-t">Candados de datos</div><div class="ag-sub">Validación humana en cada paso</div></div>
+      <div class="ag-row"><div class="ag-n">05</div><div class="ag-t">Mejora continua</div><div class="ag-sub">Cómo el agente aprende de ti</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     03 PITCH — EL PROBLEMA
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Capacitación</div>
+  <div class="snum">03 / 09</div>
+  <div class="s">
+    <div style="margin-bottom:2.8vh">
+      <div class="ey am">01 · El problema</div>
+      <h1 class="h1">¿Te suena familiar?</h1>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vh;flex:1">
+
+      <div id="pp1" style="opacity:0;transition:opacity .45s;background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--am);padding:3vh 2vw;display:flex;flex-direction:column;gap:1.2vh">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.95vh;color:var(--am);letter-spacing:.2em;text-transform:uppercase">Pain point 01</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.3vh;color:var(--tx);line-height:1.2">La sesión ya terminó… ¿y ahora qué?</div>
+        <div style="font-size:1.55vh;color:var(--ts);line-height:1.7;flex:1">¿Cuándo fue la última vez que conectaron con este cliente? ¿Cuáles fueron sus preguntas más relevantes? ¿Dónde quedaron los datos del perfil?</div>
+        <div class="co am" style="font-size:1.4vh">Sin un sistema, cada consultor guarda la información a su manera — o no la guarda.</div>
+      </div>
+
+      <div id="pp2" style="opacity:0;transition:opacity .45s;background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--am);padding:3vh 2vw;display:flex;flex-direction:column;gap:1.2vh">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.95vh;color:var(--am);letter-spacing:.2em;text-transform:uppercase">Pain point 02</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.3vh;color:var(--tx);line-height:1.2">La búsqueda de opciones toma horas</div>
+        <div style="font-size:1.55vh;color:var(--ts);line-height:1.7;flex:1">Buscar en múltiples instituciones, comparar programas, verificar costos y fechas — todo manual, sin criterios estandarizados, sin historial.</div>
+        <div class="co am" style="font-size:1.4vh">No había dónde guardar el status general de los casos ni un flujo claro de consultor → caso → cliente.</div>
+      </div>
+
+      <div id="pp3" style="opacity:0;transition:opacity .45s;background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--am);padding:3vh 2vw;display:flex;flex-direction:column;gap:1.2vh">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.95vh;color:var(--am);letter-spacing:.2em;text-transform:uppercase">Pain point 03</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.3vh;color:var(--tx);line-height:1.2">La propuesta se arma desde cero cada vez</div>
+        <div style="font-size:1.55vh;color:var(--ts);line-height:1.7;flex:1">Sin plantilla estándar, sin estructura definida. La calidad de la presentación varía según quién la haga y cuánto tiempo tenga.</div>
+        <div class="co am" style="font-size:1.4vh">El cliente recibe algo distinto en cada entrega, y el consultor invierte tiempo en formato, no en contenido.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     04 ANTES Y DESPUÉS
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Capacitación</div>
+  <div class="snum">04 / 09</div>
+  <div class="s">
+    <div style="margin-bottom:2.4vh">
+      <div class="ey gr">01 · La solución</div>
+      <h1 class="h1">Antes y después</h1>
+    </div>
+    <div style="display:flex;gap:2.4vw;flex:1">
+
+      <!-- ANTES -->
+      <div id="ba-antes" style="opacity:0;transition:opacity .45s;flex:1;display:flex;flex-direction:column;gap:1.1vh">
+        <div class="ba-head" style="color:var(--re)">✗ &nbsp;Antes — sin el agente</div>
+        <div class="ba-item bad"><span class="ba-icon">✗</span><span>Datos del cliente en notas sueltas, correos o en la memoria del consultor</span></div>
+        <div class="ba-item bad"><span class="ba-icon">✗</span><span>Búsqueda manual de programas en webs de instituciones, sin criterios unificados</span></div>
+        <div class="ba-item bad"><span class="ba-icon">✗</span><span>No había forma de saber cuántos casos estaban activos ni en qué etapa</span></div>
+        <div class="ba-item bad"><span class="ba-icon">✗</span><span>Propuesta armada desde cero en cada entrega, formato variable</span></div>
+        <div class="ba-item bad"><span class="ba-icon">✗</span><span>Sin historial de qué opciones se presentaron ni qué eligió el cliente</span></div>
+        <div class="ba-item bad"><span class="ba-icon">✗</span><span>Imposible mejorar el proceso — no había datos para aprender</span></div>
+      </div>
+
+      <!-- DIVIDER -->
+      <div style="width:1px;background:var(--ru);flex-shrink:0"></div>
+
+      <!-- DESPUÉS -->
+      <div id="ba-despues" style="opacity:0;transition:opacity .45s;flex:1;display:flex;flex-direction:column;gap:1.1vh">
+        <div class="ba-head" style="color:var(--gr)">✓ &nbsp;Ahora — con el agente</div>
+        <div class="ba-item good"><span class="ba-icon">✓</span><span>Formulario del caso prellenado automáticamente desde la grabación de la sesión</span></div>
+        <div class="ba-item good"><span class="ba-icon">✓</span><span>El agente evalúa el catálogo completo con 9 criterios y devuelve las 5 mejores opciones puntuadas</span></div>
+        <div class="ba-item good"><span class="ba-icon">✓</span><span>Todos los casos viven en Airtable con status claro, campos validados y fecha de revisión</span></div>
+        <div class="ba-item good"><span class="ba-icon">✓</span><span>Presentación de 16 slides generada automáticamente con la plantilla de Neoma</span></div>
+        <div class="ba-item good"><span class="ba-icon">✓</span><span>Historial completo: qué se analizó, qué se propuso, qué resultó — todo registrado</span></div>
+        <div class="ba-item good"><span class="ba-icon">✓</span><span>El agente aprende con cada caso gracias al ciclo de retroalimentación del consultor</span></div>
+      </div>
+
+    </div>
+    <div id="ba-nota" style="opacity:0;transition:opacity .45s;margin-top:1.8vh" class="co">
+      <strong>Nota importante:</strong> El agente reduce los tiempos de operación y da claridad — pero seguimos ajustando el sistema. Es normal que el agente pueda fallar en algunos campos. Por eso cada paso tiene un <strong>checkpoint de validación humana</strong> antes de avanzar.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     05 CASO MGL — FLUJO COMPLETO
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Capacitación</div>
+  <div class="snum">05 / 09</div>
+  <div class="s">
+    <div style="margin-bottom:2vh">
+      <div class="ey">02 · Demo lineal</div>
+      <h1 class="h1">Caso MGL — de inicio a fin</h1>
+    </div>
+
+    <!-- Case profile -->
+    <div style="display:flex;gap:2vw;flex:1">
+
+      <!-- LEFT: Case profile -->
+      <div style="width:30%;display:flex;flex-direction:column;gap:1.2vh">
+        <div style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--ac2);padding:2.2vh 1.8vw;flex:1">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.95vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.4vh">Perfil del caso</div>
+          <div class="case-field"><span class="case-lbl">Cliente</span><span class="case-val"><strong>MGL</strong></span></div>
+          <div class="case-field"><span class="case-lbl">Objetivo</span><span class="case-val">Fortalecer competencias de <span class="hi">liderazgo y dirección</span></span></div>
+          <div class="case-field"><span class="case-lbl">Área</span><span class="case-val">Dirección general · Alta dirección</span></div>
+          <div class="case-field"><span class="case-lbl">Modalidad</span><span class="case-val">Presencial</span></div>
+          <div class="case-field"><span class="case-lbl">Presupuesto</span><span class="case-val"><span class="hi">Por confirmar</span></span></div>
+          <div class="case-field"><span class="case-lbl">Institución</span><span class="case-val">IPADE preferida</span></div>
+          <div class="case-field"><span class="case-lbl">Status</span><span class="case-val"><span class="pill gr">En proceso</span></span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Flow steps -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:1.1vh">
+
+        <div id="mgl1" style="opacity:0;transition:opacity .4s" class="step-box active">
+          <span class="step-badge auto">Auto</span>
+          <div class="step-n">01 · Sesión con el cliente</div>
+          <div class="step-title">Grabación de Google Meet procesada</div>
+          <div class="step-body">El agente leyó la transcripción de la sesión y extrajo: objetivo de desarrollo, área de interés, restricciones de modalidad e institución preferida.</div>
+          <div class="step-out">→ Formulario del caso prellenado en Airtable</div>
+        </div>
+
+        <div id="mgl2" style="opacity:0;transition:opacity .4s" class="step-box">
+          <span class="step-badge human">✓ Consultor</span>
+          <div class="step-n">02 · Validación del formulario</div>
+          <div class="step-title">Consultor revisó y confirmó los campos</div>
+          <div class="step-body">Se verificó que institución, objetivo, modalidad y área estuvieran correctos. El presupuesto quedó marcado como pendiente de confirmar con el cliente.</div>
+          <div class="step-out">→ Caso validado · listo para análisis</div>
+        </div>
+
+        <div id="mgl3" style="opacity:0;transition:opacity .4s" class="step-box">
+          <span class="step-badge auto">Auto</span>
+          <div class="step-n">03 · Análisis y matching</div>
+          <div class="step-title">9 criterios evaluados contra el catálogo</div>
+          <div class="step-body">El agente evaluó 47 ofertas ejecutivas. Devolvió las 5 mejores opciones con puntaje (0-100), justificación de match y riesgos identificados.</div>
+          <div class="step-out">→ Preselección de 5 opciones registrada</div>
+        </div>
+
+        <div id="mgl4" style="opacity:0;transition:opacity .4s" class="step-box">
+          <span class="step-badge human">✓ Consultor</span>
+          <div class="step-n">04 · Validación de preselección</div>
+          <div class="step-title">Consultor confirmó las 5 opciones</div>
+          <div class="step-body">Se revisaron los puntajes y justificaciones. El consultor confirmó la preselección y el agente la registró en Airtable antes de generar la presentación.</div>
+          <div class="step-out">→ Preselección aprobada</div>
+        </div>
+
+        <div id="mgl5" style="opacity:0;transition:opacity .4s" class="step-box done">
+          <span class="step-badge auto">Auto</span>
+          <div class="step-n">05 · Presentación generada</div>
+          <div class="step-title">16 slides listos con plantilla Neoma</div>
+          <div class="step-body">El agente generó el contenido completo: portada, resumen del caso, criterios, tabla comparativa, fichas por opción, análisis de restricciones y recomendación final.</div>
+          <div class="step-out">→ Deck listo para presentar al cliente</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     06 LOS 6 FLUJOS
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Capacitación</div>
+  <div class="snum">06 / 09</div>
+  <div class="s">
+    <div style="margin-bottom:2vh">
+      <div class="ey">03 · Capacidades</div>
+      <h1 class="h1">Los 6 flujos del agente</h1>
+    </div>
+    <div class="fl-grid">
+
+      <div class="fl" style="border-top:3px solid var(--ac2)">
+        <div class="fl-num" style="color:var(--ac2)">01</div>
+        <div class="fl-title">Sesión con el cliente</div>
+        <div class="fl-body">Sube la grabación o transcripción del Meet. El agente extrae objetivo, área, restricciones y perfil del cliente.</div>
+        <div class="fl-tag" style="color:var(--ac2)">Entrada → Formulario prellenado</div>
+      </div>
+
+      <div class="fl" style="border-top:3px solid var(--ac2)">
+        <div class="fl-num" style="color:var(--ac2)">02</div>
+        <div class="fl-title">Formulario del caso</div>
+        <div class="fl-body">También puedes llenar el formulario a mano en Airtable, campo por campo. Ambas rutas producen el mismo resultado.</div>
+        <div class="fl-tag" style="color:var(--ac2)">Manual o automático</div>
+      </div>
+
+      <div class="fl" style="border-top:3px solid var(--ac2)">
+        <div class="fl-num" style="color:var(--ac2)">03</div>
+        <div class="fl-title">Análisis y matching</div>
+        <div class="fl-body">El agente evalúa el catálogo completo con 9 criterios y devuelve las 5 mejores ofertas ordenadas de 0 a 100.</div>
+        <div class="fl-tag" style="color:var(--ac2)">Entrada → 5 matches puntuados</div>
+      </div>
+
+      <div class="fl" style="border-top:3px solid var(--pu)">
+        <div class="fl-num" style="color:var(--pu)">04</div>
+        <div class="fl-title">Generación de propuesta</div>
+        <div class="fl-body">Con la preselección aprobada, el agente genera los 16 slides completos. Disponible en Gamma o PowerPoint con plantilla Neoma.</div>
+        <div class="fl-tag" style="color:var(--pu)">Salida → Deck listo para el cliente</div>
+      </div>
+
+      <div class="fl" style="border-top:3px solid var(--am)">
+        <div class="fl-num" style="color:var(--am)">05</div>
+        <div class="fl-title">Integrar nuevas ofertas</div>
+        <div class="fl-body">Sube un archivo Excel o PDF con nuevas ofertas. El agente las valida, asigna un ID único y las registra en la base de datos con alerta de campos incompletos.</div>
+        <div class="fl-tag" style="color:var(--am)">Admin · Base de datos</div>
+      </div>
+
+      <div class="fl" style="border-top:3px solid var(--gr)">
+        <div class="fl-num" style="color:var(--gr)">06</div>
+        <div class="fl-title">Retroalimentación</div>
+        <div class="fl-body">El agente hace una entrevista conversacional al consultor — una pregunta a la vez — y registra las calificaciones en los 4 formularios de mejora en Airtable.</div>
+        <div class="fl-tag" style="color:var(--gr)">Mejora continua · Loop de aprendizaje</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     07 CANDADOS DE DATOS
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Capacitación</div>
+  <div class="snum">07 / 09</div>
+  <div class="s">
+    <div style="margin-bottom:2.4vh">
+      <div class="ey pu">04 · Validación humana</div>
+      <h1 class="h1">Los candados del sistema</h1>
+    </div>
+    <div class="co" style="margin-bottom:2.4vh;font-size:1.6vh">
+      El agente trabaja rápido — pero puede cometer errores. Por eso el sistema tiene <strong>puntos de validación humana obligatorios</strong> antes de avanzar a la siguiente etapa. El consultor siempre tiene la última palabra.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.8vh;flex:1">
+
+      <div id="lock1" style="opacity:0;transition:opacity .4s">
+        <div class="lock-row">
+          <div class="lock-icon" style="border-color:rgba(122,164,199,.3);color:var(--ac2)">🔒</div>
+          <div class="lock-body">
+            <div class="lock-title">Candado 1 — Formulario del caso</div>
+            <div class="lock-desc">Después de que el agente rellena el formulario, el consultor <strong style="color:var(--tx)">revisa todos los campos</strong> y marca cada uno con ✓ y fecha. Ningún campo sin revisar puede avanzar al análisis.</div>
+          </div>
+        </div>
+        <div class="lock-row">
+          <div class="lock-icon" style="border-color:rgba(122,164,199,.3);color:var(--ac2)">🔒</div>
+          <div class="lock-body">
+            <div class="lock-title">Candado 2 — Preselección de ofertas</div>
+            <div class="lock-desc">Antes de generar la presentación, el agente muestra las 5 opciones al consultor y <strong style="color:var(--tx)">espera confirmación explícita</strong>. Solo con "Sí, confirmar" avanza al siguiente paso.</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="lock2" style="opacity:0;transition:opacity .4s">
+        <div class="lock-row">
+          <div class="lock-icon" style="border-color:rgba(167,139,250,.3);color:var(--pu)">🔒</div>
+          <div class="lock-body">
+            <div class="lock-title">Candado 3 — Contenido de la presentación</div>
+            <div class="lock-desc">El agente genera el contenido slide por slide y lo muestra al consultor <strong style="color:var(--tx)">antes de renderizar</strong>. Si hay algo que ajustar, se corrige en el chat antes de crear el archivo final.</div>
+          </div>
+        </div>
+        <div class="lock-row">
+          <div class="lock-icon" style="border-color:rgba(167,139,250,.3);color:var(--pu)">🔒</div>
+          <div class="lock-body">
+            <div class="lock-title">Candado 4 — Integración de nuevas ofertas</div>
+            <div class="lock-desc">Al integrar nuevas ofertas, el agente <strong style="color:var(--tx)">marca como pendiente</strong> cualquier campo incompleto (costo sin publicar, fechas por confirmar). No registra información que no puede validar.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div id="lock3" style="opacity:0;transition:opacity .4s;margin-top:1.6vh" class="co pu">
+      <strong>Regla general:</strong> Si el agente falla o un campo queda incompleto, siempre marca la alerta visible. El consultor decide si corriges, continúas o pausas el flujo. El sistema nunca avanza en silencio.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     08 MEJORA CONTINUA
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Capacitación</div>
+  <div class="snum">08 / 09</div>
+  <div class="s">
+    <div style="margin-bottom:2.4vh">
+      <div class="ey gr">05 · Mejora continua</div>
+      <h1 class="h1">El agente aprende de ti</h1>
+    </div>
+    <div style="display:flex;gap:3vw;flex:1">
+
+      <!-- LEFT: How it works -->
+      <div style="flex:1;display:flex;flex-direction:column;gap:1.4vh">
+        <p style="font-size:1.7vh;color:var(--ts);line-height:1.75">Después de cada caso, puedes activar el modo de retroalimentación. El agente te hace <strong style="color:var(--tx)">una pregunta a la vez</strong> — de forma conversacional — para calificar cómo funcionó cada etapa.</p>
+
+        <div id="fb1" style="opacity:0;transition:opacity .4s;background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--gr);padding:2vh 1.8vw">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.9vh;color:var(--gr);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.8vh">Cómo activarlo</div>
+          <div style="font-size:1.55vh;color:var(--ts);line-height:1.65">Escribe al agente: <strong style="color:var(--tx)">"Quiero dar retroalimentación"</strong> — y él toma el control de la conversación.</div>
+        </div>
+
+        <div id="fb2" style="opacity:0;transition:opacity .4s;display:flex;flex-direction:column;gap:.9vh">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.9vh;color:var(--ac2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.4vh">4 formularios que califica el agente</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.9vh">
+            <div style="background:var(--bg2);border:1px solid var(--ru);padding:1.4vh 1.6vw">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.5vh;color:var(--tx);margin-bottom:.4vh">Sesión con el cliente</div>
+              <div style="font-size:1.3vh;color:var(--tm)">¿Qué tan bien extraje la información?</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--ru);padding:1.4vh 1.6vw">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.5vh;color:var(--tx);margin-bottom:.4vh">Formulario del caso</div>
+              <div style="font-size:1.3vh;color:var(--tm)">¿Los campos estaban correctos?</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--ru);padding:1.4vh 1.6vw">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.5vh;color:var(--tx);margin-bottom:.4vh">Análisis y matching</div>
+              <div style="font-size:1.3vh;color:var(--tm)">¿Qué tan acertada fue la preselección?</div>
+            </div>
+            <div style="background:var(--bg2);border:1px solid var(--ru);padding:1.4vh 1.6vw">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.5vh;color:var(--tx);margin-bottom:.4vh">Propuesta generada</div>
+              <div style="font-size:1.3vh;color:var(--tm)">¿La presentación estaba lista para enviar?</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Loop diagram -->
+      <div style="width:35%;display:flex;flex-direction:column;gap:1.2vh">
+        <div id="fb3" style="opacity:0;transition:opacity .4s;flex:1;display:flex;flex-direction:column;gap:1.1vh">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.9vh;color:var(--tm);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.4vh">El ciclo</div>
+          <div style="display:flex;flex-direction:column;gap:0;flex:1">
+            <div style="background:var(--bg2);border:1px solid rgba(122,164,199,.25);border-left:3px solid var(--ac2);padding:1.6vh 1.4vw;text-align:center">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.6vh;color:var(--tx)">Sesión con el cliente</div>
+            </div>
+            <div style="text-align:center;padding:.5vh 0;font-size:2vh;color:var(--tm)">↓</div>
+            <div style="background:var(--bg2);border:1px solid rgba(122,164,199,.25);border-left:3px solid var(--ac2);padding:1.6vh 1.4vw;text-align:center">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.6vh;color:var(--tx)">Análisis + Propuesta</div>
+            </div>
+            <div style="text-align:center;padding:.5vh 0;font-size:2vh;color:var(--tm)">↓</div>
+            <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.3);border-left:3px solid var(--gr);padding:1.6vh 1.4vw;text-align:center">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.6vh;color:var(--tx)">Consultor califica</div>
+            </div>
+            <div style="text-align:center;padding:.5vh 0;font-size:2vh;color:var(--gr)">↓</div>
+            <div style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.3);border-left:3px solid var(--gr);padding:1.6vh 1.4vw;text-align:center">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.6vh;color:var(--gr)">Agente mejora</div>
+              <div style="font-size:1.2vh;color:var(--tm);margin-top:.4vh">Métricas registradas en Airtable</div>
+            </div>
+            <div style="text-align:center;padding:.5vh;font-family:'JetBrains Mono',monospace;font-size:.85vh;color:var(--gr);letter-spacing:.12em">↺ REPITE CON EL SIGUIENTE CASO</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     09 CIERRE
+═══════════════════════════════════════════════════════ -->
+<section class="slide">
+  <div style="position:absolute;right:-8vw;top:-12vh;width:58vh;height:58vh;pointer-events:none">
+    <div class="ring" style="width:58vh;height:58vh"></div>
+    <div class="ring" style="width:44vh;height:44vh;top:7vh;left:7vh;border-color:rgba(122,164,199,.10)"></div>
+    <div class="ring" style="width:29vh;height:29vh;top:14.5vh;left:14.5vh;border-color:rgba(122,164,199,.14)"></div>
+  </div>
+  <div class="s" style="justify-content:center">
+    <div class="mc" style="margin-bottom:3vh">Neoma Bienestar × RAI Consultoría · Capacitación</div>
+    <div class="ey gr" style="margin-bottom:2.2vh">Resumen</div>
+    <h1 class="h1xl" style="max-width:16ch;margin-bottom:2.8vh">El agente es<br>tu copiloto</h1>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vh;max-width:80vw;margin-bottom:3vh">
+      <div style="padding:1.8vh 1.6vw;background:var(--bg2);border:1px solid var(--ru);border-top:2px solid var(--ac2)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.9vh;color:var(--ac2);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7vh">Reduce</div>
+        <div style="font-size:1.55vh;color:var(--ts);line-height:1.6">Los tiempos de captura, búsqueda y armado de propuesta</div>
+      </div>
+      <div style="padding:1.8vh 1.6vw;background:var(--bg2);border:1px solid var(--ru);border-top:2px solid var(--gr)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.9vh;color:var(--gr);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7vh">Da claridad</div>
+        <div style="font-size:1.55vh;color:var(--ts);line-height:1.6">Status de todos los casos, campos validados, historial completo</div>
+      </div>
+      <div style="padding:1.8vh 1.6vw;background:var(--bg2);border:1px solid var(--ru);border-top:2px solid var(--pu)">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.9vh;color:var(--pu);letter-spacing:.18em;text-transform:uppercase;margin-bottom:.7vh">Guarda métricas</div>
+        <div style="font-size:1.55vh;color:var(--ts);line-height:1.6">Para mejorar el proceso con cada caso — y aprender con el tiempo</div>
+      </div>
+    </div>
+
+    <div class="co" style="max-width:65ch;font-size:1.6vh">
+      Seguimos en proceso de ajuste. <strong>El consultor siempre valida antes de avanzar.</strong> El agente trabaja contigo, no en lugar de ti.
+    </div>
+  </div>
+  <div class="mc" style="position:absolute;bottom:2.5vh;right:6vw;text-align:right">Confidencial · Uso interno · Junio 2026</div>
+</section>
+
+
+<script>
+(function(){
+  'use strict';
+  const slides=Array.from(document.querySelectorAll('.slide'));
+  let current=0,subStep=0,transitioning=false;
+
+  const MAX_STEPS={
+    2:3,  // slide 03: pain points
+    3:3,  // slide 04: antes/después
+    4:5,  // slide 05: caso MGL
+    6:3,  // slide 07: candados
+    7:3,  // slide 08: mejora continua
+  };
+
+  const $=id=>document.getElementById(id);
+  const op=(id,v)=>{const e=$(id);if(e)e.style.opacity=v;};
+
+  function applyInitial(idx){
+    if(idx===2){op('pp1','0');op('pp2','0');op('pp3','0');}
+    if(idx===3){op('ba-antes','0');op('ba-despues','0');op('ba-nota','0');}
+    if(idx===4){['mgl1','mgl2','mgl3','mgl4','mgl5'].forEach(id=>op(id,'0'));}
+    if(idx===6){op('lock1','0');op('lock2','0');op('lock3','0');}
+    if(idx===7){op('fb1','0');op('fb2','0');op('fb3','0');}
+  }
+
+  function applyStep(idx,step){
+    if(idx===2){
+      op('pp1',step>=1?'1':'0');
+      op('pp2',step>=2?'1':'0');
+      op('pp3',step>=3?'1':'0');
+    }
+    if(idx===3){
+      op('ba-antes',step>=1?'1':'0');
+      op('ba-despues',step>=2?'1':'0');
+      op('ba-nota',step>=3?'1':'0');
+    }
+    if(idx===4){
+      ['mgl1','mgl2','mgl3','mgl4','mgl5'].forEach((id,i)=>op(id,i<step?'1':'0'));
+    }
+    if(idx===6){
+      op('lock1',step>=1?'1':'0');
+      op('lock2',step>=2?'1':'0');
+      op('lock3',step>=3?'1':'0');
+    }
+    if(idx===7){
+      op('fb1',step>=1?'1':'0');
+      op('fb2',step>=2?'1':'0');
+      op('fb3',step>=3?'1':'0');
+    }
+  }
+
+  function showSlide(n){
+    if(transitioning)return;
+    const target=Math.max(0,Math.min(slides.length-1,n));
+    if(target===current)return;
+    transitioning=true;
+    slides[current].style.transition='opacity .25s ease';
+    slides[current].style.opacity='0';
+    setTimeout(()=>{
+      slides[current].style.display='none';
+      slides[current].style.opacity='1';
+      slides[current].style.transition='';
+      current=target;subStep=0;
+      applyInitial(current);
+      slides[current].style.opacity='0';
+      slides[current].style.display='';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        slides[current].style.transition='opacity .25s ease';
+        slides[current].style.opacity='1';
+        setTimeout(()=>{slides[current].style.transition='';transitioning=false;},270);
+      }));
+    },260);
+  }
+
+  function advance(){
+    if(transitioning)return;
+    const max=MAX_STEPS[current];
+    if(max&&subStep<max){subStep++;applyStep(current,subStep);}
+    else{subStep=0;showSlide(current+1);}
+  }
+
+  function retreat(){
+    if(transitioning)return;
+    if(subStep>0){subStep--;applyStep(current,subStep);}
+    else showSlide(current-1);
+  }
+
+  slides.forEach((s,i)=>{s.style.display=i===0?'':'none';});
+  applyInitial(current);
+
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();advance();}
+    if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();retreat();}
+  });
+  document.addEventListener('click',e=>{if(e.button===0)advance();});
+})();
+</script>
+</body>
+</html>

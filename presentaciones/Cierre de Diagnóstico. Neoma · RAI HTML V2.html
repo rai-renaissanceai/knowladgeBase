@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cierre de Diagnóstico. Neoma · RAI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#010203;--bg2:#0B1219;--bg3:#111E2A;
+  --ac:#5F7F9C;--ac2:#7AA4C7;--acg:linear-gradient(135deg,#5F7F9C 0%,#162433 100%);
+  --tx:#FFF;--ts:#DEE4EA;--tm:#7A8FA0;
+  --ru:rgba(95,127,156,.18);--rus:rgba(95,127,156,.35);
+  --gr:#22c55e;--grb:rgba(34,197,94,.10);
+  --am:#f59e0b;--amb:rgba(245,158,11,.10);
+  --pu:#a78bfa;--pub:rgba(167,139,250,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#010203;color:var(--tx);font-family:"Inter",sans-serif;line-height:1.55}
+@page{size:13.333in 7.5in;margin:0}
+.slide{width:100vw;height:100vh;background:var(--bg);position:relative;overflow:hidden;page-break-after:always;break-after:page;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.slide:last-child{page-break-after:auto;break-after:auto}
+@media screen{body{overflow-y:auto}.slide{box-shadow:0 4px 60px rgba(0,0,0,.8)}}
+@media print{
+  html,body{background:#000}
+  .slide{width:13.333in;height:7.5in;display:block!important;opacity:1!important;page-break-after:always;break-after:page}
+  .slide *{opacity:1!important;transition:none!important}
+  #s04-asis,#s04-tobe,#s04-divider,#s04-timeline,#s05-metrics,#s06-alcance,#s06-fases-sig,#s06-principios-titulo,#s06-p1,#s06-p2,#s06-p3{opacity:1!important}
+  #s05-c1,#s05-c2,#s05-c3,#s05-c4,#s05-c5,#s05-c6{opacity:1!important}
+  #s05-m1,#s05-m2,#s05-m3,#s05-m4{opacity:1!important}
+  #mot-header,#mot-1,#mot-2,#mot-3{opacity:1!important}
+  #plat-cards,#plat-table,#plat-a,#plat-b,#plat-c{opacity:1!important}
+  #vis-1,#vis-2,#vis-3{opacity:1!important}
+  #s10-c1,#s10-c2,#s10-c3,#s10-c4,#s10-c5,#s10-c6{opacity:1!important}
+  #s11-laura,#s11-p1,#s11-p2,#s11-p3{opacity:1!important}
+  #dot-intake,#dot-analisis,#dot-diseno,#dot-cierre{opacity:1!important}
+  #auto-0,#auto-1,#auto-2,#auto-3,#auto-4,#auto-5,#auto-6{opacity:1!important}
+  [data-col]{opacity:1!important}
+  #m01,#m02,#m03{opacity:1!important}
+}
+
+/* LAYOUT */
+.s{padding:5vh 6vw;height:100%;display:flex;flex-direction:column;position:relative;z-index:2}
+.brand{position:absolute;top:3vh;right:6vw;font-family:"JetBrains Mono",monospace;font-size:1.05vh;color:var(--tm);letter-spacing:.22em;text-transform:uppercase;z-index:5}
+.snum{position:absolute;bottom:2.5vh;right:6vw;font-family:"JetBrains Mono",monospace;font-size:1.05vh;color:var(--tm);letter-spacing:.2em;z-index:5}
+.mc{font-family:"JetBrains Mono",monospace;font-size:1vh;color:var(--tm);letter-spacing:.18em;text-transform:uppercase}
+
+/* TYPOGRAPHY */
+.ey{font-family:"JetBrains Mono",monospace;font-size:1.2vh;text-transform:uppercase;letter-spacing:.22em;color:var(--ac2);display:flex;align-items:center;gap:1.2vh;margin-bottom:1.8vh}
+.ey::before{content:"";width:2.6vh;height:1px;background:var(--ac2)}
+.ey.am{color:var(--am)}.ey.am::before{background:var(--am)}
+.ey.gr{color:var(--gr)}.ey.gr::before{background:var(--gr)}
+.ey.pu{color:var(--pu)}.ey.pu::before{background:var(--pu)}
+.h1{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:4.6vh;line-height:1.06;letter-spacing:-.025em;color:var(--tx)}
+.h1xl{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:7.8vh;line-height:1.01;letter-spacing:-.03em;background:linear-gradient(170deg,#FFF 0%,#DEE4EA 55%,#7A8FA0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.lead{font-size:1.65vh;color:var(--tm);line-height:1.7;margin-top:1.6vh}
+
+/* PILL */
+.pill{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:.9vh;text-transform:uppercase;letter-spacing:.14em;padding:.45vh 1vh;font-weight:600}
+.pill.cy{background:rgba(95,127,156,.15);color:var(--ac2)}
+.pill.am{background:var(--amb);color:var(--am)}
+.pill.gr{background:var(--grb);color:var(--gr)}
+.pill.pu{background:var(--pub);color:var(--pu)}
+
+/* CALLOUT */
+.co{padding:1.4vh 1.8vh;border-left:3px solid var(--ac2);background:var(--bg3);font-size:1.55vh;color:var(--ts);line-height:1.65}
+.co strong{color:var(--tx)}.co.am{border-left-color:var(--am)}.co.gr{border-left-color:var(--gr)}
+
+/* RING */
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(122,164,199,.08)}
+
+/* AGENDA */
+.ag-row{display:flex;align-items:baseline;padding:1.9vh 0;border-bottom:1px solid var(--ru);width:100%}
+.ag-row:first-child{border-top:1px solid var(--ru)}
+.ag-n{font-family:"JetBrains Mono",monospace;font-size:1.55vh;color:var(--ac2);letter-spacing:.18em;min-width:5ch;font-weight:600}
+.ag-t{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:3.1vh;color:var(--tx);letter-spacing:-.015em;line-height:1.1;flex:1}
+
+/* PROCESS TIMELINE. no "Fase" labels */
+.tl{display:flex;align-items:stretch;flex:1;gap:0}
+.tl-ph{flex:1;display:flex;flex-direction:column}
+.tl-ph.wide{flex:1.45}
+.tl-bar{height:3px;width:100%;margin-bottom:1.8vh}
+.tl-bar.n{background:var(--ru)}
+.tl-bar.am{background:var(--am)}
+.tl-bar.cy{background:var(--ac2)}
+/* name of etapa */
+.tl-name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.9vh;color:var(--tx);margin-bottom:1.4vh;line-height:1.2}
+.tl-ph.am-ph .tl-name{color:var(--ts)}
+.tl-ph.cy-ph .tl-name{color:var(--ts)}
+/* note below name for focused phase */
+.tl-note{font-family:"JetBrains Mono",monospace;font-size:.9vh;color:var(--am);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.2vh}
+.tl-ph.cy-ph .tl-note{color:var(--ac2)}
+.tl-ph.am-ph .tl-note{color:#5F7F9C}
+/* steps */
+.tl-steps{list-style:none}
+.tl-steps li{font-size:1.55vh;color:var(--ts);padding:1.4vh 0;display:flex;align-items:baseline;gap:.8vh;border-bottom:1px solid rgba(95,127,156,.1)}
+.tl-steps li:last-child{border-bottom:none}
+.tl-steps li .sn{font-family:"JetBrains Mono",monospace;font-size:.9vh;color:var(--tm);min-width:2.2ch;flex-shrink:0}
+.tl-ph.am-ph .tl-steps li .sn{color:#5F7F9C}
+.tl-ph.cy-ph .tl-steps li .sn{color:var(--ac2)}
+/* separator between phases */
+.tl-sep{width:1px;background:var(--ru);margin:0 1.4vw;flex-shrink:0;align-self:stretch}
+/* focused phase box */
+.tl-ph.am-ph{padding:0 1.4vw;background:rgba(95,127,156,.05);border:1px solid rgba(95,127,156,.2)}
+.tl-ph.cy-ph{padding:0 1.4vw;background:rgba(122,164,199,.06);border:1px solid rgba(122,164,199,.2)}
+
+/* MOTOR. no color coding, simple list */
+.ms-list{flex:1;display:flex;flex-direction:column}
+.ms-row{display:flex;align-items:center;padding:0 1.6vw;border-bottom:1px solid var(--ru);flex:1;gap:2vw;min-height:0}
+.ms-row:last-child{border-bottom:none}
+.ms-row.highlight{background:rgba(122,164,199,.05);border-left:3px solid var(--ac2);padding-left:calc(1.6vw - 3px)}
+.ms-n{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:3.2vh;color:var(--ac2);line-height:1;letter-spacing:-.02em;min-width:5ch;flex-shrink:0}
+.ms-name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.65vh;color:var(--tx);flex:1;line-height:1.3}
+.ms-row.highlight .ms-name{color:var(--tx)}
+
+/* TIERS inline. right column of motor slide */
+.tier-block{flex:1;display:flex;flex-direction:column;border-top:1px solid var(--ru)}
+.tier-row{display:flex;align-items:stretch;flex:1;border-bottom:1px solid var(--ru)}
+.tier-row:last-child{border-bottom:none}
+.tier-n{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:5vh;line-height:1;letter-spacing:-.03em;min-width:8vw;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.tier-row.am .tier-n{color:rgba(245,158,11,.35)}
+.tier-row.cy .tier-n{color:rgba(122,164,199,.28)}
+.tier-row.pu .tier-n{color:rgba(167,139,250,.28)}
+.tier-body{flex:1;padding:1.6vh 1.6vw;display:flex;flex-direction:column;justify-content:center;border-left:1px solid var(--ru)}
+.tier-lbl{font-family:"JetBrains Mono",monospace;font-size:.9vh;text-transform:uppercase;letter-spacing:.2em;margin-bottom:.7vh}
+.tier-row.am .tier-lbl{color:var(--am)}
+.tier-row.cy .tier-lbl{color:var(--ac2)}
+.tier-row.pu .tier-lbl{color:var(--pu)}
+.tier-title{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.7vh;color:var(--tx);margin-bottom:.6vh;line-height:1.2}
+.tier-desc{font-size:1.5vh;color:var(--tm);line-height:1.55;margin-bottom:.9vh}
+.tier-pills{display:flex;flex-wrap:wrap;gap:.45vh}
+.crit{font-family:"JetBrains Mono",monospace;font-size:1.05vh;color:var(--ts);padding:.5vh 1.1vh;border:1px solid var(--ru);letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.tier-right{min-width:9vw;display:flex;align-items:center;justify-content:flex-end;padding:0 1.4vw;flex-shrink:0;border-left:1px solid var(--ru)}
+
+/* VE (vocacional/ejecutivo) */
+.ve{padding:2.6vh 2.2vw;display:flex;flex-direction:column;flex:1;border:1px solid var(--ru);background:var(--bg2)}
+.ve.v{border-top:2px solid var(--ac2)}
+.ve.e{border-top:2px solid var(--pu)}
+.ve-title{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:2.1vh;color:var(--tx);margin-top:1.3vh;margin-bottom:.5vh}
+.ve-sub{font-size:1.9vh;color:var(--ts);font-style:italic;margin-bottom:1.8vh}
+.ve-rows{flex:1;display:flex;flex-direction:column}
+.ve-row{display:flex;justify-content:space-between;gap:1.5vh;padding:1.1vh 0;border-bottom:1px solid var(--ru);font-size:1.4vh}
+.ve-row:last-child{border-bottom:none}
+.ve-lbl{color:var(--tm);flex-shrink:0;width:14ch;line-height:1.45}
+.ve-val{color:var(--ts);text-align:right;line-height:1.45}
+.ve-fn{font-size:1.45vh;color:var(--tm);padding-top:1.4vh;border-top:1px solid var(--ru);font-style:italic;line-height:1.5;margin-top:1.4vh}
+
+/* CAP quadrants */
+.cap{padding:2.4vh 1.8vw;display:flex;flex-direction:column;border:1px solid var(--ru);background:var(--bg2);flex:1}
+.cap-h{font-family:"JetBrains Mono",monospace;font-size:.95vh;text-transform:uppercase;letter-spacing:.2em;color:var(--ac2);padding-bottom:1.1vh;border-bottom:1px solid var(--ru);margin-bottom:0}
+.cap.am .cap-h{color:var(--am)}
+.cap-list{list-style:none;margin-top:1.2vh}
+.cap-list li{font-size:1.6vh;color:var(--ts);display:flex;gap:1vh;line-height:1.5;padding:1.4vh 0;border-bottom:1px solid rgba(95,127,156,.1)}
+.cap-list li:last-child{border-bottom:none}
+.cap-list li::before{content:"→";color:var(--ac2);flex-shrink:0;font-size:1.1vh}
+.cap.am .cap-list li::before{color:var(--am)}
+.cap-list li strong{color:var(--tx)}
+
+/* IPO */
+.ipo{padding:2.4vh 1.8vw;display:flex;flex-direction:column;flex:1;border:1px solid var(--ru);background:var(--bg2)}
+.ipo.in{border-top:2px solid var(--ac)}
+.ipo.pr{border-top:2px solid var(--ac2);background:var(--bg3)}
+.ipo.out{border-top:2px solid var(--gr)}
+.ipo-tag{font-family:"JetBrains Mono",monospace;font-size:.9vh;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8vh}
+.ipo.in .ipo-tag{color:var(--ac)}.ipo.pr .ipo-tag{color:var(--ac2)}.ipo.out .ipo-tag{color:var(--gr)}
+.ipo-name{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:1.75vh;color:var(--tx);margin-bottom:1.2vh;line-height:1.2}
+.ipo-list{list-style:none}
+.ipo-list li{font-size:1.6vh;color:var(--ts);display:flex;gap:.8vh;line-height:1.5;padding:1.4vh 0;border-bottom:1px solid rgba(95,127,156,.1)}
+.ipo-list li:last-child{border-bottom:none}
+.ipo-list li::before{content:"·";color:var(--tm);flex-shrink:0}
+.ipo.pr .ipo-list li::before{color:var(--ac2)}
+.ipo.out .ipo-list li::before{color:var(--gr)}
+.ipo-arr{display:flex;align-items:center;justify-content:center;color:var(--ac2);font-size:2vh;opacity:.4;flex-shrink:0;padding:0 .6vw;padding-top:4vh}
+
+/* METRICS */
+.metric-row{display:flex;gap:0;border:1px solid var(--ru)}
+.metric-cell{flex:1;padding:2.8vh 1.8vw;border-right:1px solid var(--ru);display:flex;flex-direction:column;justify-content:space-between}
+.metric-cell:last-child{border-right:none}
+.mn2{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:7vh;line-height:1;letter-spacing:-.03em;color:var(--ac2)}
+.ml2{font-size:1.4vh;color:var(--tm);line-height:1.5;margin-top:1.4vh}
+
+/* ENTREGABLES lists */
+.ent{padding:2.4vh 1.8vw;display:flex;flex-direction:column;flex:1;border:1px solid var(--ru);background:var(--bg2)}
+.ent-h{font-family:"JetBrains Mono",monospace;font-size:.95vh;text-transform:uppercase;letter-spacing:.2em;padding-bottom:1.1vh;border-bottom:1px solid var(--ru);margin-bottom:0}
+.ent-list{list-style:none;margin-top:1.2vh}
+.ent-list li{font-size:1.6vh;color:var(--ts);display:flex;gap:1vh;line-height:1.5;padding:1.5vh 0;border-bottom:1px solid rgba(95,127,156,.1)}
+.ent-list li:last-child{border-bottom:none}
+.ent-list li::before{content:"→";color:var(--ac2);flex-shrink:0;font-size:1.1vh}
+.ent-list li strong{color:var(--tx)}
+
+/* EVO */
+.evo{padding:2.6vh 1.8vw;display:flex;flex-direction:column;flex:1;border:1px solid var(--ru)}
+.evo.now{border-top:3px solid var(--ac)}.evo.nxt{background:var(--bg3);border-top:3px solid var(--ac2)}.evo.fut{border-top:3px solid var(--pu)}
+.evo-tag{font-family:"JetBrains Mono",monospace;font-size:.95vh;text-transform:uppercase;letter-spacing:.2em;color:var(--tm);margin-bottom:1.2vh}
+.evo.now .evo-tag{color:var(--ac)}.evo.nxt .evo-tag{color:var(--ac2)}.evo.fut .evo-tag{color:var(--pu)}
+.evo-title{font-family:"Space Grotesk",sans-serif;font-weight:600;font-size:2.1vh;color:var(--tx);line-height:1.2;margin-bottom:1.2vh}
+.evo-desc{font-size:1.4vh;color:var(--tm);line-height:1.65;margin-bottom:1.4vh}
+.evo-list{list-style:none;margin-top:.4vh}
+.evo-list li{font-size:1.5vh;color:var(--ts);border-bottom:1px solid var(--ru);display:flex;gap:.9vh;line-height:1.45;padding:1.3vh 0}
+.evo-list li:last-child{border-bottom:none}
+.evo-list li::before{content:"·";color:var(--ac2);flex-shrink:0;font-weight:700}
+.evo.fut .evo-list li::before{color:var(--pu)}
+.evo-bridge{padding:1vh 1.2vh;background:rgba(95,127,156,.08);font-family:"JetBrains Mono",monospace;font-size:.9vh;color:var(--ac2);line-height:1.5;margin-top:1.4vh}
+
+/* PLATFORM */
+.plat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:1px solid var(--ru);flex:1}
+.plat{padding:2.8vh 2vw;background:var(--bg2);border-right:1px solid var(--ru);display:flex;flex-direction:column;position:relative}
+.plat:last-child{border-right:none}
+.plat.rec{background:var(--acg)}
+.plat-tag{font-family:"JetBrains Mono",monospace;font-size:.95vh;text-transform:uppercase;letter-spacing:.25em;color:var(--ac2);margin-bottom:1.2vh}
+.plat.rec .plat-tag{color:rgba(255,255,255,.55)}
+.plat-name{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:2.2vh;color:var(--tx);margin-bottom:.7vh;line-height:1.15}
+.plat-tl{font-size:1.5vh;color:var(--tm);margin-bottom:1.8vh;line-height:1.5}
+.plat.rec .plat-tl{color:rgba(255,255,255,.65)}
+.plat-l{list-style:none;flex:1}
+.plat-l li{padding:1.4vh 0;border-bottom:1px solid rgba(95,127,156,.15);font-size:1.55vh;color:var(--ts);display:flex;gap:.8vh;line-height:1.5}
+.plat.rec .plat-l li{border-bottom-color:rgba(255,255,255,.12);color:rgba(255,255,255,.85)}
+.plat-l li::before{content:"·";color:var(--tm);flex-shrink:0}
+.plat.rec .plat-l li::before{color:rgba(255,255,255,.4)}
+.plat-l li:last-child{border-bottom:none}
+.plat-fit{margin-top:1.6vh;padding-top:1.1vh;border-top:1px solid var(--rus);font-family:"JetBrains Mono",monospace;font-size:.9vh;color:var(--tm);text-transform:uppercase;letter-spacing:.16em;line-height:1.5}
+.plat.rec .plat-fit{border-top-color:rgba(255,255,255,.2);color:rgba(255,255,255,.65)}
+.plat-badge{position:absolute;top:1.6vh;right:1.6vw;background:var(--ac2);color:var(--bg);font-family:"JetBrains Mono",monospace;font-size:.9vh;padding:.5vh 1vh;text-transform:uppercase;letter-spacing:.16em;font-weight:600}
+
+/* NEXT STEPS */
+.ns{background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--ac);padding:1.4vh 1.7vw;display:flex;gap:1.7vh;align-items:flex-start;margin-bottom:1.2vh;align-self:flex-start;width:65vw}
+.ns-n{font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:3.2vh;color:var(--ac2);line-height:1;letter-spacing:-.02em;min-width:4ch}
+.ns-ow{font-family:"JetBrains Mono",monospace;font-size:1.05vh;text-transform:uppercase;letter-spacing:.15em;color:var(--tm);margin-bottom:.5vh}
+.ns-t{font-size:1.55vh;color:var(--ts);line-height:1.55}
+.ns-t strong{color:var(--tx)}
+</style>
+</head>
+<body>
+
+
+<!-- ══ 01 PORTADA ═════════════════════════════════ -->
+<section class="slide">
+  <div style="position:absolute;right:-8vw;top:-12vh;width:58vh;height:58vh;pointer-events:none">
+    <div class="ring" style="width:58vh;height:58vh"></div>
+    <div class="ring" style="width:44vh;height:44vh;top:7vh;left:7vh;border-color:rgba(122,164,199,.10)"></div>
+    <div class="ring" style="width:29vh;height:29vh;top:14.5vh;left:14.5vh;border-color:rgba(122,164,199,.14)"></div>
+    <div class="ring" style="width:14vh;height:14vh;top:22vh;left:22vh;border-color:rgba(122,164,199,.20)"></div>
+  </div>
+  <div style="position:absolute;top:3vh;right:6vw;text-align:right;z-index:5">
+    <div class="mc" style="margin-bottom:.8vh">Presentado por</div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2vh;color:var(--ts)">RAI Consultoría</div>
+    <div class="mc" style="margin-top:.6vh">Mayo de 2026</div>
+  </div>
+  <div class="s" style="justify-content:center;padding-top:7vh">
+    <div class="mc" style="margin-bottom:3vh">Neoma Bienestar × RAI Consultoría</div>
+    <div class="ey" style="margin-bottom:2.2vh">Automatización · Oferta Educativa</div>
+    <h1 class="h1xl" style="max-width:14ch;margin-bottom:2vh">Cierre de<br>Diagnóstico</h1>
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:2.2vh;color:var(--ac2);letter-spacing:-.01em;margin-bottom:2.8vh">Fase 0</div>
+    <p style="font-size:1.7vh;color:var(--tm);line-height:1.7;max-width:60ch">Cerramos el diagnóstico y entregamos la estafeta al equipo de ingeniería para arrancar la implementación.</p>
+  </div>
+  <div class="mc" style="position:absolute;bottom:2.5vh;right:6vw;text-align:right">Confidencial · Uso interno</div>
+</section>
+
+
+<!-- ══ 02 AGENDA ══════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">02 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:3.5vh">
+      <h1 class="h1">Agenda de la sesión</h1>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:column">
+      <div class="ag-row"><div class="ag-n">01</div><div class="ag-t">El origen del proyecto</div></div>
+      <div class="ag-row"><div class="ag-n">02</div><div class="ag-t">Lo que construimos y validamos</div></div>
+      <div class="ag-row"><div class="ag-n">03</div><div class="ag-t">El proceso actual y hacia dónde va</div></div>
+      <div class="ag-row"><div class="ag-n">04</div><div class="ag-t">Lo que entrega Fase 0</div></div>
+      <div class="ag-row"><div class="ag-n">05</div><div class="ag-t">Plataforma y visión</div></div>
+      <div class="ag-row"><div class="ag-n">06</div><div class="ag-t">Próximos pasos</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 03 CONTEXTO ════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">03 / 12</div>
+  <div class="s">
+
+    <div style="margin-bottom:3vh">
+      <div class="ey">01 · Contexto</div>
+      <h1 class="h1">El origen del proyecto</h1>
+    </div>
+
+    <p style="font-size:2vh;color:var(--ts);line-height:1.75;margin-bottom:1.4vh"><strong style="color:var(--tx)">Neoma Bienestar</strong> recomienda carreras y programas a sus clientes según su perfil, objetivos y restricciones.</p>
+    <p style="font-size:2vh;color:var(--ts);line-height:1.75;margin-bottom:1.4vh">Hoy ese proceso es completamente manual.</p>
+    <p style="font-size:2vh;color:var(--ts);line-height:1.75;margin-bottom:2.4vh">Identificamos <strong style="color:var(--tx)">tres módulos</strong> en el proceso. Cada uno con su problema y su solución.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6vh">
+
+      <div id="m01" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--ac2);padding:3vh 2vw;opacity:0;transition:opacity .5s">
+        <div style="display:flex;align-items:baseline;gap:1vh;margin-bottom:2vh">
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:4.2vh;color:var(--ac2);line-height:1">01</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase">Módulo</span>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.5vh;color:var(--tx);margin-bottom:1.2vh">Intake</div>
+        <div style="font-size:1.65vh;color:var(--ts);line-height:1.65;margin-bottom:2.4vh">Registro del caso y captura del contexto del cliente antes de que el consultor empiece a trabajar.</div>
+        <div style="border-top:1px solid var(--ru);padding-top:1.6vh">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--am);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:.8vh">Limitante actual</div>
+          <div style="font-size:1.6vh;color:var(--tm);line-height:1.65">Mucho tiempo de captura, retrabajo para recordar el contexto de cada caso.</div>
+        </div>
+      </div>
+
+      <div id="m02" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--ac2);padding:3vh 2vw;opacity:0;transition:opacity .5s">
+        <div style="display:flex;align-items:baseline;gap:1vh;margin-bottom:2vh">
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:4.2vh;color:var(--ac2);line-height:1">02</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase">Módulo</span>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.5vh;color:var(--tx);margin-bottom:1.2vh">Investigación</div>
+        <div style="font-size:1.65vh;color:var(--ts);line-height:1.65;margin-bottom:2.4vh">Búsqueda de la oferta educativa que mejor encaja con el perfil y restricciones del cliente.</div>
+        <div style="border-top:1px solid var(--ru);padding-top:1.6vh">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--am);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:.8vh">Limitante actual</div>
+          <div style="font-size:1.6vh;color:var(--tm);line-height:1.65">Sin criterios curados ni almacenamiento. Búsqueda manual constante, sin historial.</div>
+        </div>
+      </div>
+
+      <div id="m03" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--ac2);padding:3vh 2vw;opacity:0;transition:opacity .5s">
+        <div style="display:flex;align-items:baseline;gap:1vh;margin-bottom:2vh">
+          <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:4.2vh;color:var(--ac2);line-height:1">03</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase">Módulo</span>
+        </div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.5vh;color:var(--tx);margin-bottom:1.2vh">Reporteo</div>
+        <div style="font-size:1.65vh;color:var(--ts);line-height:1.65;margin-bottom:2.4vh">Elaboración y entrega de la propuesta final al cliente con la oferta seleccionada.</div>
+        <div style="border-top:1px solid var(--ru);padding-top:1.6vh">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--am);letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:.8vh">Limitante actual</div>
+          <div style="font-size:1.6vh;color:var(--tm);line-height:1.65">Sin plantilla estándar. Armado desde cero, calidad variable según el consultor.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 09 ENTREGABLES ════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">04 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:2vh">
+      <div class="ey">02 · Entregables</div>
+      <h1 class="h1">Lo que construimos y validamos</h1>
+    </div>
+
+    <!-- Metric row: Reglas → Procesos → Modelo → Opciones -->
+    <div id="s05-metrics" class="metric-row" style="margin-bottom:1.8vh;opacity:0;transition:opacity .5s">
+      <div id="s05-m1" class="metric-cell" style="opacity:.18;transition:opacity .4s;border-top:3px solid var(--am)"><div class="mn2" style="font-size:4vh;color:var(--am)">Reglas</div><div class="ml2">de negocio validadas con el equipo, traducidas a lógica que el sistema puede ejecutar</div></div>
+      <div id="s05-m2" class="metric-cell" style="opacity:.18;transition:opacity .4s;border-top:3px solid var(--pu)"><div class="mn2" style="font-size:4vh;color:var(--pu)">Procesos</div><div class="ml2">actual y futuro documentados de extremo a extremo, validados con Neoma</div></div>
+      <div id="s05-m3" class="metric-cell" style="opacity:.18;transition:opacity .4s;border-top:3px solid var(--ac2)"><div class="mn2" style="font-size:4vh;color:var(--ac2)">Modelo</div><div class="ml2">de datos estructurado. la información tiene dónde almacenarse, conectarse y crecer</div></div>
+      <div id="s05-m4" class="metric-cell" style="opacity:.18;transition:opacity .4s;border-top:3px solid var(--gr)"><div class="mn2" style="font-size:4vh;color:var(--gr)">Opciones</div><div class="ml2">de plataforma evaluadas. con recomendación basada en costo, tiempo y mantenimiento</div></div>
+    </div>
+
+    <!-- Cards: ordered by category -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.2vh;flex:1">
+
+      <!-- Reglas -->
+      <div id="s05-c1" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--am);padding:2.4vh 1.6vw;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.85vh;color:var(--tx);margin-bottom:1vh">Reglas de negocio y decisiones</div>
+        <div style="font-size:1.4vh;color:var(--tm);line-height:1.65">Las reglas que rigen cómo opera el negocio y las decisiones que toma el consultor en cada caso.</div>
+      </div>
+
+      <!-- Procesos c2 -->
+      <div id="s05-c2" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--pu);padding:2.4vh 1.6vw;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.85vh;color:var(--tx);margin-bottom:1vh">Documentación de procesos</div>
+        <div style="font-size:1.4vh;color:var(--tm);line-height:1.65">Proceso actual y futuro documentados de extremo a extremo, incluyendo excepciones y puntos de decisión.</div>
+      </div>
+
+      <!-- Procesos c3 -->
+      <div id="s05-c3" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--pu);padding:2.4vh 1.6vw;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.85vh;color:var(--tx);margin-bottom:1vh">Sesiones de levantamiento</div>
+        <div style="font-size:1.4vh;color:var(--tm);line-height:1.65">Sesiones de trabajo con el equipo Neoma para levantar el proceso, validar reglas y confirmar excepciones.</div>
+      </div>
+
+      <!-- Modelo c4 -->
+      <div id="s05-c4" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--ac2);padding:2.4vh 1.6vw;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.85vh;color:var(--tx);margin-bottom:1vh">Definición de catálogos e información</div>
+        <div style="font-size:1.4vh;color:var(--tm);line-height:1.65">Catálogos de oferta educativa y campos del caso estructurados y tipados para alimentar el sistema.</div>
+      </div>
+
+      <!-- Modelo c5 -->
+      <div id="s05-c5" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--ac2);padding:2.4vh 1.6vw;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.85vh;color:var(--tx);margin-bottom:1vh">Lógica de decisiones del sistema</div>
+        <div style="font-size:1.4vh;color:var(--tm);line-height:1.65">Cómo filtra, ordena y justifica el sistema: criterios duros, ranking por contexto y estructura del output.</div>
+      </div>
+
+      <!-- Opciones c6 -->
+      <div id="s05-c6" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--gr);padding:2.4vh 1.6vw;display:flex;flex-direction:column;justify-content:center">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.85vh;color:var(--tx);margin-bottom:1vh">Brief de ingeniería</div>
+        <div style="font-size:1.4vh;color:var(--tm);line-height:1.65">Todo lo que ingeniería necesita para arrancar: flujos, módulos, datos, criterios y stack evaluado.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 04 AS-IS + TO-BE ═══════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">05 / 12</div>
+  <div class="s">
+
+    <div style="margin-bottom:1.6vh">
+      <div class="ey">03 · Proceso actual y futuro</div>
+      <h1 class="h1">El proceso actual y futuro</h1>
+    </div>
+
+    <p style="font-size:1.9vh;color:var(--ts);line-height:1.75;margin-bottom:1.2vh">Cuatro etapas. <strong style="color:var(--tx)">Solo el Diseño de oferta cambia en Fase 0.</strong> Las demás quedan conectadas en el mismo sistema para evolucionar después.</p>
+
+    <div id="s04-asis" style="margin-bottom:.8vh;opacity:0;transition:opacity .5s">
+      <div style="display:flex;align-items:center;gap:1.2vh;margin-bottom:.7vh">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;text-transform:uppercase;letter-spacing:.2em;color:var(--am)">Proceso actual</span>
+        <div style="flex:1;height:1px;background:rgba(122,164,199,.2)"></div>
+        <span class="pill cy">AS-IS</span>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1.6fr 1fr;gap:1vh">
+        <div data-col="intake" style="border:1px solid rgba(95,127,156,.2);border-top:2px solid rgba(95,127,156,.3);padding:1.1vh 1vw;opacity:.55;transition:opacity .4s">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--tm);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">Intake</div>
+          <div style="font-size:1.5vh;color:var(--ts);margin-bottom:.3vh">Llega el caso</div>
+          <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh;display:flex;align-items:center;justify-content:space-between;gap:.6vh"><span>El consultor recopila el contexto a mano</span><span id="auto-0" style="opacity:0;transition:opacity .4s;color:var(--am);font-size:1.25vh;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(245,158,11,.1);padding:.1vh .5vh;border-radius:2px">↑ mejorado</span></div>
+          <div style="font-size:1.2vh;color:var(--am);font-style:italic">Sin forma estandarizada de capturar el contexto</div>
+        </div>
+        <div data-col="analisis" style="border:1px solid rgba(95,127,156,.2);border-top:2px solid rgba(95,127,156,.3);padding:1.1vh 1vw;opacity:.55;transition:opacity .4s">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--tm);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">Análisis</div>
+          <div style="font-size:1.5vh;color:var(--ts);margin-bottom:.3vh">Valoración del caso</div>
+          <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh;display:flex;align-items:center;justify-content:space-between;gap:.6vh"><span>El consultor interpreta las necesidades</span><span id="auto-6" style="opacity:0;transition:opacity .4s;color:var(--am);font-size:1.25vh;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(245,158,11,.1);padding:.1vh .5vh;border-radius:2px">↑ mejorado</span></div>
+          <div style="font-size:1.2vh;color:var(--am);font-style:italic">Sin criterios estandarizados para el análisis</div>
+        </div>
+        <div data-col="diseno" style="border:1px solid rgba(245,158,11,.4);border-top:2px solid var(--am);padding:1.1vh 1vw;background:rgba(245,158,11,.03);transition:opacity .4s">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1.15vh;color:var(--am);letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">⚠ Diseño de oferta · mayor dolor</div>
+          <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.3vh;display:flex;align-items:center;justify-content:space-between;gap:.6vh">
+            <span>Investigación manual en páginas web</span>
+            <span id="auto-1" style="opacity:0;transition:opacity .4s;color:var(--gr);font-size:1.25vh;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(34,197,94,.1);padding:.1vh .5vh;border-radius:2px">↑ automatizado</span>
+          </div>
+          <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.3vh;display:flex;align-items:center;justify-content:space-between;gap:.6vh">
+            <span>Filtrado en cabeza, sin criterios documentados</span>
+            <span id="auto-2" style="opacity:0;transition:opacity .4s;color:var(--gr);font-size:1.25vh;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(34,197,94,.1);padding:.1vh .5vh;border-radius:2px">↑ automatizado</span>
+          </div>
+          <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh;display:flex;align-items:center;justify-content:space-between;gap:.6vh">
+            <span>Propuesta armada desde cero</span>
+            <span id="auto-3" style="opacity:0;transition:opacity .4s;color:var(--am);font-size:1.25vh;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(245,158,11,.1);padding:.1vh .5vh;border-radius:2px">↑ mejorado</span>
+          </div>
+          <div style="font-size:1.2vh;color:var(--am)">2–4 h por caso · sin historial · varía por caso</div>
+        </div>
+        <div data-col="cierre" style="border:1px solid rgba(95,127,156,.2);border-top:2px solid rgba(95,127,156,.3);padding:1.1vh 1vw;opacity:.55;transition:opacity .4s">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--tm);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">Cierre</div>
+          <div style="font-size:1.5vh;color:var(--ts);margin-bottom:.3vh">Validación con líder</div>
+          <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.3vh;display:flex;align-items:center;justify-content:space-between;gap:.6vh"><span>Ajuste si hay cambios</span><span id="auto-4" style="opacity:0;transition:opacity .4s;color:var(--am);font-size:1.25vh;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(245,158,11,.1);padding:.1vh .5vh;border-radius:2px">↑ mejorado</span></div>
+          <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh;display:flex;align-items:center;justify-content:space-between;gap:.6vh"><span>Entrega al cliente</span><span id="auto-5" style="opacity:0;transition:opacity .4s;color:var(--am);font-size:1.25vh;font-weight:700;white-space:nowrap;flex-shrink:0;background:rgba(245,158,11,.1);padding:.1vh .5vh;border-radius:2px">↑ mejorado</span></div>
+          <div style="font-size:1.2vh;color:var(--am);font-style:italic">Sin plantilla estándar. Entregas variadas.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="s04-divider" style="height:1px;background:var(--ru);margin-bottom:.8vh;opacity:0;transition:opacity .5s"></div>
+
+    <!-- TO-BE -->
+    <div id="s04-tobe" style="margin-bottom:1.2vh;opacity:0;transition:opacity .5s">
+      <div style="display:flex;align-items:center;gap:1.2vh;margin-bottom:.7vh">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;text-transform:uppercase;letter-spacing:.2em;color:var(--pu)">Proceso futuro</span>
+        <div style="flex:1;height:1px;background:rgba(167,139,250,.2)"></div>
+        <span class="pill pu">TO-BE · Fase 0</span>
+      </div>
+      <div style="border:1px solid rgba(167,139,250,.3);padding:1vh">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1.6fr 1fr;gap:1vh">
+          <div data-col="intake" style="border:1px solid rgba(95,127,156,.2);padding:1.1vh 1vw;opacity:.65;transition:opacity .4s">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--tm);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">Intake</div>
+            <div style="font-size:1.5vh;color:var(--ts);margin-bottom:.3vh">Caso capturado en formulario</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh">Criterios estructurados desde el inicio</div>
+            <div style="font-size:1.2vh;color:var(--pu)">Historial guardado · trazable</div>
+          </div>
+          <div data-col="analisis" style="border:1px solid rgba(95,127,156,.2);padding:1.1vh 1vw;opacity:.65;transition:opacity .4s">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--tm);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">Análisis</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.3vh">Valoración del caso y captura del contexto del cliente</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh">Criterios del caso disponibles y guardados</div>
+            <div style="font-size:1.2vh;color:var(--pu)">Decisiones reproducibles y auditables</div>
+          </div>
+          <div data-col="diseno" style="border:1px solid rgba(167,139,250,.45);border-top:2px solid var(--pu);padding:1.1vh 1vw;background:rgba(167,139,250,.05);transition:opacity .4s">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.15vh;color:var(--pu);letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">✓ Diseño de oferta</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.3vh">Sistema aplica filtros y consulta catálogo</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.3vh">Genera preselección ordenada por afinidad</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh">El consultor valida y ajusta</div>
+            <div style="font-size:1.2vh;color:var(--pu)">~20 min · estandarización · historial guardado</div>
+          </div>
+          <div data-col="cierre" style="border:1px solid rgba(95,127,156,.2);padding:1.1vh 1vw;opacity:.65;transition:opacity .4s">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--tm);letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:.6vh">Cierre</div>
+            <div style="font-size:1.5vh;color:var(--ts);margin-bottom:.3vh">Propuesta con esqueleto pre-armado</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.3vh">Validación con líder</div>
+            <div style="font-size:1.45vh;color:var(--ts);margin-bottom:.6vh">Entrega estandarizada</div>
+            <div style="font-size:1.2vh;color:var(--pu)">Entrega consistente y justificada</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ TIMELINE DEL CASO ═══ -->
+    <div id="s04-timeline" style="border-top:1px solid rgba(122,164,199,.2);padding-top:1.8vh;margin-top:2.2vh;opacity:0;transition:opacity .5s">
+      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.55vh;color:var(--ac2);font-weight:600;margin-bottom:2vh;letter-spacing:.02em">El caso en el sistema, paso a paso</div>
+
+      <div style="position:relative">
+        <!-- Línea centrada con los dots (dot es 1.4vh, centro = 0.7vh) -->
+        <div style="position:absolute;top:.7vh;left:0;right:0;height:1.5px;background:rgba(122,164,199,.25);z-index:0"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr 1.6fr 1fr;gap:1vh">
+
+          <div id="dot-intake" style="display:flex;flex-direction:column;align-items:center;opacity:0;transition:all .45s ease">
+            <div style="width:1.4vh;height:1.4vh;border-radius:50%;background:var(--ac2);border:2px solid var(--ac2);z-index:2;position:relative;flex-shrink:0;margin-bottom:1vh"></div>
+            <div style="font-size:1.45vh;color:var(--ts);line-height:1.6;text-align:center;max-width:22ch">El perfil del cliente queda documentado desde el primer momento. Cualquier consultor puede retomarlo sin perder contexto.</div>
+          </div>
+
+          <div id="dot-analisis" style="display:flex;flex-direction:column;align-items:center;opacity:0;transition:all .45s ease">
+            <div style="width:1.4vh;height:1.4vh;border-radius:50%;background:var(--ac2);border:2px solid var(--ac2);z-index:2;position:relative;flex-shrink:0;margin-bottom:1vh"></div>
+            <div style="font-size:1.45vh;color:var(--ts);line-height:1.6;text-align:center;max-width:22ch">Los criterios de búsqueda están estructurados y disponibles. Las decisiones son reproducibles y auditables.</div>
+          </div>
+
+          <div id="dot-diseno" style="display:flex;flex-direction:column;align-items:center;opacity:0;transition:all .45s ease">
+            <div style="width:1.4vh;height:1.4vh;border-radius:50%;background:var(--ac2);border:2px solid var(--ac2);z-index:2;position:relative;flex-shrink:0;margin-bottom:1vh"></div>
+            <div style="font-size:1.45vh;color:var(--ts);line-height:1.6;text-align:center;max-width:26ch">De 2-4 horas a menos de 20 minutos. Resultado estándar, justificado y con historial guardado, sin importar quién atiende el caso.</div>
+          </div>
+
+          <div id="dot-cierre" style="display:flex;flex-direction:column;align-items:center;opacity:0;transition:all .45s ease">
+            <div style="width:1.4vh;height:1.4vh;border-radius:50%;background:var(--ac2);border:2px solid var(--ac2);z-index:2;position:relative;flex-shrink:0;margin-bottom:1vh"></div>
+            <div style="font-size:1.45vh;color:var(--ts);line-height:1.6;text-align:center;max-width:22ch">El consultor revisa y entrega directamente. El sistema elimina el retrabajo de armar la propuesta desde cero.</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ 06 ALCANCE + PRINCIPIOS ═══════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">06 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:2vh">
+      <div class="ey">03 · Alcance y principios</div>
+      <h1 class="h1">Lo que entrega Fase 0</h1>
+    </div>
+
+    <div id="s06-alcance" style="display:grid;grid-template-columns:1fr 1fr;gap:1.4vh;margin-bottom:2vh;opacity:0;transition:opacity .5s">
+      <div style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--gr);padding:1.8vh 1.8vw">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--gr);letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:1.2vh">Incluido en Fase 0</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(34,197,94,.12);display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>Formulario de captura de casos (vocacional y ejecutivo)</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(34,197,94,.12);display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>6 tablas de catálogo estructuradas</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(34,197,94,.12);display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>Motor de decisión: filtros duros + ranking + contexto</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(34,197,94,.12);display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>Preselección con justificación por opción</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(34,197,94,.12);display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>Esqueleto de propuesta para llevar al PPT</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(34,197,94,.12);display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>Mantenimiento del catálogo sin código</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(34,197,94,.12);display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>Validación con líder considerada</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;display:flex;gap:1vh"><span style="color:var(--gr);font-weight:700;flex-shrink:0">✓</span>Historial completo por caso</div>
+      </div>
+      <div id="s06-fases-sig" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--pu);padding:1.8vh 1.8vw;opacity:0;transition:opacity .5s">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--pu);letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:1.2vh">Disponible en fases siguientes</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(167,139,250,.12);display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Generación automática del PPT final</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(167,139,250,.12);display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Portal o vista para el cliente final</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(167,139,250,.12);display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Procesamiento automático de psicometrías</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(167,139,250,.12);display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Matching sin validación humana</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(167,139,250,.12);display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Integración con sistemas externos de Neoma</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(167,139,250,.12);display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Multitenancy o uso por otras empresas</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;border-bottom:1px solid rgba(167,139,250,.12);display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Módulo de capacitación integrado</div>
+        <div style="font-size:1.55vh;color:var(--ts);padding:.85vh 0;display:flex;gap:1vh"><span style="color:var(--pu);font-weight:700;flex-shrink:0">→</span>Búsqueda automática en internet</div>
+      </div>
+    </div>
+
+    <div id="s06-principios-titulo" style="margin-bottom:1.6vh;opacity:0;transition:opacity .5s">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3.8vh;color:var(--tx);letter-spacing:-.02em">Principios de diseño</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vh">
+      <div id="s06-p1" style="background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--ac2);padding:1.6vh 1.6vw;display:flex;flex-direction:column;gap:.8vh;opacity:0;transition:opacity .5s">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.7vh;color:var(--tx)">El sistema asiste, el consultor decide</div>
+        <div style="font-size:1.5vh;color:var(--tm);line-height:1.6">El consultor edita, aprueba o rechaza. Nada sale sin su revisión.</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--ac2);letter-spacing:.12em;text-transform:uppercase;margin-top:.8vh;font-weight:600">Siempre hay revisión humana</div>
+      </div>
+      <div id="s06-p2" style="background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--am);padding:1.6vh 1.6vw;display:flex;flex-direction:column;gap:.8vh;opacity:0;transition:opacity .5s">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.7vh;color:var(--tx)">Reglas duras + IA para contexto</div>
+        <div style="font-size:1.5vh;color:var(--tm);line-height:1.6">Los filtros duros son auditables. La IA solo razona sobre el contexto subjetivo del caso.</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--am);letter-spacing:.12em;text-transform:uppercase;margin-top:.8vh;font-weight:600">Transparente · sin caja negra</div>
+      </div>
+      <div id="s06-p3" style="background:var(--bg2);border:1px solid var(--ru);border-left:3px solid var(--pu);padding:1.6vh 1.6vw;display:flex;flex-direction:column;gap:.8vh;opacity:0;transition:opacity .5s">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.7vh;color:var(--tx)">Diseñado para no-técnicos</div>
+        <div style="font-size:1.5vh;color:var(--tm);line-height:1.6">Cero terminales. Lectura, click, siguiente. El catálogo se mantiene como una hoja de cálculo.</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--pu);letter-spacing:.12em;text-transform:uppercase;margin-top:.8vh;font-weight:600">Operable sin equipo técnico</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 07 MOTOR + TIERS ═══════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">07 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:2vh">
+      <div class="ey">04 · Motor de decisión</div>
+      <h1 class="h1">Cómo decide el sistema</h1>
+      <p style="font-size:1.9vh;color:var(--ts);line-height:1.75;margin-top:1.2vh">El proceso, paso a paso. Qué hacía el consultor antes y qué hace el sistema ahora.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:1.8vh;flex:1">
+
+      <!-- GRUPO: INTAKE -->
+      <div id="mot-1" style="opacity:0;transition:opacity .5s;border:1px solid var(--ru);border-left:3px solid var(--ac2)">
+        <div style="padding:.9vh 1.2vw;background:rgba(122,164,199,.06);border-bottom:1px solid var(--ru)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--ac2);letter-spacing:.18em;text-transform:uppercase;font-weight:700">Intake. Pasos 01–03</span>
+        </div>
+        <div style="display:grid;grid-template-columns:13ch .72fr .72fr 26ch;gap:0">
+          <div style="padding:2vh 1.2vw;border-right:1px solid var(--ru);display:flex;flex-direction:column;justify-content:center">
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.75vh;color:var(--tx)">Validación inicial</div>
+          </div>
+          <div style="padding:2vh 1.4vw;border-right:1px solid var(--ru)">
+            <div style="font-size:1.2vh;color:var(--am);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.4vh">Antes</div>
+            <div style="font-size:1.6vh;color:var(--ts);line-height:1.6">El consultor asumía que la información estaba completa. Sin verificación.</div>
+          </div>
+          <div style="padding:2vh 1.4vw;border-right:1px solid var(--ru)">
+            <div style="font-size:1.2vh;color:var(--gr);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.4vh">Ahora</div>
+            <div style="font-size:1.6vh;color:var(--ts);line-height:1.6">El sistema identifica el tipo de caso, lee criterios y valida campos mínimos antes de continuar.</div>
+          </div>
+          <div style="padding:2vh 1.2vw;background:var(--bg2)">
+            <div style="font-size:1.2vh;color:var(--tm);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.4vh">Garantiza</div>
+            <div style="font-size:1.5vh;color:var(--tx);line-height:1.6">No se procesa un caso con información incompleta.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRUPO: ANÁLISIS + DISEÑO DE OFERTA -->
+      <div id="mot-2" style="opacity:0;transition:opacity .5s;border:1px solid var(--ru);border-left:3px solid var(--pu)">
+        <div style="padding:.9vh 1.2vw;background:rgba(167,139,250,.05);border-bottom:1px solid var(--ru)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--pu);letter-spacing:.18em;text-transform:uppercase;font-weight:700">Análisis + Diseño de oferta. Pasos 04–08</span>
+        </div>
+        <div style="display:grid;grid-template-columns:13ch .72fr .72fr 26ch;gap:0">
+          <div style="padding:2vh 1.2vw;border-right:1px solid var(--ru);display:flex;flex-direction:column;justify-content:center;gap:.8vh">
+            <div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.65vh;color:var(--tx)">Filtros duros</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;background:rgba(245,158,11,.15);color:var(--am);padding:.3vh .8vh;display:inline-block;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-top:.4vh">Descarta</div>
+            </div>
+            <div style="border-top:1px solid var(--ru);padding-top:.8vh">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.65vh;color:var(--tx)">Contexto</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;background:rgba(122,164,199,.15);color:var(--ac2);padding:.3vh .8vh;display:inline-block;letter-spacing:.1em;text-transform:uppercase;font-weight:700;margin-top:.4vh">Ordena</div>
+            </div>
+            <div style="border-top:1px solid var(--ru);padding-top:.8vh">
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.65vh;color:var(--tx)">Catálogo</div>
+            </div>
+          </div>
+          <div style="padding:2vh 1.4vw;border-right:1px solid var(--ru)">
+            <div style="font-size:1.2vh;color:var(--am);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.5vh">Antes</div>
+            <div style="font-size:1.55vh;color:var(--ts);line-height:1.65">El consultor filtraba de memoria, ordenaba por intuición y buscaba a mano en páginas web sin catálogo estructurado.</div>
+          </div>
+          <div style="padding:2vh 1.4vw;border-right:1px solid var(--ru)">
+            <div style="font-size:1.2vh;color:var(--gr);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.5vh">Ahora</div>
+            <div style="font-size:1.55vh;color:var(--ts);line-height:1.65">El sistema aplica los requisitos del cliente, razona sobre el contexto del caso y consulta el catálogo para ordenar opciones.</div>
+          </div>
+          <div style="padding:2vh 1.2vw;background:var(--bg2)">
+            <div style="font-size:1.2vh;color:var(--tm);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.4vh">Garantiza</div>
+            <div style="font-size:1.5vh;color:var(--tx);line-height:1.6">Solo opciones viables llegan a la propuesta. El criterio del consultor queda registrado.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GRUPO: ENTREGA -->
+      <div id="mot-3" style="opacity:0;transition:opacity .5s;border:1px solid var(--ru);border-left:3px solid var(--gr)">
+        <div style="padding:.9vh 1.2vw;background:rgba(34,197,94,.04);border-bottom:1px solid var(--ru)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:1.25vh;color:var(--gr);letter-spacing:.18em;text-transform:uppercase;font-weight:700">Entrega y cierre. Pasos 09–10</span>
+        </div>
+        <div style="display:grid;grid-template-columns:13ch .72fr .72fr 26ch;gap:0">
+          <div style="padding:2vh 1.2vw;border-right:1px solid var(--ru);display:flex;flex-direction:column;justify-content:center">
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.75vh;color:var(--tx)">Preselección y ajuste humano</div>
+          </div>
+          <div style="padding:2vh 1.4vw;border-right:1px solid var(--ru)">
+            <div style="font-size:1.2vh;color:var(--am);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.4vh">Antes</div>
+            <div style="font-size:1.6vh;color:var(--ts);line-height:1.6">El consultor armaba la propuesta completa desde cero.</div>
+          </div>
+          <div style="padding:2vh 1.4vw;border-right:1px solid var(--ru)">
+            <div style="font-size:1.2vh;color:var(--gr);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.4vh">Ahora</div>
+            <div style="font-size:1.6vh;color:var(--ts);line-height:1.6">El sistema entrega top 3 o 5 con justificación. El consultor ajusta y valida.</div>
+          </div>
+          <div style="padding:2vh 1.2vw;background:var(--bg2)">
+            <div style="font-size:1.2vh;color:var(--tm);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;font-weight:700;margin-bottom:.4vh">Garantiza</div>
+            <div style="font-size:1.5vh;color:var(--tx);line-height:1.6">El consultor siempre valida antes de entregar al cliente.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 09 PLATAFORMA ════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">08 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:1.6vh">
+      <div class="ey am">05 · Plataforma</div>
+      <h1 class="h1">Tres opciones de plataforma evaluadas</h1>
+      <p style="font-size:1.9vh;color:var(--ts);line-height:1.75;margin-top:1.2vh">El sistema ya está diseñado. <strong style="color:var(--tx)">¿Dónde va a vivir y cuánto cuesta operarlo?</strong> Evaluamos tres opciones con distintas implicaciones de costo, autonomía y velocidad.</p>
+    </div>
+
+    <div id="plat-cards" style="flex:1;margin-bottom:1.2vh;opacity:0;transition:opacity .5s;display:flex">
+    <div class="plat-row" style="flex:1">
+      <div id="plat-a" class="plat" style="transition:opacity .4s">
+        <div class="plat-tag">Opción A</div>
+        <div class="plat-name">Nativa de Google</div>
+        <div class="plat-tl">Sheets, Forms y Apps Script</div>
+        <ul class="plat-l">
+          <li>Costo de operación bajo</li>
+          <li>Arranque en pocas semanas</li>
+          <li>Implementación rápida</li>
+          <li>Escala técnica limitada</li>
+          <li>Interfaz rígida</li>
+        </ul>
+        <div class="plat-fit">Volumen bajo y estable</div>
+      </div>
+      <div id="plat-b" class="plat" style="transition:opacity .4s">
+        <div id="plat-b-badge" class="plat-badge" style="opacity:0;transition:opacity .4s">★ Sugerida</div>
+        <div class="plat-tag">Opción B</div>
+        <div class="plat-name">Plataforma low-code</div>
+        <div class="plat-tl">Airtable o similar</div>
+        <ul class="plat-l">
+          <li>Interfaz visual nativa</li>
+          <li>Mantenimiento sin técnico</li>
+          <li>Escala con el volumen</li>
+          <li>Implementación rápida</li>
+          <li>Licencia mensual requerida</li>
+        </ul>
+        <div class="plat-fit">Balance · costo, flexibilidad y tiempo</div>
+      </div>
+      <div id="plat-c" class="plat" style="transition:opacity .4s">
+        <div class="plat-tag">Opción C</div>
+        <div class="plat-name">Desarrollo a medida</div>
+        <div class="plat-tl">100% personalizado</div>
+        <ul class="plat-l">
+          <li>Control total</li>
+          <li>Sin licencia de plataforma externa</li>
+          <li>Mayor inversión inicial</li>
+          <li>Requiere equipo técnico</li>
+          <li>Implementación larga</li>
+        </ul>
+        <div class="plat-fit">Volumen alto que justifica la inversión</div>
+      </div>
+    </div></div>
+
+    <div id="plat-table" style="margin-top:.8vh;opacity:0;transition:opacity .5s">
+      <div style="height:1px;background:var(--ru);margin-bottom:1.2vh"></div>
+      <table style="width:100%;border-collapse:collapse">
+        <thead>
+          <tr style="border-bottom:1px solid var(--ru)">
+            <th style="text-align:left;padding:.9vh 1vw .9vh 0;font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--tm);letter-spacing:.12em;text-transform:uppercase;font-weight:500;width:28%">Dimensión</th>
+            <th id="th-a" style="text-align:center;padding:.9vh 1vw;font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--tm);letter-spacing:.12em;text-transform:uppercase;font-weight:500;width:24%;transition:all .4s">A · Google-nativo</th>
+            <th id="th-b" style="text-align:center;padding:.9vh 1vw;font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--tm);letter-spacing:.12em;text-transform:uppercase;font-weight:500;width:24%;transition:all .4s">B · Low-code</th>
+            <th id="th-c" style="text-align:center;padding:.9vh 1vw;font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--tm);letter-spacing:.12em;text-transform:uppercase;font-weight:500;width:24%;transition:all .4s">C · Desarrollo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(95,127,156,.1)">
+            <td style="padding:.85vh 1vw .85vh 0;font-size:1.5vh;color:var(--ts)">Costo mensual estimado</td>
+            <td id="td-a-1" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;color:var(--ts);transition:all .4s">$0 – 500 MXN</td>
+            <td id="td-b-1" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;color:var(--ts);transition:all .4s">$1,200 – 1,400 MXN</td>
+            <td id="td-c-1" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;color:var(--ts);transition:all .4s">$1,000 – 3,000 MXN</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(95,127,156,.1)">
+            <td style="padding:.85vh 1vw .85vh 0;font-size:1.5vh;color:var(--ts)">Mantenimiento sin técnico</td>
+            <td id="td-a-2" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--gr)">Sí</span></td>
+            <td id="td-b-2" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--gr)">Sí</span></td>
+            <td id="td-c-2" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--am)">Requiere soporte</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(95,127,156,.1)">
+            <td style="padding:.85vh 1vw .85vh 0;font-size:1.5vh;color:var(--ts)">Escalabilidad técnica</td>
+            <td id="td-a-3" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--am)">Baja</span></td>
+            <td id="td-b-3" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--am)">Media</span></td>
+            <td id="td-c-3" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--gr)">Alta</span></td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(95,127,156,.1)">
+            <td style="padding:.85vh 1vw .85vh 0;font-size:1.5vh;color:var(--ts)">Riesgo de entrega en 4 meses</td>
+            <td id="td-a-4" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--gr)">Bajo</span></td>
+            <td id="td-b-4" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--am)">Medio</span></td>
+            <td id="td-c-4" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:#ef4444">Alto</span></td>
+          </tr>
+          <tr>
+            <td style="padding:.85vh 1vw .85vh 0;font-size:1.5vh;color:var(--ts)">Camino a plataforma futura</td>
+            <td id="td-a-5" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:#ef4444">Migración total</span></td>
+            <td id="td-b-5" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--am)">Migración parcial</span></td>
+            <td id="td-c-5" style="text-align:center;padding:.85vh 1vw;font-size:1.5vh;transition:all .4s"><span style="color:var(--gr)">Sin migración</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+</section>
+
+
+<!-- ══ 10 VISIÓN POR FASES ════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">09 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:2.4vh">
+      <div class="ey">06 · Visión del sistema</div>
+      <h1 class="h1">Cómo evoluciona el sistema</h1>
+      <p style="font-size:1.9vh;color:var(--ts);line-height:1.75;margin-top:1.2vh">Cada fase entrega valor por sí sola. Lo que construimos en Fase 0 es la base que hace posibles las siguientes.</p>
+    </div>
+
+    <!-- Outer: centers chevrons vertically -->
+    <div style="display:flex;align-items:center;justify-content:center;flex:1">
+      <div style="display:flex;align-items:stretch;width:100%;max-height:56vh">
+
+        <div id="vis-1" style="flex:1;opacity:0;transition:opacity .5s;background:rgba(122,164,199,.1);border:1px solid rgba(122,164,199,.4);border-right:none;clip-path:polygon(0 0,calc(100% - 5vh) 0,100% 50%,calc(100% - 5vh) 100%,0 100%);padding:3vh 6vw 3vh 2.5vw;display:flex;flex-direction:column;gap:1.4vh">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--ac2);letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:.8vh">Ahora · Fase 0</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2vh;color:var(--tx);line-height:1.25;margin-bottom:.8vh">Sistema interno para Neoma</div>
+          </div>
+          <div style="height:1px;background:rgba(122,164,199,.2)"></div>
+          <div style="display:flex;flex-direction:column;gap:.7vh">
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--ac2);flex-shrink:0">·</span>Motor de matchmaking activo</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--ac2);flex-shrink:0">·</span>Base de datos histórica de casos</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--ac2);flex-shrink:0">·</span>Proceso estandarizado para el equipo</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--ac2);flex-shrink:0">·</span>Sistema conectado a información interna de Neoma</div>
+          </div>
+        </div>
+
+        <div id="vis-2" style="flex:1;opacity:0;transition:opacity .5s;background:rgba(167,139,250,.07);border:1px solid rgba(167,139,250,.3);border-left:none;border-right:none;clip-path:polygon(0 0,calc(100% - 5vh) 0,100% 50%,calc(100% - 5vh) 100%,0 100%,5vh 50%);padding:3vh 6vw;display:flex;flex-direction:column;gap:1.4vh">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--pu);letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:.8vh">Siguiente · Fase 1</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2vh;color:var(--tx);line-height:1.25;margin-bottom:.8vh">Sistematización para clientes actuales</div>
+          </div>
+          <div style="height:1px;background:rgba(167,139,250,.2)"></div>
+          <div style="display:flex;flex-direction:column;gap:.7vh">
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--pu);flex-shrink:0">·</span>Generación automática del documento de propuesta</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--pu);flex-shrink:0">·</span>Análisis de datos para toma de decisiones</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--pu);flex-shrink:0">·</span>Automatización de más procesos del negocio</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--pu);flex-shrink:0">·</span>Conectividad con otras soluciones y programas del negocio</div>
+          </div>
+        </div>
+
+        <div id="vis-3" style="flex:1;opacity:0;transition:opacity .5s;background:rgba(95,127,156,.05);border:1px solid rgba(95,127,156,.25);clip-path:polygon(0 0,calc(100% - 5vh) 0,100% 50%,calc(100% - 5vh) 100%,0 100%,5vh 50%);padding:3vh 3.5vw 3vh 6vw;display:flex;flex-direction:column;gap:1.4vh">
+          <div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--tm);letter-spacing:.22em;text-transform:uppercase;font-weight:600;margin-bottom:.8vh">Visión · Fase 2</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2vh;color:var(--tx);line-height:1.25;margin-bottom:.8vh">Plataforma para comercialización global</div>
+          </div>
+          <div style="height:1px;background:rgba(95,127,156,.2)"></div>
+          <div style="display:flex;flex-direction:column;gap:.7vh">
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--tm);flex-shrink:0">·</span>Producto listo para mercado abierto</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--tm);flex-shrink:0">·</span>Plataforma multiusuario para otras empresas</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--tm);flex-shrink:0">·</span>Funcionalidades orientadas a experiencia del cliente y monetización</div>
+            <div style="font-size:1.5vh;color:var(--ts);display:flex;gap:.8vh;align-items:baseline"><span style="color:var(--tm);flex-shrink:0">·</span>Capacidad para operar con muchos usuarios a escala internacional</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ SÍNTESIS ════════════════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">10 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:2.4vh">
+      <div class="ey">Cierre</div>
+      <h1 class="h1">Resumen del diagnóstico</h1>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vh;flex:1">
+
+      <div id="s10-c1" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--ac2);padding:2vh 1.8vw;display:flex;flex-direction:column;gap:1vh;transition:opacity .4s">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase;font-weight:600">El problema que se atendió</div>
+        <div style="font-size:1.6vh;color:var(--ts);line-height:1.7;flex:1">Cada caso de orientación educativa se resolvía desde cero. Sin proceso común, sin memoria acumulada y con resultados que variaban por consultor y por día.</div>
+      </div>
+
+      <div id="s10-c2" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--pu);padding:2vh 1.8vw;display:flex;flex-direction:column;gap:1vh;transition:opacity .4s">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--pu);letter-spacing:.2em;text-transform:uppercase;font-weight:600">Lo que se diseñó</div>
+        <div style="font-size:1.6vh;color:var(--ts);line-height:1.7;flex:1">Un sistema que captura el perfil del caso, aplica filtros y criterios validados, y entrega una preselección ordenada y justificada en menos de 20 minutos.</div>
+      </div>
+
+      <div id="s10-c3" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--am);padding:2vh 1.8vw;display:flex;flex-direction:column;gap:1vh;transition:opacity .4s">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--am);letter-spacing:.2em;text-transform:uppercase;font-weight:600">Lo que se entrega</div>
+        <div style="font-size:1.6vh;color:var(--ts);line-height:1.7;flex:1">Reglas de negocio validadas, procesos documentados, catálogos estructurados, lógica del sistema especificada y brief de ingeniería listo para que Laura comience a implementar.</div>
+      </div>
+
+      <div id="s10-c4" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--gr);padding:2vh 1.8vw;display:flex;flex-direction:column;gap:1vh;transition:opacity .4s">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--gr);letter-spacing:.2em;text-transform:uppercase;font-weight:600">El cambio operativo</div>
+        <div style="font-size:1.6vh;color:var(--ts);line-height:1.7;flex:1">El equipo pasa de buscar opciones a mano a recibir una preselección justificada. De proceso variable a proceso estándar. De información dispersa a historial organizado por caso.</div>
+      </div>
+
+      <div id="s10-c5" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--ac2);padding:2vh 1.8vw;display:flex;flex-direction:column;gap:1vh;transition:opacity .4s">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase;font-weight:600">La plataforma recomendada</div>
+        <div style="font-size:1.6vh;color:var(--ts);line-height:1.7;flex:1">Una herramienta visual que el equipo Neoma puede operar y mantener por su cuenta, sin conocimientos técnicos. Arranca rápido y crece con el negocio.</div>
+      </div>
+
+      <div id="s10-c6" style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--tm);padding:2vh 1.8vw;display:flex;flex-direction:column;gap:1vh;transition:opacity .4s">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--tm);letter-spacing:.2em;text-transform:uppercase;font-weight:600">El potencial del sistema</div>
+        <div style="font-size:1.6vh;color:var(--ts);line-height:1.7;flex:1">Diseñado para crecer. De herramienta interna a plataforma comercializable. Cada módulo puede conectarse y automatizarse en fases siguientes.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 11 PRÓXIMOS PASOS ════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">11 / 12</div>
+  <div class="s">
+    <div style="margin-bottom:2.4vh">
+      <div class="ey">Próximos pasos</div>
+      <h1 class="h1">Próximos pasos</h1>
+    </div>
+
+    <div id="s11-laura" style="opacity:0;transition:opacity .5s;background:var(--bg3);border:1px solid rgba(122,164,199,.35);border-left:4px solid var(--ac2);padding:2.2vh 2.4vw;margin-bottom:2.4vh">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:1.05vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:1vh">Desarrollo de la solución</div>
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:2.4vh;color:var(--tx);margin-bottom:1vh">Ingeniería toma la conducción técnica</div>
+      <div style="font-size:1.7vh;color:var(--ts);line-height:1.75">El equipo de ingeniería se hace cargo del desarrollo del sistema con base en el brief y la especificación técnica entregados.</div>
+      <div style="font-size:1.7vh;color:var(--ts);line-height:1.75;margin-top:.6vh">Trabajará directamente con el equipo Neoma y RAI para construir, iterar y validar en cada etapa.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vh">
+
+      <div id="s11-p1" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-top:2px solid var(--ac2);padding:2vh 1.8vw">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3.4vh;color:var(--ac2);line-height:1;margin-bottom:1.2vh">01</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.7vh;color:var(--tx);margin-bottom:.8vh">Kickoff de ingeniería</div>
+        <div style="font-size:1.5vh;color:var(--tm);line-height:1.65">Sesión de arranque con Laura para validar el brief, resolver dudas y confirmar el plan de implementación.</div>
+      </div>
+
+      <div id="s11-p2" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-top:2px solid var(--ac2);padding:2vh 1.8vw">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3.4vh;color:var(--ac2);line-height:1;margin-bottom:1.2vh">02</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.7vh;color:var(--tx);margin-bottom:.8vh">Primer avance</div>
+        <div style="font-size:1.5vh;color:var(--tm);line-height:1.65">Laura presenta un primer entregable funcional para recibir comentarios del equipo Neoma y ajustar antes de continuar.</div>
+      </div>
+
+      <div id="s11-p3" style="opacity:0;transition:opacity .5s;background:var(--bg2);border:1px solid var(--ru);border-top:2px solid var(--ac2);padding:2vh 1.8vw">
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:3.4vh;color:var(--ac2);line-height:1;margin-bottom:1.2vh">03</div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.7vh;color:var(--tx);margin-bottom:.8vh">Sesiones de avance</div>
+        <div style="font-size:1.5vh;color:var(--tm);line-height:1.65">Sesiones periódicas entre el equipo Neoma y RAI para hacer seguimiento, ajustar y validar cada etapa del desarrollo.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══ 13 RETROALIMENTACIÓN ════════════════════════ -->
+<section class="slide">
+  <div class="brand">Neoma × RAI · Fase 0</div>
+  <div class="snum">12 / 12</div>
+  <div class="s" style="justify-content:center;align-items:center;text-align:center">
+
+    <div style="max-width:70ch">
+      <div class="ey" style="justify-content:center;margin-bottom:2.4vh">Antes de cerrar</div>
+      <h1 class="h1" style="font-size:6.5vh;margin-bottom:3.6vh">¿Cómo lo hicimos?</h1>
+      <p style="font-size:1.75vh;color:var(--tm);line-height:1.85;margin-bottom:4.5vh">Esta fase fue un proceso de trabajo conjunto. Su perspectiva nos ayuda a seguir mejorando la forma en que colaboramos.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.4vh;text-align:left">
+        <div style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--ac2);padding:2.4vh 2vw">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--ac2);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.2vh">01</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.75vh;color:var(--tx);margin-bottom:.9vh;line-height:1.3">¿El diagnóstico refleja bien cómo opera Neoma?</div>
+          <div style="font-size:1.45vh;color:var(--tm);line-height:1.65">¿Algo importante quedó fuera del proceso o de las reglas?</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--am);padding:2.4vh 2vw">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--am);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.2vh">02</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.75vh;color:var(--tx);margin-bottom:.9vh;line-height:1.3">¿La solución propuesta responde a lo que necesitan?</div>
+          <div style="font-size:1.45vh;color:var(--tm);line-height:1.65">¿Es el sistema que esperaban al inicio del proyecto?</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--ru);border-top:3px solid var(--pu);padding:2.4vh 2vw">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:1vh;color:var(--pu);letter-spacing:.2em;text-transform:uppercase;margin-bottom:1.2vh">03</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.75vh;color:var(--tx);margin-bottom:.9vh;line-height:1.3">¿Cómo fue la experiencia de trabajar con RAI?</div>
+          <div style="font-size:1.45vh;color:var(--tm);line-height:1.65">¿Qué podríamos mejorar en la siguiente fase?</div>
+        </div>
+      </div>
+    </div>
+
+
+    <div style="margin-top:auto;padding-top:3vh;text-align:center">
+      <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:5.5vh;color:var(--tx);opacity:.12;letter-spacing:-.01em">Muchas gracias</div>
+    </div>
+  </div>
+</section>
+
+
+</div>
+<script>
+(function() {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  let current = 0;
+  let subStep = 0;
+  let transitioning = false;
+
+  const S03=2,S05=3,S04=4,S06=5,S07=6,S08=7,S09=8,S10=9,S11=10;
+  const MAX_STEPS={[2]:3,[4]:14,[3]:10,[5]:6,[6]:3,[7]:6,[8]:3,[9]:6,[10]:4};
+  const COLS=['intake','analisis','diseno','cierre'];
+  const DOT_IDS=['dot-intake','dot-analisis','dot-diseno','dot-cierre'];
+  const DOT_COLORS=['var(--ac2)','var(--ac2)','var(--ac2)','var(--ac2)'];
+  const $=id=>document.getElementById(id);
+  const op=(id,v)=>{const e=$(id);if(e)e.style.opacity=v;};
+
+  function applyS03(s){['m01','m02','m03'].forEach((id,i)=>op(id,i<s?'1':'0'));}
+
+  function applyS04(step){
+    op('s04-asis',step>=1?'1':'0');
+    op('s04-divider',step>=2?'1':'0');
+    op('s04-timeline',step>=4?'1':'0');
+    const t=[5,8,11,14].includes(step);
+    op('s04-tobe',step>=2?(t?'0.18':'1'):'0');
+    const hm={3:'intake',4:'intake',5:'intake',6:'analisis',7:'analisis',8:'analisis',9:'diseno',10:'diseno',11:'diseno',12:'cierre',13:'cierre',14:'cierre'};
+    const active=hm[step];
+    if(step<3){document.querySelectorAll('[data-col]').forEach(el=>el.style.opacity='1');}
+    else{document.querySelectorAll('[data-col]').forEach(el=>{el.style.opacity=(active&&el.dataset.col===active)?'1':'0.12';});}
+    const ds=[4,7,10,13];
+    COLS.forEach((col,i)=>{
+      const dot=$(DOT_IDS[i]);if(!dot)return;
+      if(step<ds[i]){dot.style.opacity='0';return;}
+      const p=step>ds[i]+1&&active!==col;
+      dot.style.opacity=p?'0.3':'1';
+      const c=dot.querySelector('div');
+      if(c){c.style.background=p?'rgba(95,127,156,.4)':DOT_COLORS[i];c.style.borderColor=p?'rgba(95,127,156,.4)':DOT_COLORS[i];}
+    });
+    op('auto-0',step>=5?'1':'0'); op('auto-6',step>=8?'1':'0');
+    op('auto-1',step>=11?'1':'0'); op('auto-2',step>=11?'1':'0'); op('auto-3',step>=11?'1':'0');
+    op('auto-4',step>=14?'1':'0'); op('auto-5',step>=14?'1':'0');
+  }
+
+  function applyS05(step){
+    const m=$('s05-metrics');if(m)m.style.opacity=step>=1?'1':'0';
+    op('s05-m1',step>=1?'1':'0.18');op('s05-m2',step>=3?'1':'0.18');op('s05-m3',step>=6?'1':'0.18');op('s05-m4',step>=9?'1':'0.18');
+    op('s05-c1',step>=2?'1':'0');op('s05-c2',step>=4?'1':'0');op('s05-c3',step>=5?'1':'0');
+    op('s05-c4',step>=7?'1':'0');op('s05-c5',step>=8?'1':'0');op('s05-c6',step>=10?'1':'0');
+  }
+
+  function applyS06(step){
+    op('s06-alcance',step>=1?'1':'0');op('s06-fases-sig',step>=2?'1':'0');
+    op('s06-principios-titulo',step>=3?'1':'0');op('s06-p1',step>=4?'1':'0');op('s06-p2',step>=5?'1':'0');op('s06-p3',step>=6?'1':'0');
+  }
+
+  function applyS07(step){op('mot-header',step>=1?'1':'0');op('mot-1',step>=1?'1':'0');op('mot-2',step>=2?'1':'0');op('mot-3',step>=3?'1':'0');}
+
+  function applyS08(step){
+    op('plat-cards',step>=1?'1':'0');op('plat-table',step>=2?'1':'0');
+    const cards=['plat-a','plat-b','plat-c'],thIds=['th-a','th-b','th-c'];
+    const td=[['td-a-1','td-a-2','td-a-3','td-a-4','td-a-5'],['td-b-1','td-b-2','td-b-3','td-b-4','td-b-5'],['td-c-1','td-c-2','td-c-3','td-c-4','td-c-5']];
+    const b=$('plat-b'),bth=$('th-b');
+    if(step<=5){
+      if(b){b.style.border='';b.style.background='';}
+      if(bth){bth.style.background='';bth.style.color='';bth.style.fontWeight='';bth.style.borderLeft='';bth.style.borderRight='';}
+      ['td-b-1','td-b-2','td-b-3','td-b-4','td-b-5'].forEach(id=>{const e=$(id);if(e)e.style.background='';});
+    }
+    if(step<=2){
+      cards.forEach(id=>op(id,'1'));thIds.forEach(id=>{const e=$(id);if(e)e.style.color='';});td.flat().forEach(id=>op(id,'1'));op('plat-b-badge','0');
+    }else if(step>=3&&step<=5){
+      const a=step-3;
+      cards.forEach((id,i)=>op(id,i===a?'1':'0.15'));
+      thIds.forEach((id,i)=>{const e=$(id);if(e)e.style.color=i===a?'var(--ac2)':'rgba(95,127,156,.25)';});
+      td.forEach((s,i)=>s.forEach(id=>op(id,i===a?'1':'0.15')));op('plat-b-badge','0');
+    }else{
+      cards.forEach(id=>op(id,'1'));thIds.forEach(id=>{const e=$(id);if(e)e.style.color='';});td.flat().forEach(id=>op(id,'1'));op('plat-b-badge','1');
+      if(b){b.style.border='2px solid var(--ac2)';b.style.background='rgba(61,106,138,.45)';}
+      if(bth){bth.style.background='rgba(61,106,138,.35)';bth.style.color='var(--ac2)';bth.style.fontWeight='700';bth.style.borderLeft='2px solid var(--ac2)';bth.style.borderRight='2px solid var(--ac2)';}
+      ['td-b-1','td-b-2','td-b-3','td-b-4','td-b-5'].forEach(id=>{const e=$(id);if(e)e.style.background='rgba(61,106,138,.18)';});
+    }
+  }
+
+  function applyS09(step){op('vis-1',step>=1?'1':'0');op('vis-2',step>=2?'1':'0');op('vis-3',step>=3?'1':'0');}
+
+  function applyS10(step){
+    const ids=['s10-c1','s10-c2','s10-c3','s10-c4','s10-c5','s10-c6'];
+    if(step===0){ids.forEach(id=>op(id,'1'));}else{ids.forEach((id,i)=>op(id,i===step-1?'1':'0.12'));}
+  }
+
+  function applyS11(step){op('s11-laura',step>=1?'1':'0');op('s11-p1',step>=2?'1':'0');op('s11-p2',step>=3?'1':'0');op('s11-p3',step>=4?'1':'0');}
+
+  function applyInitial(idx){
+    if(idx===S03)applyS03(0);if(idx===S04)applyS04(0);if(idx===S05)applyS05(0);
+    if(idx===S06)applyS06(0);if(idx===S07)applyS07(0);if(idx===S08)applyS08(0);
+    if(idx===S09)applyS09(0);if(idx===S10)applyS10(0);if(idx===S11)applyS11(0);
+  }
+
+  function applyStep(idx,step){
+    if(idx===S03)applyS03(step);if(idx===S04)applyS04(step);if(idx===S05)applyS05(step);
+    if(idx===S06)applyS06(step);if(idx===S07)applyS07(step);if(idx===S08)applyS08(step);
+    if(idx===S09)applyS09(step);if(idx===S10)applyS10(step);if(idx===S11)applyS11(step);
+  }
+
+  function showSlide(n){
+    if(transitioning)return;
+    const target=Math.max(0,Math.min(slides.length-1,n));
+    if(target===current)return;
+    transitioning=true;
+    slides[current].style.transition='opacity .25s ease';
+    slides[current].style.opacity='0';
+    setTimeout(()=>{
+      slides[current].style.display='none';
+      slides[current].style.opacity='1';
+      slides[current].style.transition='';
+      current=target;subStep=0;
+      applyInitial(current);
+      slides[current].style.opacity='0';
+      slides[current].style.display='';
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        slides[current].style.transition='opacity .25s ease';
+        slides[current].style.opacity='1';
+        setTimeout(()=>{slides[current].style.transition='';transitioning=false;},270);
+      }));
+    },260);
+  }
+
+  function advance(){
+    if(transitioning)return;
+    const max=MAX_STEPS[current];
+    if(max&&subStep<max){subStep++;applyStep(current,subStep);}
+    else{subStep=0;showSlide(current+1);}
+  }
+
+  function retreat(){
+    if(transitioning)return;
+    if(subStep>0){subStep--;applyStep(current,subStep);}
+    else showSlide(current-1);
+  }
+
+  slides.forEach((s,i)=>{s.style.display=i===0?'':'none';});
+  applyInitial(current);
+
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();advance();}
+    if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();retreat();}
+  });
+  document.addEventListener('click',e=>{if(e.button===0)advance();});
+})();
+</script>
+</body>
+</html>

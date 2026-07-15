@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neoma Educación · MVP Fase 1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --azul:#24356B;
+  --azul-hover:#1B2A57;
+  --azul-tinte:#E9EDF8;
+  --cempasuchil:#E9A13B;
+  --cempasuchil-tinte:#FBF1DE;
+  --verde:#2F8F6B;
+  --verde-tinte:#E4F2EC;
+  --rojo:#C25454;
+  --paper:#F8F7F3;
+  --card:#FFFFFF;
+  --ink:#1D2433;
+  --ink-suave:#5B6272;
+  --line:#E4E2DA;
+  --radio:12px;
+  --sombra:0 1px 3px rgba(29,36,51,.07), 0 6px 18px rgba(29,36,51,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--paper);color:var(--ink);font-size:15px;line-height:1.55}
+h1,h2,h3,.display{font-family:'Sora',sans-serif}
+button{font-family:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--azul);outline-offset:1px;border-color:var(--azul)}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink-suave);margin-bottom:5px}
+.campo{margin-bottom:14px}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.fila{grid-template-columns:1fr}}
+
+/* ---------- LOGIN ---------- */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;
+  background:linear-gradient(160deg,#F8F7F3 55%,#E9EDF8 100%)}
+.login-caja{width:100%;max-width:880px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--sombra);display:grid;grid-template-columns:340px 1fr;overflow:hidden}
+@media(max-width:820px){.login-caja{grid-template-columns:1fr}}
+.login-lado{background:var(--azul);color:#fff;padding:38px 32px;display:flex;flex-direction:column;justify-content:space-between}
+.marca{font-family:'Sora';font-weight:700;font-size:22px;letter-spacing:.5px}
+.marca span{color:var(--cempasuchil)}
+.login-lado p{color:#C7D0E8;font-size:14px;margin-top:14px}
+.ruta-mini{margin-top:28px;display:flex;flex-direction:column;gap:10px}
+.ruta-mini div{display:flex;gap:10px;align-items:center;font-size:13px;color:#C7D0E8}
+.ruta-mini b{width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.12);display:inline-flex;align-items:center;justify-content:center;font-size:11px;color:var(--cempasuchil);flex:none}
+.login-form{padding:38px 36px}
+.login-form h1{font-size:20px;margin-bottom:4px}
+.login-form .sub{color:var(--ink-suave);font-size:14px;margin-bottom:22px}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.rol{border:1.5px solid var(--line);border-radius:10px;padding:12px;background:#fff;text-align:left;transition:.15s}
+.rol:hover{border-color:var(--azul)}
+.rol.activo{border-color:var(--azul);background:var(--azul-tinte)}
+.rol b{display:block;font-size:14px}
+.rol small{color:var(--ink-suave);font-size:12px}
+.btn{background:var(--azul);color:#fff;border:none;border-radius:8px;padding:11px 18px;font-weight:600;font-size:14px}
+.btn:hover{background:var(--azul-hover)}
+.btn.bloque{width:100%}
+.btn.sec{background:#fff;color:var(--azul);border:1.5px solid var(--azul)}
+.btn.sec:hover{background:var(--azul-tinte)}
+.btn.ambar{background:var(--cempasuchil);color:#3A2A08}
+.btn.chico{padding:7px 12px;font-size:13px}
+
+/* ---------- APP SHELL ---------- */
+#app{display:none;min-height:100vh}
+.shell{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+@media(max-width:820px){.shell{grid-template-columns:1fr}.sidebar{position:static;height:auto}}
+.sidebar{background:var(--azul);color:#fff;padding:22px 14px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.sidebar .marca{font-size:17px;padding:0 10px 18px;border-bottom:1px solid rgba(255,255,255,.15);margin-bottom:14px}
+.nav-item{display:block;width:100%;text-align:left;background:none;border:none;color:#C7D0E8;padding:10px 12px;border-radius:8px;font-size:14px;margin-bottom:2px}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.activo{background:rgba(255,255,255,.14);color:#fff;font-weight:600}
+.sidebar .pie{margin-top:auto;padding:12px 10px;font-size:12px;color:#8FA0C9}
+.sidebar .pie button{background:none;border:1px solid rgba(255,255,255,.3);color:#fff;border-radius:6px;padding:5px 10px;font-size:12px;margin-top:8px}
+.contenido{padding:28px 34px;max-width:1080px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:12px;flex-wrap:wrap}
+.topbar h2{font-size:20px}
+.chip{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:600}
+.chip.azul{background:var(--azul-tinte);color:var(--azul)}
+.chip.ambar{background:var(--cempasuchil-tinte);color:#8A5B10}
+.chip.verde{background:var(--verde-tinte);color:var(--verde)}
+.chip.gris{background:#EFEEE8;color:var(--ink-suave)}
+.tarjeta{background:var(--card);border:1px solid var(--line);border-radius:var(--radio);box-shadow:var(--sombra);padding:22px;margin-bottom:18px}
+.tarjeta h3{font-size:16px;margin-bottom:12px}
+.nota{font-size:13px;color:var(--ink-suave);background:#F2F1EB;border-radius:8px;padding:10px 12px;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
+
+/* ---------- RUTA DEL PROCESO (signature) ---------- */
+.ruta{display:flex;gap:0;overflow-x:auto;padding:6px 0 14px}
+.paso{flex:1;min-width:110px;text-align:center;position:relative;padding-top:6px}
+.paso::before{content:"";position:absolute;top:22px;left:-50%;width:100%;height:2px;background:var(--line)}
+.paso:first-child::before{display:none}
+.paso.hecho::before{background:var(--verde)}
+.paso.actual::before{background:var(--cempasuchil)}
+.paso .nodo{width:34px;height:34px;border-radius:50%;background:#fff;border:2px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-family:'Sora';font-weight:600;font-size:13px;position:relative;z-index:1;color:var(--ink-suave)}
+.paso.hecho .nodo{background:var(--verde);border-color:var(--verde);color:#fff}
+.paso.actual .nodo{background:var(--cempasuchil);border-color:var(--cempasuchil);color:#3A2A08}
+.paso small{display:block;margin-top:6px;font-size:11.5px;color:var(--ink-suave);line-height:1.3;padding:0 4px}
+.paso.actual small{color:var(--ink);font-weight:600}
+
+/* ---------- TABS / TABLAS / LISTAS ---------- */
+.tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:18px;flex-wrap:wrap}
+.tab{background:none;border:none;padding:9px 14px;font-size:14px;color:var(--ink-suave);border-bottom:2.5px solid transparent;margin-bottom:-1px}
+.tab.activo{color:var(--azul);font-weight:600;border-bottom-color:var(--azul)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.4px;color:var(--ink-suave);padding:8px 10px;border-bottom:1px solid var(--line)}
+td{padding:11px 10px;border-bottom:1px solid #F0EFE9;vertical-align:middle}
+tr:hover td{background:#FBFAF6}
+.lista-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid #F0EFE9}
+.lista-item:last-child{border-bottom:none}
+.barra{height:8px;background:#EFEEE8;border-radius:99px;overflow:hidden;margin-top:6px}
+.barra i{display:block;height:100%;background:var(--verde);border-radius:99px}
+.match{border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px;display:flex;justify-content:space-between;gap:14px;align-items:flex-start;background:#fff}
+.match .pct{font-family:'Sora';font-weight:700;font-size:22px;color:var(--azul);flex:none}
+.match.top{border-color:var(--cempasuchil);background:var(--cempasuchil-tinte)}
+.estrellas{display:flex;gap:4px;font-size:26px}
+.estrellas button{background:none;border:none;color:#D8D6CC;padding:0}
+.estrellas button.on{color:var(--cempasuchil)}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radio);padding:18px}
+.kpi .num{font-family:'Sora';font-weight:700;font-size:26px}
+.kpi small{color:var(--ink-suave)}
+.aviso-mock{position:fixed;bottom:12px;right:12px;background:var(--ink);color:#fff;font-size:11.5px;padding:6px 12px;border-radius:99px;opacity:.85;z-index:50}
+.check-lista label{display:flex;align-items:center;gap:8px;font-weight:400;color:var(--ink);font-size:14px;margin-bottom:8px}
+.check-lista input{width:auto}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ==================== LOGIN ==================== -->
+<div id="login">
+  <div class="login-caja">
+    <div class="login-lado">
+      <div>
+        <div class="marca">neoma<span>·</span>educación</div>
+        <p>Plataforma de orientación vocacional y ejecutiva. Acompañamos cada caso desde el registro hasta la propuesta educativa final.</p>
+        <div class="ruta-mini">
+          <div><b>1</b> Registro e intake</div>
+          <div><b>2</b> Sesiones de reconocimiento</div>
+          <div><b>3</b> Tests psicométricos</div>
+          <div><b>4</b> Reporte de resultados</div>
+          <div><b>5</b> Análisis del caso</div>
+          <div><b>6</b> Diseño de la oferta</div>
+          <div><b>7</b> Validación y cierre</div>
+        </div>
+      </div>
+      <small style="color:#8FA0C9">MVP · Fase 1 · mockup sin backend</small>
+    </div>
+    <div class="login-form">
+      <div id="panel-login">
+        <h1>Iniciar sesión</h1>
+        <p class="sub">Selecciona tu tipo de usuario para explorar la vista correspondiente.</p>
+        <div class="roles">
+          <button class="rol" data-rol="estudiante" onclick="elegirRol(this)"><b>Estudiante</b><small>Cliente · orientación vocacional</small></button>
+          <button class="rol" data-rol="ejecutivo" onclick="elegirRol(this)"><b>Ejecutivo</b><small>Cliente · orientación ejecutiva</small></button>
+          <button class="rol" data-rol="consultor" onclick="elegirRol(this)"><b>Consultor</b><small>Acompaña y analiza los casos</small></button>
+          <button class="rol" data-rol="admin" onclick="elegirRol(this)"><b>Admin</b><small>Gestión de la plataforma</small></button>
+        </div>
+        <div class="campo"><label>Correo electrónico</label><input type="email" placeholder="tu@correo.com"></div>
+        <div class="campo"><label>Contraseña</label><input type="password" placeholder="••••••••"></div>
+        <button class="btn bloque" onclick="entrar()">Entrar</button>
+        <button class="btn sec bloque" style="margin-top:10px" onclick="mostrarRegistro(true)">Crear una cuenta</button>
+        <p style="font-size:12px;color:var(--ink-suave);margin-top:10px">Demo: no se valida ninguna credencial.</p>
+      </div>
+      <div id="panel-registro" style="display:none">
+        <h1>Crear una cuenta</h1>
+        <p class="sub">El registro es solo para clientes; consultores y admins son dados de alta por Neoma.</p>
+        <div class="fila">
+          <div class="campo"><label>Nombre</label><input placeholder="Tu nombre"></div>
+          <div class="campo"><label>Apellidos</label><input></div>
+        </div>
+        <div class="campo"><label>Correo electrónico</label><input type="email" placeholder="tu@correo.com"></div>
+        <div class="campo"><label>Tipo de cliente</label>
+          <select><option>Selecciona…</option><option>Estudiante · orientación vocacional</option><option>Ejecutivo · orientación ejecutiva</option></select>
+        </div>
+        <div class="fila">
+          <div class="campo"><label>Contraseña</label><input type="password" placeholder="••••••••"></div>
+          <div class="campo"><label>Confirmar contraseña</label><input type="password" placeholder="••••••••"></div>
+        </div>
+        <div class="campo check-lista">
+          <label><input type="checkbox"> Acepto el aviso de privacidad</label>
+        </div>
+        <button class="btn bloque" onclick="alert('Demo: aquí se crearía la cuenta y pasarías al intake.')">Registrarme</button>
+        <button class="btn sec bloque" style="margin-top:10px" onclick="mostrarRegistro(false)">Ya tengo cuenta · Iniciar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== APP ==================== -->
+<div id="app">
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="marca">neoma<span style="color:var(--cempasuchil)">·</span>educación</div>
+      <nav id="nav"></nav>
+      <div class="pie">
+        <div id="pie-usuario"></div>
+        <button onclick="salir()">Cerrar sesión</button>
+      </div>
+    </aside>
+    <main class="contenido">
+      <div class="topbar">
+        <h2 id="titulo-vista"></h2>
+        <span class="chip azul" id="chip-rol"></span>
+      </div>
+      <div id="vista"></div>
+    </main>
+  </div>
+</div>
+<div class="aviso-mock">Mockup · datos de ejemplo</div>
+
+<script>
+/* =====================================================
+   ESTADO Y DATOS DE EJEMPLO (todo mock, sin backend)
+===================================================== */
+const FASES = ["Intake","Sesiones de reconocimiento","Tests psicométricos","Reporte de resultados","Análisis del caso","Diseño de la oferta","Validación y cierre"];
+
+// ⚠️ El número real de tests está pendiente (inventario de psicometría).
+// Esta lista es solo un ejemplo editable.
+const TESTS = [
+  {id:"t1", nombre:"Intereses profesionales", tipo:"vocacional", dur:"25 min", estado:"completado"},
+  {id:"t2", nombre:"Aptitudes cognitivas", tipo:"ambos", dur:"40 min", estado:"en curso"},
+  {id:"t3", nombre:"Personalidad laboral", tipo:"ambos", dur:"30 min", estado:"pendiente"},
+  {id:"t4", nombre:"Valores y motivadores", tipo:"ejecutivo", dur:"20 min", estado:"pendiente"},
+  {id:"t5", nombre:"Estilos de aprendizaje", tipo:"vocacional", dur:"15 min", estado:"pendiente"},
+];
+
+// ⚠️ Número de sesiones también por definir; se asumen 2 como ejemplo.
+const SESIONES = [
+  {n:1, tema:"Historia personal y contexto", estado:"completada"},
+  {n:2, tema:"Trayectoria y expectativas", estado:"agendada"},
+];
+
+const CASOS = [
+  {id:"C-014", nombre:"María Fernanda R.", tipo:"Estudiante", fase:2, consultor:"Caro", ultima:"hace 2 días"},
+  {id:"C-015", nombre:"Jorge Alberto M.", tipo:"Ejecutivo", fase:4, consultor:"Caro", ultima:"hace 5 días"},
+  {id:"C-016", nombre:"Daniela P.", tipo:"Estudiante", fase:5, consultor:"Toño", ultima:"ayer"},
+  {id:"C-017", nombre:"Ricardo S.", tipo:"Ejecutivo", fase:6, consultor:"Caro", ultima:"hoy"},
+];
+
+const OFERTAS = [
+  {inst:"Universidad A", prog:"Lic. en Ciencia de Datos", area:"Tecnología", nivel:"Licenciatura", mod:"Presencial", ciudad:"CDMX", costo:2},
+  {inst:"Universidad B", prog:"Ing. Biomédica", area:"Salud", nivel:"Licenciatura", mod:"Presencial", ciudad:"CDMX", costo:3},
+  {inst:"Instituto C", prog:"MBA Ejecutivo", area:"Negocios", nivel:"Maestría", mod:"Híbrida", ciudad:"Monterrey", costo:3},
+  {inst:"Universidad D", prog:"Lic. en Diseño Industrial", area:"Diseño", nivel:"Licenciatura", mod:"Presencial", ciudad:"Guadalajara", costo:2},
+  {inst:"Escuela E", prog:"Maestría en Analítica", area:"Tecnología", nivel:"Maestría", mod:"En línea", ciudad:"—", costo:2},
+  {inst:"Universidad F", prog:"Lic. en Psicología", area:"Salud", nivel:"Licenciatura", mod:"Presencial", ciudad:"CDMX", costo:1},
+  {inst:"Instituto G", prog:"Diplomado en Liderazgo", area:"Negocios", nivel:"Diplomado", mod:"En línea", ciudad:"—", costo:1},
+  {inst:"Universidad H", prog:"Ing. en Software", area:"Tecnología", nivel:"Licenciatura", mod:"Híbrida", ciudad:"Querétaro", costo:2},
+];
+
+const NAVS = {
+  estudiante:[["inicio","Inicio"],["registro","Mi registro"],["tests","Mis tests"],["reporte","Mi reporte"],["propuesta","Mi propuesta"],["feedback","Feedback"]],
+  ejecutivo:[["inicio","Inicio"],["registro","Mi registro"],["tests","Mis tests"],["reporte","Mi reporte"],["propuesta","Mi propuesta"],["feedback","Feedback"]],
+  consultor:[["casos","Mis casos"],["sesion","Sesión de reconocimiento"],["analisis","Análisis del caso"],["oferta","Diseño de la oferta"],["feedbackC","Feedback de plataforma"]],
+  admin:[["panel","Panel general"],["usuarios","Usuarios"],["catalogo","Catálogo de ofertas"]],
+};
+
+const NOMBRES = {estudiante:"Estudiante", ejecutivo:"Ejecutivo", consultor:"Consultor", admin:"Admin"};
+let estado = {rol:null, vista:null, filtros:{area:"",nivel:"",mod:"",costo:""}, rating:0, ratingC:0};
+
+/* ============== LOGIN ============== */
+function mostrarRegistro(ver){
+  document.getElementById('panel-login').style.display = ver ? 'none' : 'block';
+  document.getElementById('panel-registro').style.display = ver ? 'block' : 'none';
+}
+function elegirRol(btn){
+  document.querySelectorAll('.rol').forEach(b=>b.classList.remove('activo'));
+  btn.classList.add('activo');
+  estado.rol = btn.dataset.rol;
+}
+function entrar(){
+  if(!estado.rol){ alert("Selecciona un tipo de usuario para continuar."); return; }
+  document.getElementById('login').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('chip-rol').textContent = NOMBRES[estado.rol];
+  document.getElementById('pie-usuario').textContent = "Sesión demo · " + NOMBRES[estado.rol];
+  pintarNav();
+  ir(NAVS[estado.rol][0][0]);
+}
+function salir(){
+  document.getElementById('app').style.display='none';
+  document.getElementById('login').style.display='flex';
+  document.querySelectorAll('.rol').forEach(b=>b.classList.remove('activo'));
+  estado = {rol:null, vista:null, filtros:{area:"",nivel:"",mod:"",costo:""}, rating:0, ratingC:0};
+}
+function pintarNav(){
+  document.getElementById('nav').innerHTML = NAVS[estado.rol]
+    .map(([id,txt])=>`<button class="nav-item" id="nav-${id}" onclick="ir('${id}')">${txt}</button>`).join('');
+}
+function ir(vista){
+  estado.vista = vista;
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('activo'));
+  const b=document.getElementById('nav-'+vista); if(b) b.classList.add('activo');
+  render();
+}
+
+/* ============== COMPONENTES ============== */
+function ruta(faseActual){
+  return `<div class="ruta">` + FASES.map((f,i)=>{
+    const n=i+1;
+    const cls = n<faseActual ? "hecho" : n===faseActual ? "actual" : "";
+    return `<div class="paso ${cls}"><span class="nodo">${n<faseActual?"✓":n}</span><small>${f}</small></div>`;
+  }).join('') + `</div>`;
+}
+function chipEstado(e){
+  const m={completado:"verde",completada:"verde","en curso":"ambar",agendada:"ambar",pendiente:"gris","por agendar":"gris"};
+  return `<span class="chip ${m[e]||'gris'}">${e}</span>`;
+}
+function estrellas(id, val){
+  let s=`<div class="estrellas">`;
+  for(let i=1;i<=5;i++) s+=`<button class="${i<=val?'on':''}" onclick="calificar('${id}',${i})" aria-label="${i} estrellas">★</button>`;
+  s+=`</div>`; return s;
+}
+function calificar(id,n){ if(id==='cliente') estado.rating=n; else estado.ratingC=n; render(); }
+
+/* ============== VISTAS CLIENTE (estudiante / ejecutivo) ============== */
+function vInicio(){
+  const esEj = estado.rol==='ejecutivo';
+  return `
+  <div class="tarjeta">
+    <h3>Tu ruta en Neoma</h3>
+    ${ruta(3)}
+    <p style="font-size:13px;color:var(--ink-suave)">Vas en la fase 3: completa tus tests psicométricos para continuar.</p>
+  </div>
+  <div class="grid2">
+    <div class="tarjeta">
+      <h3>Pendientes</h3>
+      <div class="lista-item"><span>Test de aptitudes cognitivas</span><button class="btn chico" onclick="ir('tests')">Continuar</button></div>
+      <div class="lista-item"><span>Sesión 2 · Trayectoria y expectativas</span><span class="chip ambar">agendada</span></div>
+      <div class="lista-item"><span>Formulario ${esEj?'ejecutivo':'vocacional'}</span><span class="chip verde">completado</span></div>
+    </div>
+    <div class="tarjeta">
+      <h3>Tu consultora</h3>
+      <p><b>Caro</b> · te acompaña durante todo el proceso.</p>
+      <p style="font-size:13px;color:var(--ink-suave);margin-top:6px">Próxima sesión: jueves 17 de julio, 10:00 h.</p>
+      <button class="btn sec chico" style="margin-top:12px" onclick="alert('Demo: aquí se abriría el agendador.')">Reagendar sesión</button>
+    </div>
+  </div>`;
+}
+function vRegistro(){
+  const esEj = estado.rol==='ejecutivo';
+  const tab2 = esEj ? "Formulario ejecutivo" : "Formulario vocacional";
+  const t = estado.tabRegistro||1;
+  return `
+  <div class="nota">Fase 1 · Intake. Corresponde a los formularios de registro que hoy viven en Airtable.</div>
+  <div class="tabs">
+    <button class="tab ${t===1?'activo':''}" onclick="estado.tabRegistro=1;render()">Datos generales</button>
+    <button class="tab ${t===2?'activo':''}" onclick="estado.tabRegistro=2;render()">${tab2}</button>
+  </div>
+  ${t===1 ? `
+  <div class="tarjeta">
+    <h3>Datos generales</h3>
+    <div class="fila">
+      <div class="campo"><label>Nombre completo</label><input placeholder="Nombre y apellidos"></div>
+      <div class="campo"><label>Fecha de nacimiento</label><input type="date"></div>
+    </div>
+    <div class="fila">
+      <div class="campo"><label>Correo</label><input type="email"></div>
+      <div class="campo"><label>Teléfono</label><input type="tel"></div>
+    </div>
+    <div class="fila">
+      <div class="campo"><label>Ciudad de residencia</label><input></div>
+      <div class="campo"><label>¿Cómo conociste Neoma?</label>
+        <select><option>Selecciona…</option><option>Recomendación</option><option>Redes sociales</option><option>Escuela / empresa</option><option>Otro</option></select>
+      </div>
+    </div>
+    <div class="campo check-lista">
+      <label><input type="checkbox"> Acepto el aviso de privacidad</label>
+      <label><input type="checkbox"> Autorizo el uso de mis datos para el análisis de mi caso</label>
+    </div>
+    <button class="btn" onclick="alert('Demo: se guardaría el formulario.')">Guardar y continuar</button>
+  </div>` : esEj ? `
+  <div class="tarjeta">
+    <h3>Formulario ejecutivo</h3>
+    <div class="fila">
+      <div class="campo"><label>Puesto actual</label><input placeholder="Ej. Gerente de operaciones"></div>
+      <div class="campo"><label>Años de experiencia</label><input type="number" min="0"></div>
+    </div>
+    <div class="fila">
+      <div class="campo"><label>Industria</label>
+        <select><option>Selecciona…</option><option>Tecnología</option><option>Finanzas</option><option>Manufactura</option><option>Salud</option><option>Educación</option><option>Otra</option></select>
+      </div>
+      <div class="campo"><label>Nivel de estudios actual</label>
+        <select><option>Selecciona…</option><option>Licenciatura</option><option>Maestría</option><option>Doctorado</option></select>
+      </div>
+    </div>
+    <div class="campo"><label>Objetivo profesional a 3–5 años</label><textarea rows="3" placeholder="¿Hacia dónde quieres crecer?"></textarea></div>
+    <div class="campo"><label>Disponibilidad de tiempo para estudiar</label>
+      <select><option>Selecciona…</option><option>Fines de semana</option><option>Entre semana por la noche</option><option>Tiempo completo</option><option>Flexible / en línea</option></select>
+    </div>
+    <button class="btn" onclick="alert('Demo: se guardaría el formulario.')">Guardar y continuar</button>
+  </div>` : `
+  <div class="tarjeta">
+    <h3>Formulario vocacional</h3>
+    <div class="fila">
+      <div class="campo"><label>Escuela actual</label><input></div>
+      <div class="campo"><label>Grado / semestre</label><input></div>
+    </div>
+    <div class="campo"><label>Materias que más disfrutas</label><input placeholder="Ej. matemáticas, biología, artes…"></div>
+    <div class="campo"><label>¿Ya tienes alguna carrera en mente?</label><textarea rows="2" placeholder="Puede ser más de una, o ninguna"></textarea></div>
+    <div class="campo"><label>¿Qué te preocupa al elegir carrera?</label><textarea rows="3"></textarea></div>
+    <div class="fila">
+      <div class="campo"><label>Preferencia de modalidad</label>
+        <select><option>Selecciona…</option><option>Presencial</option><option>Híbrida</option><option>En línea</option><option>Indiferente</option></select>
+      </div>
+      <div class="campo"><label>¿Considerarías estudiar fuera de tu ciudad?</label>
+        <select><option>Selecciona…</option><option>Sí</option><option>No</option><option>Depende de la opción</option></select>
+      </div>
+    </div>
+    <button class="btn" onclick="alert('Demo: se guardaría el formulario.')">Guardar y continuar</button>
+  </div>`}`;
+}
+function vTests(){
+  const tipo = estado.rol==='ejecutivo' ? 'ejecutivo' : 'vocacional';
+  const lista = TESTS.filter(t=>t.tipo===tipo||t.tipo==='ambos');
+  const hechos = lista.filter(t=>t.estado==='completado').length;
+  return `
+  <div class="nota">Fase 3 · Tests psicométricos. <b>El número y catálogo definitivo de tests está por confirmarse</b> (inventario de psicometría); esta lista es de ejemplo.</div>
+  <div class="tarjeta">
+    <h3>Tu avance</h3>
+    <p style="font-size:13px;color:var(--ink-suave)">${hechos} de ${lista.length} tests completados</p>
+    <div class="barra"><i style="width:${Math.round(hechos/lista.length*100)}%"></i></div>
+  </div>
+  <div class="tarjeta">
+    ${lista.map(t=>`
+      <div class="lista-item">
+        <div><b>${t.nombre}</b><br><small style="color:var(--ink-suave)">Duración aprox. ${t.dur}</small></div>
+        <div style="display:flex;gap:10px;align-items:center">
+          ${chipEstado(t.estado)}
+          ${t.estado!=='completado'?`<button class="btn chico" onclick="alert('Demo: aquí iniciaría el test.')">${t.estado==='en curso'?'Continuar':'Iniciar'}</button>`:''}
+        </div>
+      </div>`).join('')}
+  </div>`;
+}
+function vReporte(){
+  return `
+  <div class="nota">Fase 4 · Reporte de resultados. Se genera al integrar intake + sesiones + tests.</div>
+  <div class="tarjeta">
+    <h3>Resumen de tu perfil</h3>
+    <p>Con base en tus formularios, sesiones y tests, tu perfil muestra una orientación clara hacia áreas <b>analíticas y de resolución de problemas</b>, con interés sostenido en <b>tecnología</b> y apertura a entornos colaborativos.</p>
+  </div>
+  <div class="grid2">
+    <div class="tarjeta">
+      <h3>Áreas de interés</h3>
+      ${[["Tecnología",86],["Negocios",64],["Diseño",52],["Salud",31]].map(([a,p])=>`
+        <div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${a}</span><b>${p}%</b></div>
+        <div class="barra"><i style="width:${p}%"></i></div></div>`).join('')}
+    </div>
+    <div class="tarjeta">
+      <h3>Fortalezas detectadas</h3>
+      <div class="lista-item"><span>Razonamiento lógico-matemático</span><span class="chip verde">alta</span></div>
+      <div class="lista-item"><span>Comunicación escrita</span><span class="chip verde">alta</span></div>
+      <div class="lista-item"><span>Trabajo en equipo</span><span class="chip ambar">media</span></div>
+      <div class="lista-item"><span>Tolerancia a la ambigüedad</span><span class="chip ambar">media</span></div>
+    </div>
+  </div>
+  <div class="tarjeta">
+    <h3>Notas de tu consultora</h3>
+    <p style="font-style:italic;color:var(--ink-suave)">"Perfil consistente entre tests y sesiones. Recomiendo explorar programas con componente aplicado y proyectos reales."</p>
+    <button class="btn sec chico" style="margin-top:12px" onclick="alert('Demo: aquí se descargaría el PDF del reporte.')">Descargar reporte (PDF)</button>
+  </div>`;
+}
+function vPropuesta(){
+  const top5 = [
+    {p:94, ...OFERTAS[0]}, {p:88, ...OFERTAS[7]}, {p:81, ...OFERTAS[4]}, {p:74, ...OFERTAS[3]}, {p:69, ...OFERTAS[2]}
+  ];
+  return `
+  <div class="nota">Fase 6 · Diseño de la oferta. Match con tus 5 mejores opciones y el outline final.</div>
+  ${top5.map((m,i)=>`
+    <div class="match ${i===0?'top':''}">
+      <div>
+        <b>${m.prog}</b> ${i===0?'<span class="chip ambar">mejor match</span>':''}<br>
+        <small style="color:var(--ink-suave)">${m.inst} · ${m.nivel} · ${m.mod} · ${m.ciudad}</small>
+      </div>
+      <div class="pct">${m.p}%</div>
+    </div>`).join('')}
+  <div class="tarjeta">
+    <h3>Outline de tu propuesta</h3>
+    <ol style="padding-left:20px;display:grid;gap:8px;font-size:14px">
+      <li><b>Perfil y hallazgos clave</b> — síntesis de tests y sesiones.</li>
+      <li><b>Criterios de selección</b> — área, modalidad, ubicación y presupuesto acordados.</li>
+      <li><b>Top 5 de opciones</b> — comparativa con pros y contras de cada programa.</li>
+      <li><b>Recomendación principal</b> — argumentación del mejor match.</li>
+      <li><b>Plan de acción</b> — fechas de admisión, requisitos y siguientes pasos.</li>
+    </ol>
+    <button class="btn" style="margin-top:14px" onclick="alert('Demo: aquí se abriría el documento completo.')">Ver propuesta completa</button>
+  </div>`;
+}
+function vFeedback(){
+  return `
+  <div class="nota">Fase 7 · Validación y cierre. Tu opinión sobre el proceso.</div>
+  <div class="tarjeta">
+    <h3>¿Cómo calificarías tu experiencia con Neoma?</h3>
+    ${estrellas('cliente', estado.rating)}
+    <div class="campo" style="margin-top:16px"><label>¿Qué fue lo más valioso del proceso?</label><textarea rows="3"></textarea></div>
+    <div class="campo"><label>¿Qué mejorarías?</label><textarea rows="3"></textarea></div>
+    <div class="campo"><label>¿Recomendarías Neoma?</label>
+      <select><option>Selecciona…</option><option>Definitivamente sí</option><option>Probablemente sí</option><option>No estoy segura/o</option><option>No</option></select>
+    </div>
+    <button class="btn" onclick="alert('¡Gracias! (demo: se enviaría el feedback)')">Enviar feedback</button>
+  </div>`;
+}
+
+/* ============== VISTAS CONSULTOR ============== */
+function vCasos(){
+  return `
+  <div class="grid3" style="margin-bottom:18px">
+    <div class="kpi"><div class="num">4</div><small>casos activos</small></div>
+    <div class="kpi"><div class="num">2</div><small>sesiones esta semana</small></div>
+    <div class="kpi"><div class="num">1</div><small>propuesta por entregar</small></div>
+  </div>
+  <div class="tarjeta">
+    <h3>Mis casos</h3>
+    <table>
+      <thead><tr><th>Caso</th><th>Cliente</th><th>Tipo</th><th>Fase actual</th><th>Última actividad</th><th></th></tr></thead>
+      <tbody>
+        ${CASOS.map(c=>`
+        <tr>
+          <td><b>${c.id}</b></td>
+          <td>${c.nombre}</td>
+          <td><span class="chip ${c.tipo==='Estudiante'?'azul':'ambar'}">${c.tipo}</span></td>
+          <td>${c.fase}. ${FASES[c.fase-1]}</td>
+          <td style="color:var(--ink-suave)">${c.ultima}</td>
+          <td><button class="btn sec chico" onclick="ir('sesion')">Abrir</button></td>
+        </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+function vSesion(){
+  return `
+  <div class="nota">Fase 2 · Sesiones de reconocimiento. El consultor captura las respuestas del cliente durante la sesión. <b>El número de sesiones está por definirse</b>; se muestran 2 como ejemplo.</div>
+  <div class="tarjeta">
+    <h3>Caso C-014 · María Fernanda R.</h3>
+    ${ruta(2)}
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px">
+      ${SESIONES.map(s=>`<span class="chip ${s.estado==='completada'?'verde':s.estado==='agendada'?'ambar':'gris'}">S${s.n} · ${s.tema} · ${s.estado}</span>`).join('')}
+    </div>
+  </div>
+  <div class="tarjeta">
+    <h3>Captura de sesión 2 · Trayectoria y expectativas</h3>
+    <div class="fila">
+      <div class="campo"><label>Fecha de la sesión</label><input type="date" value="2026-07-17"></div>
+      <div class="campo"><label>Modalidad</label><select><option>Videollamada</option><option>Presencial</option></select></div>
+    </div>
+    <div class="campo"><label>¿Cómo describe su desempeño escolar?</label>
+      <select><option>Selecciona…</option><option>Muy bueno, disfruta estudiar</option><option>Bueno, con altibajos</option><option>Regular, le cuesta motivarse</option><option>Difícil, ha considerado dejar de estudiar</option></select>
+    </div>
+    <div class="campo"><label>Materias o actividades donde destaca</label>
+      <div class="check-lista">
+        <label><input type="checkbox" checked> Matemáticas / lógica</label>
+        <label><input type="checkbox" checked> Ciencias naturales</label>
+        <label><input type="checkbox"> Humanidades / lectura</label>
+        <label><input type="checkbox"> Artes / creatividad</label>
+        <label><input type="checkbox"> Deportes / liderazgo</label>
+      </div>
+    </div>
+    <div class="campo"><label>Influencias importantes en su decisión</label>
+      <select><option>Selecciona…</option><option>Familia</option><option>Amistades</option><option>Profesores / mentores</option><option>Referentes públicos</option><option>Decisión propia</option></select>
+    </div>
+    <div class="campo"><label>Notas de la consultora (resumen funcional, no narrativa íntima)</label><textarea rows="4" placeholder="Observaciones relevantes para el análisis del caso…"></textarea></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn" onclick="alert('Demo: sesión guardada.')">Guardar sesión</button>
+      <button class="btn sec" onclick="alert('Demo: se marcaría como completada.')">Marcar como completada</button>
+    </div>
+  </div>`;
+}
+function vAnalisis(){
+  const f = estado.filtros;
+  const res = OFERTAS.filter(o=>
+    (!f.area||o.area===f.area)&&(!f.nivel||o.nivel===f.nivel)&&(!f.mod||o.mod===f.mod)&&(!f.costo||o.costo<=+f.costo)
+  );
+  const opciones=(lista,val)=>['<option value="">Todas</option>',...[...new Set(lista)].map(x=>`<option ${x===val?'selected':''}>${x}</option>`)].join('');
+  return `
+  <div class="nota">Fase 5 · Análisis del caso. Filtros para preseleccionar ofertas educativas para el cliente.</div>
+  <div class="tarjeta">
+    <h3>Filtros · Caso C-016 · Daniela P.</h3>
+    <div class="grid3" style="grid-template-columns:repeat(4,1fr)">
+      <div class="campo"><label>Área</label><select onchange="estado.filtros.area=this.value;render()">${opciones(OFERTAS.map(o=>o.area),f.area)}</select></div>
+      <div class="campo"><label>Nivel</label><select onchange="estado.filtros.nivel=this.value;render()">${opciones(OFERTAS.map(o=>o.nivel),f.nivel)}</select></div>
+      <div class="campo"><label>Modalidad</label><select onchange="estado.filtros.mod=this.value;render()">${opciones(OFERTAS.map(o=>o.mod),f.mod)}</select></div>
+      <div class="campo"><label>Costo máx.</label>
+        <select onchange="estado.filtros.costo=this.value;render()">
+          <option value="">Cualquiera</option>
+          <option value="1" ${f.costo==='1'?'selected':''}>$</option>
+          <option value="2" ${f.costo==='2'?'selected':''}>$$</option>
+          <option value="3" ${f.costo==='3'?'selected':''}>$$$</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="tarjeta">
+    <h3>${res.length} ofertas encontradas</h3>
+    <table>
+      <thead><tr><th>Programa</th><th>Institución</th><th>Área</th><th>Nivel</th><th>Modalidad</th><th>Ciudad</th><th>Costo</th><th></th></tr></thead>
+      <tbody>
+      ${res.map(o=>`<tr>
+        <td><b>${o.prog}</b></td><td>${o.inst}</td><td>${o.area}</td><td>${o.nivel}</td><td>${o.mod}</td><td>${o.ciudad}</td><td>${"$".repeat(o.costo)}</td>
+        <td><button class="btn sec chico" onclick="alert('Demo: agregada a la preselección.')">Preseleccionar</button></td>
+      </tr>`).join('')}
+      </tbody>
+    </table>
+    <button class="btn" style="margin-top:14px" onclick="ir('oferta')">Pasar a diseño de la oferta →</button>
+  </div>`;
+}
+function vOferta(){
+  const top5=[{p:92,...OFERTAS[0]},{p:87,...OFERTAS[7]},{p:79,...OFERTAS[4]},{p:71,...OFERTAS[3]},{p:66,...OFERTAS[5]}];
+  return `
+  <div class="nota">Fase 6 · Diseño de la oferta. El agente hace match con las 5 mejores opciones y se genera el outline final.</div>
+  <div class="tarjeta">
+    <h3>Top 5 · Caso C-016</h3>
+    <p style="font-size:13px;color:var(--ink-suave);margin-bottom:14px">Ranking generado por el agente de matchmaking a partir del perfil y los filtros del análisis.</p>
+    ${top5.map((m,i)=>`
+      <div class="match ${i===0?'top':''}">
+        <div><b>${i+1}. ${m.prog}</b><br><small style="color:var(--ink-suave)">${m.inst} · ${m.nivel} · ${m.mod} · ${m.ciudad}</small></div>
+        <div style="display:flex;gap:14px;align-items:center">
+          <div class="pct">${m.p}%</div>
+          <button class="btn sec chico" onclick="alert('Demo: se vería el detalle del match.')">Detalle</button>
+        </div>
+      </div>`).join('')}
+  </div>
+  <div class="tarjeta">
+    <h3>Generar outline final</h3>
+    <div class="campo"><label>Recomendación principal</label>
+      <select><option>Lic. en Ciencia de Datos · Universidad A</option><option>Ing. en Software · Universidad H</option></select>
+    </div>
+    <div class="campo"><label>Comentarios de la consultora para la propuesta</label><textarea rows="3" placeholder="Contexto y argumentación que acompañará al outline…"></textarea></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn ambar" onclick="alert('Demo: el agente generaría el outline con el resultado final.')">Generar outline</button>
+      <button class="btn sec" onclick="alert('Demo: se enviaría al cliente para validación.')">Enviar al cliente</button>
+    </div>
+  </div>`;
+}
+function vFeedbackC(){
+  return `
+  <div class="nota">Fase 7 · Validación y cierre. Feedback del consultor sobre la plataforma.</div>
+  <div class="tarjeta">
+    <h3>¿Qué tan útil te resultó la plataforma en este caso?</h3>
+    ${estrellas('consultor', estado.ratingC)}
+    <div class="campo" style="margin-top:16px"><label>¿Qué parte del flujo funcionó mejor?</label>
+      <select><option>Selecciona…</option><option>Intake / registro</option><option>Captura de sesiones</option><option>Tests psicométricos</option><option>Reporte</option><option>Análisis y filtros</option><option>Matchmaking y outline</option></select>
+    </div>
+    <div class="campo"><label>¿Dónde perdiste más tiempo?</label><textarea rows="3"></textarea></div>
+    <div class="campo"><label>Sugerencias para la siguiente iteración</label><textarea rows="3"></textarea></div>
+    <button class="btn" onclick="alert('Demo: feedback enviado al equipo RAI.')">Enviar feedback</button>
+  </div>`;
+}
+
+/* ============== VISTAS ADMIN ============== */
+function vPanel(){
+  return `
+  <div class="grid3" style="margin-bottom:18px">
+    <div class="kpi"><div class="num">12</div><small>casos activos</small></div>
+    <div class="kpi"><div class="num">3</div><small>consultores</small></div>
+    <div class="kpi"><div class="num">8</div><small>propuestas cerradas este mes</small></div>
+  </div>
+  <div class="tarjeta">
+    <h3>Casos por fase</h3>
+    ${FASES.map((f,i)=>{
+      const n=[3,2,3,1,1,1,1][i];
+      return `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px"><span>${i+1}. ${f}</span><b>${n}</b></div>
+      <div class="barra"><i style="width:${n/3*100}%"></i></div></div>`;
+    }).join('')}
+  </div>
+  <div class="tarjeta">
+    <h3>Actividad reciente</h3>
+    <div class="lista-item"><span>C-017 pasó a <b>Diseño de la oferta</b></span><small style="color:var(--ink-suave)">hoy</small></div>
+    <div class="lista-item"><span>Nuevo registro: cliente ejecutivo</span><small style="color:var(--ink-suave)">ayer</small></div>
+    <div class="lista-item"><span>Feedback de cliente recibido (C-012)</span><small style="color:var(--ink-suave)">hace 3 días</small></div>
+  </div>`;
+}
+function vUsuarios(){
+  const u=[
+    ["María Fernanda R.","Estudiante","activa"],["Jorge Alberto M.","Ejecutivo","activo"],
+    ["Daniela P.","Estudiante","activa"],["Caro","Consultor","activa"],["Toño","Consultor","activo"],["Laura","Admin","activa"]
+  ];
+  return `
+  <div class="tarjeta">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="margin:0">Usuarios de la plataforma</h3>
+      <button class="btn chico" onclick="alert('Demo: alta de usuario.')">+ Nuevo usuario</button>
+    </div>
+    <table>
+      <thead><tr><th>Nombre</th><th>Rol</th><th>Estado</th><th></th></tr></thead>
+      <tbody>${u.map(([n,r,e])=>`<tr><td><b>${n}</b></td><td><span class="chip ${r==='Consultor'?'ambar':r==='Admin'?'gris':'azul'}">${r}</span></td><td><span class="chip verde">${e}</span></td><td><button class="btn sec chico" onclick="alert('Demo: editar usuario.')">Editar</button></td></tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+}
+function vCatalogo(){
+  return `
+  <div class="tarjeta">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="margin:0">Catálogo de ofertas educativas</h3>
+      <button class="btn chico" onclick="alert('Demo: alta de oferta.')">+ Nueva oferta</button>
+    </div>
+    <table>
+      <thead><tr><th>Programa</th><th>Institución</th><th>Área</th><th>Nivel</th><th>Modalidad</th><th>Costo</th></tr></thead>
+      <tbody>${OFERTAS.map(o=>`<tr><td><b>${o.prog}</b></td><td>${o.inst}</td><td>${o.area}</td><td>${o.nivel}</td><td>${o.mod}</td><td>${"$".repeat(o.costo)}</td></tr>`).join('')}</tbody>
+    </table>
+  </div>`;
+}
+
+/* ============== ROUTER ============== */
+const VISTAS = {
+  inicio:{t:"Inicio", f:vInicio}, registro:{t:"Mi registro", f:vRegistro}, tests:{t:"Mis tests psicométricos", f:vTests},
+  reporte:{t:"Mi reporte de resultados", f:vReporte}, propuesta:{t:"Mi propuesta educativa", f:vPropuesta}, feedback:{t:"Feedback del proceso", f:vFeedback},
+  casos:{t:"Mis casos", f:vCasos}, sesion:{t:"Sesión de reconocimiento", f:vSesion}, analisis:{t:"Análisis del caso", f:vAnalisis},
+  oferta:{t:"Diseño de la oferta", f:vOferta}, feedbackC:{t:"Feedback de plataforma", f:vFeedbackC},
+  panel:{t:"Panel general", f:vPanel}, usuarios:{t:"Usuarios", f:vUsuarios}, catalogo:{t:"Catálogo de ofertas", f:vCatalogo},
+};
+function render(){
+  const v = VISTAS[estado.vista];
+  document.getElementById('titulo-vista').textContent = v.t;
+  document.getElementById('vista').innerHTML = v.f();
+}
+</script>
+</body>
+</html>

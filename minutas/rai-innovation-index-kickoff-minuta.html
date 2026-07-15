@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minuta Ejecutiva RAI - Kickoff RAI Innovation Index</title>
+  <style>
+    :root {
+      --bg: #07111d;
+      --bg-elevated: #0d1b2a;
+      --panel: #102338;
+      --panel-soft: #132b44;
+      --text: #eef4fb;
+      --text-muted: #aab9cb;
+      --line: rgba(180, 205, 230, 0.18);
+      --accent: #2f80ff;
+      --accent-strong: #5aa6ff;
+      --accent-soft: rgba(47, 128, 255, 0.14);
+      --success: #7bd3a7;
+      --warn: #ffd27a;
+      --risk: #ffb3a7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 88% 8%, rgba(47,128,255,0.2), transparent 22%),
+        linear-gradient(180deg, #050c15 0%, var(--bg) 100%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    .page {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 72px;
+    }
+
+    .hero {
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)),
+        rgba(13,27,42,0.88);
+      box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    }
+
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 34px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.16);
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,0.04);
+      color: var(--accent-strong);
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .version {
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      text-align: right;
+    }
+
+    .eyebrow {
+      color: var(--accent-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin: 0 0 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.25rem, 5vw, 4.8rem);
+      line-height: 1;
+      max-width: 920px;
+    }
+
+    .subtitle {
+      margin: 18px 0 0;
+      max-width: 780px;
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .meta-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    .section {
+      margin-top: 20px;
+      padding: 24px 28px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .section-kicker {
+      color: var(--accent-strong);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.74rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    h2 {
+      margin: 0 0 18px;
+      font-size: clamp(1.35rem, 2.8vw, 2.2rem);
+      line-height: 1.08;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      font-size: 1rem;
+    }
+
+    p { margin: 0; }
+
+    .muted { color: var(--text-muted); }
+    .stack { display: grid; gap: 16px; }
+    .simple-list { margin: 0; padding-left: 18px; }
+    .simple-list li + li { margin-top: 10px; }
+
+    .split {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .subpanel {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .metadata-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .metadata-item {
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .label {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    .action-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .action-card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      padding: 18px;
+    }
+
+    .action-title {
+      margin: 0 0 14px;
+      font-size: 1.06rem;
+      font-weight: 700;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 16px;
+    }
+
+    .detail {
+      padding: 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .status-pill, .zoho-pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      border: 1px solid transparent;
+    }
+
+    .status-pendiente { background: rgba(255,210,122,0.12); color: var(--warn); border-color: rgba(255,210,122,0.2); }
+    .status-seguimiento { background: rgba(47,128,255,0.12); color: var(--accent-strong); border-color: rgba(47,128,255,0.2); }
+    .zoho-falta { background: rgba(255,210,122,0.12); color: var(--warn); border-color: rgba(255,210,122,0.2); }
+
+    .risk-list li::marker { color: var(--risk); }
+    .backlog-list li::marker { color: var(--accent-strong); }
+
+    .footer-note {
+      margin-top: 18px;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      text-align: right;
+    }
+
+    @media (max-width: 920px) {
+      .split, .detail-grid, .metadata-grid { grid-template-columns: 1fr; }
+      .brand-row { flex-direction: column; align-items: flex-start; }
+      .version { text-align: left; }
+      .section, .hero { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="brand-row">
+        <div class="brand">
+          <div class="brand-mark">RAI</div>
+          <div>RAI</div>
+        </div>
+        <div class="version">RAI Meeting Ops Agent v0.4.2 — Calidad Operativa Diaria</div>
+      </div>
+      <p class="eyebrow">Minuta ejecutiva</p>
+      <h1>Kickoff RAI Innovation Index</h1>
+      <p class="subtitle">Minuta operativa PMO para seguimiento interno del kickoff de RAI Innovation Index / Diagnóstico 360.</p>
+      <div class="meta-pills">
+        <span class="pill">Sesión interna RAI</span>
+        <span class="pill">Fecha: 9 julio 2026</span>
+        <span class="pill">Fuente: transcripción Gemini</span>
+        <span class="pill">Estado: seguimiento operativo</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-kicker">Sesión</span>
+      <h2>Metadatos de sesión</h2>
+      <div class="metadata-grid">
+        <div class="metadata-item">
+          <span class="label">Tema</span>
+          Kickoff RAI Innovation Index / Diagnóstico 360
+        </div>
+        <div class="metadata-item">
+          <span class="label">Fecha</span>
+          9 julio 2026
+        </div>
+        <div class="metadata-item">
+          <span class="label">Participantes</span>
+          Mauricio Pascal, Antonio Guerra, Laura Itzel, Pamela Romo
+        </div>
+        <div class="metadata-item">
+          <span class="label">Tipo de insumo</span>
+          Transcripción de reunión
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-kicker">Resumen</span>
+      <h2>Resumen ejecutivo</h2>
+      <div class="stack">
+        <p>Sesión kickoff del RAI Innovation Index / Diagnóstico 360, enfocada en alinear visión, roles, criterios de diseño y próximos pasos para conceptualizar la primera versión del producto.</p>
+        <p>Se definió que el diagnóstico debe funcionar como una experiencia premium de entrada para prospectos, no como encuesta genérica ni excusa de venta.</p>
+        <p>El equipo alineó que la siguiente sesión debe aterrizar perfiles objetivo, módulos del diagnóstico, experiencia del usuario, datos a capturar, límites del MVP y backlog de ideas futuras.</p>
+        <p>Quedó pendiente cerrar la forma inicial del producto, sin perder de vista el fondo estratégico: construir una ruta replicable, escalable y alineada a capacidades reales de RAI.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-kicker">Dirección</span>
+      <h2>Decisiones y criterios</h2>
+      <div class="split">
+        <div class="subpanel">
+          <h3>Decisiones tomadas</h3>
+          <ul class="simple-list">
+            <li>Pamela se integra al proyecto aportando perspectiva de experiencia de usuario y traducción de lo tecnológico hacia una experiencia atractiva de inicio a fin.</li>
+            <li>Toño llevará la gestión y alineación operativa para evitar retrabajo entre tecnología, experiencia y operación.</li>
+            <li>La siguiente sesión será el lunes, fecha exacta por confirmar, para profundizar en conceptualización y definición de primera versión.</li>
+            <li>Se trabajará con backlog para separar ideas valiosas que no entren en la primera versión.</li>
+          </ul>
+        </div>
+        <div class="subpanel">
+          <h3>Criterios definidos</h3>
+          <ul class="simple-list">
+            <li>El diagnóstico no debe ser una encuesta genérica, un quiz superficial ni un resultado automático sin valor.</li>
+            <li>La experiencia debe generar posicionamiento, confianza, percepción de inteligencia y apertura a una conversación posterior.</li>
+            <li>No se deben sacrificar estándares ni estrategia por salir rápido a ventas.</li>
+            <li>El producto debe filtrar prospectos para atraer clientes con fit real para RAI.</li>
+            <li>El MVP debe enfocarse en un perfil o rol prioritario para evitar scope demasiado abierto.</li>
+            <li>La experiencia debe entregar valor sin regalar la metodología completa.</li>
+            <li>El factor wow debe venir de entender y resolver mejor el problema, no solo de diseño visual atractivo.</li>
+            <li>El diseño debe respetar capacidades reales de RAI para no sobreprometer.</li>
+            <li>Se debe distinguir entre forma: primera versión operable, y fondo: potencial estratégico del producto.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-kicker">Operación</span>
+      <h2>Registro operativo PMO</h2>
+      <div class="action-grid">
+        <article class="action-card">
+          <p class="action-title">Preparar sesión de conceptualización para definir perfiles, experiencia, módulos, decisiones de diseño y entregables del MVP.</p>
+          <div class="detail-grid">
+            <div class="detail"><span class="label">Responsable</span>Antonio Guerra</div>
+            <div class="detail"><span class="label">Fecha compromiso</span>lunes, fecha exacta por confirmar</div>
+            <div class="detail"><span class="label">Estado</span><span class="status-pill status-pendiente">Pendiente</span></div>
+            <div class="detail"><span class="label">Registro Zoho</span><span class="zoho-pill zoho-falta">Falta definición</span></div>
+            <div class="detail"><span class="label">Criterio de cierre</span>Sesión lista con tablero, estructura de trabajo y preguntas clave para definir primera versión.</div>
+          </div>
+        </article>
+
+        <article class="action-card">
+          <p class="action-title">Delimitar junto con Mauricio la Ruta RAI, el molde de servicios, capacidades base, límites de oferta y ruta posterior a venta.</p>
+          <div class="detail-grid">
+            <div class="detail"><span class="label">Responsable</span>Antonio Guerra / Mauricio Pascal</div>
+            <div class="detail"><span class="label">Fecha compromiso</span>Por definir</div>
+            <div class="detail"><span class="label">Estado</span><span class="status-pill status-pendiente">Pendiente</span></div>
+            <div class="detail"><span class="label">Registro Zoho</span><span class="zoho-pill zoho-falta">Falta definición</span></div>
+            <div class="detail"><span class="label">Criterio de cierre</span>Molde base documentado con qué se puede prometer, qué no, variables por industria y criterios para conseguir expertos si aplica.</div>
+          </div>
+        </article>
+
+        <article class="action-card">
+          <p class="action-title">Evolucionar propuesta visual de diagnóstico interactivo presentada por Pamela.</p>
+          <div class="detail-grid">
+            <div class="detail"><span class="label">Responsable</span>Pamela Romo</div>
+            <div class="detail"><span class="label">Fecha compromiso</span>lunes, fecha exacta por confirmar</div>
+            <div class="detail"><span class="label">Estado</span><span class="status-pill status-pendiente">Pendiente</span></div>
+            <div class="detail"><span class="label">Registro Zoho</span><span class="zoho-pill zoho-falta">Falta definición</span></div>
+            <div class="detail"><span class="label">Criterio de cierre</span>Concepto visual refinado para revisar en sesión, incluyendo viabilidad preliminar de carga, interacción y experiencia.</div>
+          </div>
+        </article>
+
+        <article class="action-card">
+          <p class="action-title">Analizar lógica técnica del diagnóstico, datos necesarios, conexión entre entrevista, scoring, módulos y visualización.</p>
+          <div class="detail-grid">
+            <div class="detail"><span class="label">Responsable</span>Laura Itzel</div>
+            <div class="detail"><span class="label">Fecha compromiso</span>lunes, fecha exacta por confirmar</div>
+            <div class="detail"><span class="label">Estado</span><span class="status-pill status-pendiente">Pendiente</span></div>
+            <div class="detail"><span class="label">Registro Zoho</span><span class="zoho-pill zoho-falta">Falta definición</span></div>
+            <div class="detail"><span class="label">Criterio de cierre</span>Propuesta inicial de información requerida, lógica de scoring y relación entre diagnóstico y visualización.</div>
+          </div>
+        </article>
+
+        <article class="action-card">
+          <p class="action-title">Terminar primer molde de lo que sucede después de la venta: talento necesario, metas, capacidad operativa y proyección.</p>
+          <div class="detail-grid">
+            <div class="detail"><span class="label">Responsable</span>Mauricio Pascal</div>
+            <div class="detail"><span class="label">Fecha compromiso</span>lunes, fecha exacta por confirmar</div>
+            <div class="detail"><span class="label">Estado</span><span class="status-pill status-pendiente">Pendiente</span></div>
+            <div class="detail"><span class="label">Registro Zoho</span><span class="zoho-pill zoho-falta">Falta definición</span></div>
+            <div class="detail"><span class="label">Criterio de cierre</span>Proyección inicial lista para discutir escenarios base, realista, ambicioso y capacidades necesarias.</div>
+          </div>
+        </article>
+
+        <article class="action-card">
+          <p class="action-title">Compartir transcript y tablero de trabajo para que el equipo revise antes de la siguiente sesión.</p>
+          <div class="detail-grid">
+            <div class="detail"><span class="label">Responsable</span>Antonio Guerra</div>
+            <div class="detail"><span class="label">Fecha compromiso</span>Por definir</div>
+            <div class="detail"><span class="label">Estado</span><span class="status-pill status-seguimiento">En seguimiento</span></div>
+            <div class="detail"><span class="label">Registro Zoho</span><span class="zoho-pill zoho-falta">Falta definición</span></div>
+            <div class="detail"><span class="label">Criterio de cierre</span>Material compartido con el equipo y accesible para Pamela, Lau y Mauricio.</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <span class="section-kicker">Riesgo</span>
+      <h2>Riesgos y bloqueos</h2>
+      <ul class="simple-list risk-list">
+        <li>Scope demasiado amplio: el diagnóstico puede crecer hacia múltiples industrias, roles, áreas y tipos de solución antes de cerrar una primera versión operable.</li>
+        <li>Riesgo de sobreprometer: si se ofrecen diagnósticos o soluciones fuera de las capacidades actuales de RAI, puede afectarse la calidad y reputación.</li>
+        <li>Falta de perfil objetivo cerrado: aún no se define si el MVP debe enfocarse en CEO, fundador, COO, operador u otro rol prioritario.</li>
+        <li>Falta de lógica diagnóstica cerrada: todavía falta definir qué preguntas, datos y scoring alimentarán la experiencia.</li>
+        <li>Riesgo técnico/UX: una experiencia visual muy ambiciosa puede afectar latencia, carga o fluidez si no se valida antes.</li>
+        <li>Dependencia de objetivos internos: falta cerrar metas de venta, capacidad de atención, costos, talento requerido y criterios de éxito.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <span class="section-kicker">Backlog</span>
+      <h2>Backlog</h2>
+      <ul class="simple-list backlog-list">
+        <li>Definir si el diagnóstico puede evolucionar hacia un certificado o estándar RAI aplicable a distintos sectores.</li>
+        <li>Explorar alianzas o partners certificados bajo metodología RAI para áreas que RAI no atienda directamente.</li>
+        <li>Evaluar enfoque por industria o sector una vez que exista data suficiente de prospectos.</li>
+        <li>Diseñar candados comerciales para distinguir prospectos serios de usuarios que solo buscan obtener diagnóstico sin avanzar.</li>
+        <li>Explorar experiencia tipo rayos X o mapa de calor empresarial con semáforo por áreas, problemas principales y profundidad limitada hasta activar siguiente paso comercial.</li>
+        <li><strong>Workflow futuro detectado:</strong> captación → diagnóstico → scoring → visualización → teaser de valor → asesoría / blueprint pagado → ruta RAI.</li>
+      </ul>
+    </section>
+
+    <div class="footer-note">HTML generado como representación separada de la minuta operativa. No incluye follow-up de correo.</div>
+  </main>
+</body>
+</html>
