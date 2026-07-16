@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAI — Índice de Minutas</title>
+<style>
+  :root {
+    --bg: #07111d;
+    --bg-elevated: #0d1b2a;
+    --panel: #102338;
+    --panel-soft: #132b44;
+    --text: #eef4fb;
+    --text-muted: #aab9cb;
+    --line: rgba(180, 205, 230, 0.18);
+    --accent: #2f80ff;
+    --accent-strong: #5aa6ff;
+    --accent-soft: rgba(47, 128, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(circle at top right, rgba(47, 128, 255, 0.16), transparent 24%),
+      linear-gradient(180deg, #050c15 0%, var(--bg) 100%);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page {
+    width: min(1080px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 72px;
+  }
+
+  .hero {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    margin-bottom: 28px;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-weight: 800;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: all 0.15s ease;
+  }
+  .back-link:hover { color: var(--text); border-color: var(--accent-strong); }
+
+  .brand-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    border: 1px solid rgba(255,255,255,0.16);
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.04);
+    color: var(--accent-strong);
+    font-size: 0.95rem;
+    font-weight: 900;
+  }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: var(--accent-strong);
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  h1 { font-size: 1.9rem; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .subtitle { color: var(--text-muted); margin: 0; max-width: 640px; font-size: 0.98rem; }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .chip {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--panel-soft);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chip:hover { border-color: var(--accent-strong); color: var(--text); }
+  .chip.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .chip .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--dot, var(--accent));
+  }
+
+  .search {
+    margin-top: 16px;
+  }
+  .search input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--text);
+    font-size: 0.94rem;
+    font-family: inherit;
+  }
+  .search input:focus { outline: none; border-color: var(--accent); }
+  .search input::placeholder { color: var(--text-muted); }
+
+  .count {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 20px 2px 12px;
+  }
+
+  .month-group { margin-bottom: 28px; }
+  .month-label {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin: 0 0 12px 2px;
+  }
+
+  .cards { display: flex; flex-direction: column; gap: 12px; }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: 16px;
+    padding: 18px 20px;
+    transition: all 0.15s ease;
+  }
+  .card:hover {
+    border-color: var(--accent-strong);
+    background: var(--panel-soft);
+    transform: translateY(-1px);
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  .card-title { font-size: 1.05rem; font-weight: 700; margin: 0; }
+  .card-date {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    white-space: nowrap;
+    font-weight: 600;
+  }
+
+  .card-desc {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0 0 12px;
+  }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--tag-bg, rgba(255,255,255,0.06));
+    color: var(--tag-fg, var(--text-muted));
+    border: 1px solid var(--tag-border, var(--line));
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 60px 20px;
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="brand-row">
+        <div class="brand">
+          <div class="brand-mark">RAI</div>
+          <span>Archivo interno RAI</span>
+        </div>
+        <a class="back-link" href="tareas-pendientes.html">Tareas pendientes &rarr;</a>
+      </div>
+      <p class="eyebrow">Índice de minutas</p>
+      <h1>Minutas de sesiones</h1>
+      <p class="subtitle">Todas las minutas generadas después de cada sesión, filtrables por proyecto y ordenadas por fecha.</p>
+
+      <div class="controls" id="filters"></div>
+      <div class="search">
+        <input type="text" id="searchInput" placeholder="Buscar por título o palabra clave…">
+      </div>
+    </section>
+
+    <p class="count" id="countLabel"></p>
+    <div id="results"></div>
+
+    <footer>RAI — archivo generado a partir de las minutas en <code>/minutas</code></footer>
+  </div>
+
+<script>
+  const PROJECTS = {
+    neomaEducacion:  { label: "Neoma Educación", color: "#7bd3a7" },
+    diagnostic360:   { label: "Diagnostic 360",  color: "#5aa6ff" },
+    comunidad:       { label: "Comunidad",       color: "#d99bff" },
+    agentes:         { label: "Agentes",         color: "#ffb36b" },
+    sistemaOperativo:{ label: "Sistema Operativo", color: "#9fb4c9" },
+    general:         { label: "General",         color: "#ffd27a" },
+  };
+
+  const MINUTAS = [
+    {
+      file: "minutas/minuta_rai_sesion_agentizacion_one_page.html",
+      title: "Estamos agentizando RAI",
+      date: "2026-07-02",
+      desc: "Una sesión para alinear cómo RAI diseña, evalúa, mejora y delega agentes con estándar, criterio operativo y control.",
+      tags: ["agentes"]
+    },
+    {
+      file: "minutas/minuta-rai-v0.4.2-laura-itzel.html",
+      title: "Seguimiento operativo RAI",
+      date: "2026-07-06",
+      desc: "Reunión interna sobre comunidad RAI, talentos, delegación, oferta educativa y RAI Diagnostic 360.",
+      tags: ["sistemaOperativo", "comunidad", "neomaEducacion", "diagnostic360"]
+    },
+    {
+      file: "minutas/minuta-seguimiento-operativo-RAI.html",
+      title: "Contexto operativo para Lau",
+      date: "2026-07-08",
+      desc: "Contexto consolidado para mantener alineación sobre frentes activos, riesgos, owners y backlog. No es un documento para automatizar ni activar agentes todavía.",
+      tags: ["sistemaOperativo", "general"]
+    },
+    {
+      file: "minutas/ofertaEducativa_9Julio.html",
+      title: "RAI x Oferta Educativa",
+      date: "2026-07-09",
+      desc: "Rediseño del proceso de intake, privacidad de datos, arquitectura de almacenamiento y siguientes pasos para Fase 0 y Fase 1.",
+      tags: ["neomaEducacion"]
+    },
+    {
+      file: "minutas/rai-innovation-index-kickoff-minuta.html",
+      title: "Kickoff RAI Innovation Index",
+      date: "2026-07-09",
+      desc: "Minuta operativa PMO para seguimiento interno del kickoff de RAI Innovation Index / Diagnóstico 360.",
+      tags: ["diagnostic360"]
+    },
+    {
+      file: "minutas/RAI_x_JaguarMind_Minuta_Laura_Itzel.html",
+      title: "RAI x JaguarMind",
+      date: "2026-07-10",
+      desc: "Contexto, acuerdos preliminares y preparación para la sesión de definición estratégica, técnica y legal del producto asociado a RAI Decision.",
+      tags: ["general"]
+    },
+    {
+      file: "minutas/RAI-360-Consolidado-Sesion-Concepto.html",
+      title: "Consolidado — Sesión de Conceptualización de la experiencia",
+      date: "2026-07-13",
+      desc: "Lo que cerramos, lo que se movió del plan, lo que queda como punto de decisión y las tareas para el miércoles.",
+      tags: ["diagnostic360"]
+    },
+    {
+      file: "minutas/minuta-rai-service-blueprint-v042.html",
+      title: "Service Blueprint - Alineación interna",
+      date: "2026-07-15",
+      desc: "Minuta orientada a seguimiento operativo del RAI Service Operating Blueprint, con foco en MVP, revisión crítica, economía operativa, roles y backlog futuro.",
+      tags: ["sistemaOperativo", "diagnostic360"]
+    },
+  ];
+
+  const MONTH_NAMES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+  let activeFilters = new Set();
+  let searchTerm = "";
+
+  function renderFilters() {
+    const el = document.getElementById("filters");
+    el.innerHTML = "";
+    Object.entries(PROJECTS).forEach(([key, meta]) => {
+      const btn = document.createElement("button");
+      btn.className = "chip" + (activeFilters.has(key) ? " active" : "");
+      btn.style.setProperty("--dot", meta.color);
+      btn.innerHTML = `<span class="dot"></span>${meta.label}`;
+      btn.onclick = () => {
+        if (activeFilters.has(key)) activeFilters.delete(key);
+        else activeFilters.add(key);
+        renderFilters();
+        renderList();
+      };
+      el.appendChild(btn);
+    });
+  }
+
+  function formatDate(iso) {
+    const [y, m, d] = iso.split("-").map(Number);
+    return `${d} de ${MONTH_NAMES[m - 1]} ${y}`;
+  }
+
+  function renderList() {
+    const container = document.getElementById("results");
+    container.innerHTML = "";
+
+    let items = MINUTAS.filter(m => {
+      const matchesFilter = activeFilters.size === 0 || m.tags.some(t => activeFilters.has(t));
+      const haystack = (m.title + " " + m.desc).toLowerCase();
+      const matchesSearch = !searchTerm || haystack.includes(searchTerm);
+      return matchesFilter && matchesSearch;
+    });
+
+    items.sort((a, b) => b.date.localeCompare(a.date));
+
+    document.getElementById("countLabel").textContent =
+      `${items.length} minuta${items.length === 1 ? "" : "s"}`;
+
+    if (items.length === 0) {
+      container.innerHTML = `<div class="empty">No hay minutas que coincidan con este filtro.</div>`;
+      return;
+    }
+
+    const groups = new Map();
+    items.forEach(m => {
+      const key = m.date.slice(0, 7);
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(m);
+    });
+
+    for (const [key, group] of groups) {
+      const [y, mo] = key.split("-").map(Number);
+      const groupEl = document.createElement("div");
+      groupEl.className = "month-group";
+      groupEl.innerHTML = `<p class="month-label">${MONTH_NAMES[mo - 1]} ${y}</p>`;
+      const cardsEl = document.createElement("div");
+      cardsEl.className = "cards";
+
+      group.forEach(m => {
+        const a = document.createElement("a");
+        a.className = "card";
+        a.href = m.file;
+        a.target = "_blank";
+        a.rel = "noopener";
+
+        const tagsHtml = m.tags.map(t => {
+          const meta = PROJECTS[t];
+          return `<span class="tag" style="--tag-bg:${meta.color}22; --tag-fg:${meta.color}; --tag-border:${meta.color}55">${meta.label}</span>`;
+        }).join("");
+
+        a.innerHTML = `
+          <div class="card-top">
+            <h3 class="card-title">${m.title}</h3>
+            <span class="card-date">${formatDate(m.date)}</span>
+          </div>
+          <p class="card-desc">${m.desc}</p>
+          <div class="tags">${tagsHtml}</div>
+        `;
+        cardsEl.appendChild(a);
+      });
+
+      groupEl.appendChild(cardsEl);
+      container.appendChild(groupEl);
+    }
+  }
+
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    searchTerm = e.target.value.trim().toLowerCase();
+    renderList();
+  });
+
+  renderFilters();
+  renderList();
+</script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAI — Tareas pendientes</title>
+<style>
+  :root {
+    --bg: #07111d;
+    --bg-elevated: #0d1b2a;
+    --panel: #102338;
+    --panel-soft: #132b44;
+    --text: #eef4fb;
+    --text-muted: #aab9cb;
+    --line: rgba(180, 205, 230, 0.18);
+    --accent: #2f80ff;
+    --accent-strong: #5aa6ff;
+    --accent-soft: rgba(47, 128, 255, 0.14);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    color: var(--text);
+    background:
+      radial-gradient(circle at top right, rgba(47, 128, 255, 0.16), transparent 24%),
+      linear-gradient(180deg, #050c15 0%, var(--bg) 100%);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  .page {
+    width: min(1080px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 28px 0 72px;
+  }
+
+  .hero {
+    padding: 28px;
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+    box-shadow: 0 24px 80px rgba(0,0,0,0.28);
+    margin-bottom: 28px;
+  }
+
+  .brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-weight: 800;
+  }
+
+  .brand-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    border: 1px solid rgba(255,255,255,0.16);
+    display: grid;
+    place-items: center;
+    background: rgba(255,255,255,0.04);
+    color: var(--accent-strong);
+    font-size: 0.95rem;
+    font-weight: 900;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: all 0.15s ease;
+  }
+  .back-link:hover { color: var(--text); border-color: var(--accent-strong); }
+
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    color: var(--accent-strong);
+    font-weight: 700;
+    margin: 0 0 8px;
+  }
+
+  h1 { font-size: 1.9rem; margin: 0 0 8px; letter-spacing: -0.01em; }
+  .subtitle { color: var(--text-muted); margin: 0; max-width: 640px; font-size: 0.98rem; }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .stat {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: 14px;
+    padding: 10px 16px;
+    min-width: 120px;
+  }
+  .stat .num { font-size: 1.3rem; font-weight: 800; }
+  .stat .lbl { color: var(--text-muted); font-size: 0.76rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .filter-group { margin-top: 22px; }
+  .filter-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    font-weight: 700;
+    margin: 0 0 8px 2px;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .chip {
+    appearance: none;
+    border: 1px solid var(--line);
+    background: var(--panel-soft);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 0.86rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .chip:hover { border-color: var(--accent-strong); color: var(--text); }
+  .chip.active {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--text);
+  }
+  .chip .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--dot, var(--accent));
+  }
+
+  .search {
+    margin-top: 20px;
+  }
+  .search input {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--text);
+    font-size: 0.94rem;
+    font-family: inherit;
+  }
+  .search input:focus { outline: none; border-color: var(--accent); }
+  .search input::placeholder { color: var(--text-muted); }
+
+  .count {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 20px 2px 12px;
+  }
+
+  .group { margin-bottom: 28px; }
+  .group-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 0 0 12px 2px;
+    flex-wrap: wrap;
+  }
+  .group-title {
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    font-weight: 700;
+  }
+  .group-title a { color: var(--accent-strong); text-decoration: none; }
+  .group-title a:hover { text-decoration: underline; }
+  .group-date { color: var(--text-muted); font-size: 0.78rem; }
+
+  .cards { display: flex; flex-direction: column; gap: 12px; }
+
+  .card {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: 16px;
+    padding: 18px 20px;
+    transition: all 0.15s ease;
+  }
+  .card:hover {
+    border-color: var(--accent-strong);
+    background: var(--panel-soft);
+  }
+
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .card-title { font-size: 1rem; font-weight: 700; margin: 0; }
+
+  .status-pill {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .meta-item {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 10px;
+  }
+  .meta-item b { color: var(--text); font-weight: 600; }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 999px;
+    background: var(--tag-bg, rgba(255,255,255,0.06));
+    color: var(--tag-fg, var(--text-muted));
+    border: 1px solid var(--tag-border, var(--line));
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 60px 20px;
+    border: 1px dashed var(--line);
+    border-radius: 16px;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="brand-row">
+        <div class="brand">
+          <div class="brand-mark">RAI</div>
+          <span>Archivo interno RAI</span>
+        </div>
+        <a class="back-link" href="index.html">&larr; Índice de minutas</a>
+      </div>
+      <p class="eyebrow">Tareas pendientes</p>
+      <h1>Registro operativo PMO</h1>
+      <p class="subtitle">Todas las tareas con responsable asignado extraídas del registro operativo PMO de cada minuta, filtrables por estado, responsable y proyecto.</p>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="filter-group">
+        <p class="filter-label">Estado</p>
+        <div class="controls" id="statusFilters"></div>
+      </div>
+
+      <div class="filter-group">
+        <p class="filter-label">Proyecto</p>
+        <div class="controls" id="projectFilters"></div>
+      </div>
+
+      <div class="filter-group">
+        <p class="filter-label">Responsable</p>
+        <div class="controls" id="ownerFilters"></div>
+      </div>
+
+      <div class="search">
+        <input type="text" id="searchInput" placeholder="Buscar por tarea, responsable o minuta…">
+      </div>
+    </section>
+
+    <p class="count" id="countLabel"></p>
+    <div id="results"></div>
+
+    <footer>RAI — tareas consolidadas a partir del registro operativo PMO en <code>/minutas</code></footer>
+  </div>
+
+<script>
+  const PROJECTS = {
+    neomaEducacion:  { label: "Neoma Educación", color: "#7bd3a7" },
+    diagnostic360:   { label: "Diagnostic 360",  color: "#5aa6ff" },
+    comunidad:       { label: "Comunidad",       color: "#d99bff" },
+    agentes:         { label: "Agentes",         color: "#ffb36b" },
+    sistemaOperativo:{ label: "Sistema Operativo", color: "#9fb4c9" },
+    general:         { label: "General",         color: "#ffd27a" },
+  };
+
+  const STATUS = {
+    pendiente:   { label: "Pendiente",      color: "#ffb36b" },
+    seguimiento: { label: "En seguimiento", color: "#5aa6ff" },
+  };
+
+  const SOURCES = {
+    "minuta-rai-v0.4.2-laura-itzel.html": { title: "Seguimiento operativo RAI", date: "2026-07-06", tags: ["sistemaOperativo", "comunidad", "neomaEducacion", "diagnostic360"] },
+    "ofertaEducativa_9Julio.html":        { title: "RAI x Oferta Educativa", date: "2026-07-09", tags: ["neomaEducacion"] },
+    "rai-innovation-index-kickoff-minuta.html": { title: "Kickoff RAI Innovation Index", date: "2026-07-09", tags: ["diagnostic360"] },
+    "minuta-rai-service-blueprint-v042.html": { title: "Service Blueprint - Alineación interna", date: "2026-07-15", tags: ["sistemaOperativo", "diagnostic360"] },
+  };
+
+  function task(file, title, responsable, fecha, estado) {
+    return {
+      file,
+      title,
+      responsable,
+      owners: responsable.split(/\s+\/\s+|\s+y\s+/i),
+      fecha,
+      estado,
+    };
+  }
+
+  const TASKS = [
+    // Seguimiento operativo RAI — 2026-07-06
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Enviar mensaje a la comunidad con intención y objetivo de la primera sesión.", "Mauricio Pascal", "Por definir", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Preparar agente/newsletter o base de contenido para la primera sesión de comunidad RAI.", "Laura Itzel", "Viernes, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Enviar link o convocatoria para la sesión de comunidad.", "Laura Itzel", "Jueves, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Revisar si el agente de comunidad puede también funcionar como piloto del copiloto de innovación.", "Laura Itzel", "Por definir", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Preparar sesión directiva breve para revisar qué está haciendo cada responsable, qué no debería hacer y cómo delegarlo.", "Mauricio Pascal", "Por definir", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Pasar a Laura dos presentaciones sobre buen desempeño, principios de trabajo y onboarding de talentos.", "Mauricio Pascal", "Por definir", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Avanzar con Héctor la formalización legal para talentos, incluyendo acuerdos y protecciones bilaterales.", "Mauricio Pascal", "Por definir", "seguimiento"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Organizar pendientes actuales para identificar qué debe delegarse y qué sesiones preparar con talentos.", "Laura Itzel", "Lunes, martes y miércoles, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Preparar sesiones con posibles talentos para explicar proyectos y posibles tareas.", "Laura Itzel", "Jueves, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Trabajar el componente tecnológico de RAI Diagnostic 360 y compartir manual maestro de tecnología/información.", "Mauricio Pascal", "Por definir", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Extraer el cuestionario usado en la sesión de oferta educativa/diagnóstico y proponer qué puede sistematizarse.", "Laura Itzel", "Por definir", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Investigar benchmarks o casos de recopilación de información sensible con buena experiencia de usuario y privacidad.", "Mauricio Pascal y Laura Itzel", "Mañana, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Hacer recap Mauricio-Laura sobre alternativas para privacidad, experiencia y estructura futura de diagnóstico.", "Mauricio Pascal y Laura Itzel", "Mañana, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-v0.4.2-laura-itzel.html", "Preparar borrador de comunicación para Laura/Ana Laura sobre riesgo detectado y alternativas de solución.", "Laura Itzel", "Más tarde, fecha exacta por confirmar", "pendiente"),
+
+    // RAI x Oferta Educativa — 2026-07-09
+    task("ofertaEducativa_9Julio.html", "Solicitar a Carolina las instrucciones detalladas para realizar las pruebas psicométricas.", "Ana Laura Zavala", "Por definir", "pendiente"),
+    task("ofertaEducativa_9Julio.html", "Enviar el mapa de evaluación con rubros y categorías de la batería psicométrica.", "Ana Laura Zavala", "Por definir", "pendiente"),
+    task("ofertaEducativa_9Julio.html", "Enviar por correo el formulario actual de intake / admisión de personas.", "Laura Itzel", "Por definir", "pendiente"),
+    task("ofertaEducativa_9Julio.html", "Crear un nuevo formulario de admisión que integre captura de datos personales bajo políticas de privacidad.", "Laura Itzel", "Por definir", "pendiente"),
+    task("ofertaEducativa_9Julio.html", "Revisar y validar los formularios de admisión de personas y preferencias del consultor.", "El grupo", "Por definir", "pendiente"),
+    task("ofertaEducativa_9Julio.html", "Definir el almacenamiento seguro para la base de datos privada con información sensible.", "El grupo", "Por definir", "pendiente"),
+    task("ofertaEducativa_9Julio.html", "Completar las pruebas psicométricas enviadas por Carolina.", "Laura Itzel", "Por definir", "pendiente"),
+    task("ofertaEducativa_9Julio.html", "Programar sesión de demostración del sistema automatizado.", "El grupo", "Próximo jueves, fecha exacta por confirmar", "pendiente"),
+
+    // Kickoff RAI Innovation Index — 2026-07-09
+    task("rai-innovation-index-kickoff-minuta.html", "Preparar sesión de conceptualización para definir perfiles, experiencia, módulos, decisiones de diseño y entregables del MVP.", "Antonio Guerra", "Lunes, fecha exacta por confirmar", "pendiente"),
+    task("rai-innovation-index-kickoff-minuta.html", "Delimitar junto con Mauricio la Ruta RAI, el molde de servicios, capacidades base, límites de oferta y ruta posterior a venta.", "Antonio Guerra / Mauricio Pascal", "Por definir", "pendiente"),
+    task("rai-innovation-index-kickoff-minuta.html", "Evolucionar propuesta visual de diagnóstico interactivo presentada por Pamela.", "Pamela Romo", "Lunes, fecha exacta por confirmar", "pendiente"),
+    task("rai-innovation-index-kickoff-minuta.html", "Analizar lógica técnica del diagnóstico, datos necesarios, conexión entre entrevista, scoring, módulos y visualización.", "Laura Itzel", "Lunes, fecha exacta por confirmar", "pendiente"),
+    task("rai-innovation-index-kickoff-minuta.html", "Terminar primer molde de lo que sucede después de la venta: talento necesario, metas, capacidad operativa y proyección.", "Mauricio Pascal", "Lunes, fecha exacta por confirmar", "pendiente"),
+    task("rai-innovation-index-kickoff-minuta.html", "Compartir transcript y tablero de trabajo para que el equipo revise antes de la siguiente sesión.", "Antonio Guerra", "Por definir", "seguimiento"),
+
+    // Service Blueprint - Alineación interna — 2026-07-15
+    task("minuta-rai-service-blueprint-v042.html", "Enviar chat, minuta, links a los siete entregables y recursos de revisión.", "Mauricio Pascal", "Por definir", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Revisar los siete entregables del blueprint y hacer comentarios críticos.", "Antonio Guerra", "Viernes, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Hacer revisión estratégica del blueprint para detectar riesgos, simplificación necesaria y conexión con tecnología.", "Laura Itzel", "Viernes, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Preparar un one page de alineación con MVP, ruta ideal, conexión con Diagnostic 360 y puntos críticos.", "Mauricio Pascal / Antonio Guerra", "Jueves o viernes, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Definir cuál sería la ruta inicial que RAI puede comprometer con un cliente.", "Mauricio Pascal / Antonio Guerra", "Por definir", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Delimitar servicios posibles, cliente ideal, fases, duración, talento requerido y criterios de ejecución.", "Mauricio Pascal / Antonio Guerra", "Por definir", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Trabajar esquemas financieros, monetarios y unit economics del blueprint.", "Mauricio Pascal", "Por definir", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Avanzar MVP de página interna / archivo de minutas con diseño interino.", "Laura Itzel", "Por definir", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Enviar logos, paleta, referencias visuales o carpeta base para la página interna.", "Mauricio Pascal", "Mañana, fecha exacta por confirmar", "pendiente"),
+    task("minuta-rai-service-blueprint-v042.html", "Procesar o apoyar con la minuta de la sesión.", "Antonio Guerra", "Mañana, fecha exacta por confirmar", "pendiente"),
+  ];
+
+  const OWNERS = [...new Set(TASKS.flatMap(t => t.owners.map(o => o.trim())))].sort();
+
+  let activeStatus = new Set();
+  let activeProjects = new Set();
+  let activeOwners = new Set();
+  let searchTerm = "";
+
+  function renderStats() {
+    const el = document.getElementById("stats");
+    const total = TASKS.length;
+    const pendiente = TASKS.filter(t => t.estado === "pendiente").length;
+    const seguimiento = TASKS.filter(t => t.estado === "seguimiento").length;
+    el.innerHTML = `
+      <div class="stat"><div class="num">${total}</div><div class="lbl">Total</div></div>
+      <div class="stat"><div class="num">${pendiente}</div><div class="lbl">Pendientes</div></div>
+      <div class="stat"><div class="num">${seguimiento}</div><div class="lbl">En seguimiento</div></div>
+    `;
+  }
+
+  function renderStatusFilters() {
+    const el = document.getElementById("statusFilters");
+    el.innerHTML = "";
+    Object.entries(STATUS).forEach(([key, meta]) => {
+      const btn = document.createElement("button");
+      btn.className = "chip" + (activeStatus.has(key) ? " active" : "");
+      btn.style.setProperty("--dot", meta.color);
+      btn.innerHTML = `<span class="dot"></span>${meta.label}`;
+      btn.onclick = () => {
+        if (activeStatus.has(key)) activeStatus.delete(key);
+        else activeStatus.add(key);
+        renderStatusFilters();
+        renderList();
+      };
+      el.appendChild(btn);
+    });
+  }
+
+  function renderProjectFilters() {
+    const el = document.getElementById("projectFilters");
+    el.innerHTML = "";
+    Object.entries(PROJECTS).forEach(([key, meta]) => {
+      const btn = document.createElement("button");
+      btn.className = "chip" + (activeProjects.has(key) ? " active" : "");
+      btn.style.setProperty("--dot", meta.color);
+      btn.innerHTML = `<span class="dot"></span>${meta.label}`;
+      btn.onclick = () => {
+        if (activeProjects.has(key)) activeProjects.delete(key);
+        else activeProjects.add(key);
+        renderProjectFilters();
+        renderList();
+      };
+      el.appendChild(btn);
+    });
+  }
+
+  function renderOwnerFilters() {
+    const el = document.getElementById("ownerFilters");
+    el.innerHTML = "";
+    OWNERS.forEach(owner => {
+      const btn = document.createElement("button");
+      btn.className = "chip" + (activeOwners.has(owner) ? " active" : "");
+      btn.textContent = owner;
+      btn.onclick = () => {
+        if (activeOwners.has(owner)) activeOwners.delete(owner);
+        else activeOwners.add(owner);
+        renderOwnerFilters();
+        renderList();
+      };
+      el.appendChild(btn);
+    });
+  }
+
+  const MONTH_NAMES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+
+  function formatDate(iso) {
+    const [y, m, d] = iso.split("-").map(Number);
+    return `${d} de ${MONTH_NAMES[m - 1]} ${y}`;
+  }
+
+  function renderList() {
+    const container = document.getElementById("results");
+    container.innerHTML = "";
+
+    let items = TASKS.filter(t => {
+      const src = SOURCES[t.file];
+      const matchesStatus = activeStatus.size === 0 || activeStatus.has(t.estado);
+      const matchesProject = activeProjects.size === 0 || src.tags.some(tag => activeProjects.has(tag));
+      const matchesOwner = activeOwners.size === 0 || t.owners.some(o => activeOwners.has(o.trim()));
+      const haystack = (t.title + " " + t.responsable + " " + src.title).toLowerCase();
+      const matchesSearch = !searchTerm || haystack.includes(searchTerm);
+      return matchesStatus && matchesProject && matchesOwner && matchesSearch;
+    });
+
+    document.getElementById("countLabel").textContent =
+      `${items.length} tarea${items.length === 1 ? "" : "s"}`;
+
+    if (items.length === 0) {
+      container.innerHTML = `<div class="empty">No hay tareas que coincidan con este filtro.</div>`;
+      return;
+    }
+
+    const groups = new Map();
+    items.forEach(t => {
+      if (!groups.has(t.file)) groups.set(t.file, []);
+      groups.get(t.file).push(t);
+    });
+
+    const orderedFiles = [...groups.keys()].sort((a, b) => SOURCES[b].date.localeCompare(SOURCES[a].date));
+
+    orderedFiles.forEach(file => {
+      const src = SOURCES[file];
+      const group = groups.get(file);
+
+      const groupEl = document.createElement("div");
+      groupEl.className = "group";
+      groupEl.innerHTML = `
+        <div class="group-header">
+          <span class="group-title"><a href="minutas/${file}" target="_blank" rel="noopener">${src.title}</a></span>
+          <span class="group-date">${formatDate(src.date)}</span>
+        </div>
+      `;
+
+      const cardsEl = document.createElement("div");
+      cardsEl.className = "cards";
+
+      group.forEach(t => {
+        const statusMeta = STATUS[t.estado];
+        const card = document.createElement("article");
+        card.className = "card";
+
+        const tagsHtml = src.tags.map(tag => {
+          const meta = PROJECTS[tag];
+          return `<span class="tag" style="--tag-bg:${meta.color}22; --tag-fg:${meta.color}; --tag-border:${meta.color}55">${meta.label}</span>`;
+        }).join("");
+
+        card.innerHTML = `
+          <div class="card-top">
+            <p class="card-title">${t.title}</p>
+            <span class="status-pill" style="background:${statusMeta.color}22; color:${statusMeta.color}; border:1px solid ${statusMeta.color}55">${statusMeta.label}</span>
+          </div>
+          <div class="meta-row">
+            <span class="meta-item">Responsable: <b>${t.responsable}</b></span>
+            <span class="meta-item">Fecha: <b>${t.fecha}</b></span>
+          </div>
+          <div class="tags">${tagsHtml}</div>
+        `;
+        cardsEl.appendChild(card);
+      });
+
+      groupEl.appendChild(cardsEl);
+      container.appendChild(groupEl);
+    });
+  }
+
+  document.getElementById("searchInput").addEventListener("input", (e) => {
+    searchTerm = e.target.value.trim().toLowerCase();
+    renderList();
+  });
+
+  renderStats();
+  renderStatusFilters();
+  renderProjectFilters();
+  renderOwnerFilters();
+  renderList();
+</script>
+</body>
+</html>
