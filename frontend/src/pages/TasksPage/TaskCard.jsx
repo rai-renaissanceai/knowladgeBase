@@ -1,6 +1,7 @@
 import StatusBadge from "./StatusBadge.jsx";
 import { STATUS } from "../../constants/status.js";
 import { PROJECTS } from "../../constants/projects.js";
+import { API_BASE } from "../../config.js";
 
 export default function TaskCard({ task, onEdit, onDelete, onChangeEstado }) {
   return (
@@ -19,7 +20,7 @@ export default function TaskCard({ task, onEdit, onDelete, onChangeEstado }) {
         {task.minuta && (
           <a
             className="meta-item"
-            href={`/${task.minuta.file}`}
+            href={`${API_BASE}/${task.minuta.file}`}
             target="_blank"
             rel="noopener noreferrer"
           >

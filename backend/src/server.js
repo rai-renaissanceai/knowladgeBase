@@ -9,9 +9,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.join(__dirname, "..", "..");
 
 const app = express();
-const PORT = process.env.BACKEND_PORT ?? 5173;
+const PORT = process.env.PORT ?? process.env.BACKEND_PORT ?? 4000;
 
-app.use(cors({ origin: process.env.FRONTEND_ORIGIN ?? "http://localhost:5173" }));
+const allowedOrigins = (process.env.FRONTEND_ORIGIN ?? "http://localhost:5173")
+  .split(",")
+  .map((o) => o.trim());
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.use("/api/tasks", tasksRouter);

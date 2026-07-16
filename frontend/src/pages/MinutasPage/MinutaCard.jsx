@@ -1,4 +1,5 @@
 import { PROJECTS } from "../../constants/projects.js";
+import { API_BASE } from "../../config.js";
 
 const MONTH_NAMES = [
   "enero", "febrero", "marzo", "abril", "mayo", "junio",
@@ -12,7 +13,7 @@ function formatDate(iso) {
 
 export default function MinutaCard({ minuta }) {
   return (
-    <a className="card" href={`/${minuta.file}`} target="_blank" rel="noopener noreferrer">
+    <a className="card" href={`${API_BASE}/${minuta.file}`} target="_blank" rel="noopener noreferrer">
       <div className="card-top">
         <h3 className="card-title">{minuta.title}</h3>
         <span className="card-date">{formatDate(minuta.date)}</span>

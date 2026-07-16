@@ -9,6 +9,7 @@ import { PROJECTS } from "../../constants/projects.js";
 import { STATUS } from "../../constants/status.js";
 import { listTasks, createTask, updateTask, deleteTask } from "../../api/tasks.js";
 import { listMinutas } from "../../api/minutas.js";
+import { API_BASE } from "../../config.js";
 
 const STATUS_ITEMS = Object.entries(STATUS).map(([key, meta]) => ({
   key,
@@ -193,7 +194,11 @@ export default function TasksPage() {
                 <div className="group-header">
                   <span className="group-title">
                     {group.minuta ? (
-                      <a href={`/${group.minuta.file}`} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={`${API_BASE}/${group.minuta.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         {group.minuta.title}
                       </a>
                     ) : (
