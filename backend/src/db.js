@@ -4,7 +4,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataDir = path.join(__dirname, "..", "data");
+// On Railway, mount a Volume (e.g. at /data) and set SQLITE_DATA_DIR to that path
+// so the database survives redeploys/restarts. Defaults to a local folder for dev.
+const dataDir = process.env.SQLITE_DATA_DIR ?? path.join(__dirname, "..", "data");
 fs.mkdirSync(dataDir, { recursive: true });
 
 const dbPath = path.join(dataDir, "rai.sqlite3");

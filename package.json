@@ -2,17 +2,13 @@
   "name": "knowladgebaserai",
   "private": true,
   "version": "1.0.0",
-  "workspaces": [
-    "backend",
-    "frontend"
-  ],
   "scripts": {
-    "dev": "concurrently -n backend,frontend -c blue,green \"npm:dev -w backend\" \"npm:dev -w frontend\"",
-    "dev:backend": "npm run dev -w backend",
-    "dev:frontend": "npm run dev -w frontend",
-    "seed": "npm run seed -w backend",
-    "build": "npm run build -w frontend",
-    "start": "npm run start -w backend"
+    "dev": "concurrently -n backend,frontend -c blue,green \"npm --prefix backend run dev\" \"npm --prefix frontend run dev\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "seed": "npm --prefix backend run seed",
+    "build": "npm --prefix frontend run build",
+    "start": "npm --prefix backend run start"
   },
   "devDependencies": {
     "concurrently": "^10.0.3"
