@@ -5,6 +5,8 @@ const PMO_FILES = new Set([
   "ofertaEducativa_9Julio.html",
   "rai-innovation-index-kickoff-minuta.html",
   "minuta-rai-service-blueprint-v042.html",
+  "minuta-rai-alineacion-semanal-2026-07-17.html",
+  "minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html",
 ]);
 
 // Ported verbatim from legacy-static/index.html
@@ -65,6 +67,20 @@ const MINUTAS = [
     desc: "Minuta orientada a seguimiento operativo del RAI Service Operating Blueprint, con foco en MVP, revisión crítica, economía operativa, roles y backlog futuro.",
     tags: ["sistemaOperativo", "diagnostic360"],
   },
+  {
+    file: "minutas/minuta-rai-alineacion-semanal-2026-07-17.html",
+    title: "Alineacion Semanal",
+    date: "2026-07-17",
+    desc: "Minuta operativa PMO sobre MVP del Diagnostico 360, enfoque en Finanzas y Administracion, APQC, pagina de diagnostico y proximos pasos de Neoma.",
+    tags: ["sistemaOperativo", "diagnostic360"],
+  },
+  {
+    file: "minutas/minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html",
+    title: "Sesion semanal interna",
+    date: "2026-07-20",
+    desc: "Minuta operativa PMO sobre beta rapida del Diagnostico 360, framework financiero, NFC, networking y seguimiento interno.",
+    tags: ["sistemaOperativo", "diagnostic360"],
+  },
 ];
 
 function task(file, title, responsable, fecha, estado) {
@@ -118,6 +134,24 @@ const TASKS = [
   task("minuta-rai-service-blueprint-v042.html", "Avanzar MVP de página interna / archivo de minutas con diseño interino.", "Laura Itzel", "Por definir", "pendiente"),
   task("minuta-rai-service-blueprint-v042.html", "Enviar logos, paleta, referencias visuales o carpeta base para la página interna.", "Mauricio Pascal", "Mañana, fecha exacta por confirmar", "pendiente"),
   task("minuta-rai-service-blueprint-v042.html", "Procesar o apoyar con la minuta de la sesión.", "Antonio Guerra", "Mañana, fecha exacta por confirmar", "pendiente"),
+
+  // Alineacion Semanal - 2026-07-17
+  task("minuta-rai-alineacion-semanal-2026-07-17.html", "Proponer una alternativa adicional de MVP distinta a Finanzas/Administracion y Capital Humano.", "Antonio Guerra", "Por definir", "pendiente"),
+  task("minuta-rai-alineacion-semanal-2026-07-17.html", "Desarrollar la metodologia del Diagnostico 360 para Finanzas/Administracion y Capital Humano.", "Mauricio Pascal / Antonio Guerra", "lunes, fecha exacta por confirmar", "pendiente"),
+  task("minuta-rai-alineacion-semanal-2026-07-17.html", "Investigar APQC, criterios y formato para validar procesos financieros y administrativos.", "Mauricio Pascal / Equipo", "Por definir", "pendiente"),
+  task("minuta-rai-alineacion-semanal-2026-07-17.html", "Integrar la pagina del diagnostico con la base de conocimiento interna.", "Laura Itzel", "Por definir", "pendiente"),
+  task("minuta-rai-alineacion-semanal-2026-07-17.html", "Preparar presentacion de capacitacion y handoff de Neoma.", "Laura Itzel", "lunes, fecha exacta por confirmar", "pendiente"),
+  task("minuta-rai-alineacion-semanal-2026-07-17.html", "Verificar disponibilidad de cuenta empresarial para asignar agentes de IA y conectores de Google Drive/Table en Neoma.", "Laura Itzel / Por definir", "lunes, fecha exacta por confirmar", "pendiente"),
+  task("minuta-rai-alineacion-semanal-2026-07-17.html", "Actualizar tareas pendientes en la aplicacion compartida y cerrar las que ya esten contestadas por los entregables.", "Equipo", "Por definir", "seguimiento"),
+
+  // Sesion semanal interna - 2026-07-20
+  task("minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html", "Definir los modulos del Diagnostico 360 y redactar preguntas simples, intuitivas y practicas.", "Antonio Guerra", "Por definir", "pendiente"),
+  task("minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html", "Comparar referencias tipo APQC, Gartner, ISO u otras para seleccionar dimensiones utiles del framework propio.", "Antonio Guerra", "Por definir", "pendiente"),
+  task("minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html", "Buscar eventos, personas y espacios de networking para promocionar el diagnostico beta.", "Mauricio Pascal", "Por definir", "pendiente"),
+  task("minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html", "Preparar materiales fisicos y flujo NFC para conectar tarjetas, stickers o links al diagnostico.", "Mauricio Pascal", "Por definir", "pendiente"),
+  task("minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html", "Explorar alianzas universitarias, ferias de emprendimiento y talento practicante para levantar diagnosticos y apoyar investigacion.", "Mauricio Pascal", "Por definir", "pendiente"),
+  task("minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html", "Buscar una persona de apoyo para Laura en iniciativas internas de conocimiento, minutas y gestion de pendientes.", "Mauricio Pascal", "Por definir", "pendiente"),
+  task("minuta-rai-sesion-semanal-interna-tono-mauricio-2026-07-20.html", "Agregar la minuta y generar pendientes dentro de la herramienta interna como solucion interina.", "Laura Itzel", "Por definir", "seguimiento"),
 ];
 
 function reset() {
